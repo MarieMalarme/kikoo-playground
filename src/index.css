@@ -19,8 +19,8 @@ body {
   grid-template-rows: repeat(13, 25vw);
 }
 
-#grid div:nth-child(9n + 1),
-#grid div:nth-child(9n + 5),
-#grid div:nth-child(9n + 9) {
+#grid section:nth-child(9n + 1),
+#grid section:nth-child(9n + 5),
+#grid section:nth-child(9n + 9) {
   grid-column: auto / span 2;
 }
