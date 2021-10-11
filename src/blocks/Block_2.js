@@ -16,6 +16,7 @@ export const Block_2 = (props) => {
     <Wrapper elemRef={set_ref} {...props}>
       {circles.map((index) => (
         <Circle
+          key={index}
           style={{
             transform: `rotate(${index * 45}deg)`,
             width: index % 2 ? mouse.x : mouse.y,
@@ -29,5 +30,5 @@ export const Block_2 = (props) => {
 }
 
 const circles = [...Array(4).keys()]
-const Wrapper = Component.flexShrink0.flex.ai_center.jc_center.section()
-const Circle = Component.absolute.flexShrink0.f_invert100.b_rad50p.div()
+const Wrapper = Component.flex.ai_center.jc_center.section()
+const Circle = Component.absolute.f_invert100.b_rad50p.div()

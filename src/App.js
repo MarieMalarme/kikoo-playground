@@ -1,4 +1,4 @@
-import { Component, Div } from './utils/flags'
+import { Component } from './utils/flags'
 import { random } from './utils/toolbox'
 import { Block_1 } from './blocks/Block_1'
 import { Block_2 } from './blocks/Block_2'
@@ -7,7 +7,7 @@ const App = () => (
   <Grid id="grid">
     {blocks.map(({ block, color }, index) => {
       const Block = block
-      return <Block style={{ background: color }} />
+      return <Block key={index} style={{ background: color }} />
     })}
   </Grid>
 )
