@@ -24,3 +24,21 @@ body {
 #grid section:nth-child(9n + 9) {
   grid-column: auto / span 2;
 }
+
+input[type='range'] {
+  appearance: none;
+  width: 150px;
+  height: 4px;
+  outline: none;
+  border-radius: 30px;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  background: black;
+  cursor: pointer;
+  border-radius: 30px;
+  outline: none;
+}
