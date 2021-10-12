@@ -7,24 +7,28 @@ export const Block_2 = (props) => {
 
   useEffect(() => {
     if (!ref) return
-    const update_mouse = (e) => set_mouse({ x: e.clientX / 3, y: e.clientY })
+    const update_mouse = (e) => set_mouse({ x: e.clientX, y: e.clientY })
     ref.addEventListener('mousemove', update_mouse)
     return () => ref.removeEventListener('mousemove', update_mouse)
   }, [ref])
 
   return (
     <Wrapper elemRef={set_ref} {...props}>
-      {circles.map((index) => (
-        <Circle
-          key={index}
-          style={{
-            transform: `rotate(${index * 45}deg)`,
-            width: index % 2 ? mouse.x : mouse.y,
-            height: index % 2 ? mouse.y : mouse.x,
-            ...props.style,
-          }}
-        />
-      ))}
+      {circles.map((index) => {
+        const x = mouse.x / 3.5
+        const y = mouse.y / 2 + 10
+        return (
+          <Circle
+            key={index}
+            style={{
+              transform: `rotate(${index * 45}deg)`,
+              width: index % 2 ? x : y,
+              height: index % 2 ? y : x,
+              ...props.style,
+            }}
+          />
+        )
+      })}
     </Wrapper>
   )
 }
