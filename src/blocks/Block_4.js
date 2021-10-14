@@ -3,12 +3,13 @@ import { Component } from '../utils/flags'
 
 export const Block_4 = (props) => {
   const [current_direction, set_current_direction] = useState('top-right')
-  const [paused, set_paused] = useState(false)
+  const [paused, set_paused] = useState(true)
 
   return (
     <Wrapper
       className={!paused && `disco-${current_direction}`}
-      onClick={() => set_paused(!paused)}
+      onMouseEnter={() => set_paused(false)}
+      onMouseLeave={() => set_paused(true)}
       style={{
         backgroundImage: `radial-gradient(
         yellow 0%,
