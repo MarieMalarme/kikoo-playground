@@ -8,3 +8,4 @@ atomizify({
 })
 
 export const { Component, Div } = flagify()
+export const Section = Component.section()
