@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Component } from '../utils/flags'
 import { random } from '../utils/toolbox'
 
@@ -6,10 +6,6 @@ export const Block_1 = (props) => {
   const [text, set_text] = useState('Bonjour')
   const [input_ref, set_input_ref] = useState(null)
   const [increment, set_increment] = useState(50)
-
-  useEffect(() => {
-    input_ref?.focus()
-  }, [input_ref])
 
   return (
     <Wrapper {...props}>

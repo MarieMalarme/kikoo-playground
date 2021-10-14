@@ -9,6 +9,10 @@ body {
   overflow-x: hidden;
 }
 
+::selection {
+  background: black;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
