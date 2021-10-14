@@ -5,6 +5,7 @@ import { Block_2 } from './blocks/Block_2'
 import { Block_3 } from './blocks/Block_3'
 import { Block_4 } from './blocks/Block_4'
 import { Block_5 } from './blocks/Block_5'
+import { Block_6 } from './blocks/Block_6'
 import { Block_7 } from './blocks/Block_7'
 import { Block_9 } from './blocks/Block_9'
 
@@ -23,7 +24,7 @@ const blocks = [
   Block_3,
   Block_4,
   Block_5,
-  Section,
+  Block_6,
   Block_7,
   Section,
   Block_9,
