@@ -51,15 +51,15 @@ input[type='range']::-webkit-slider-thumb {
   border: solid 0.5px var(--block-8-color);
   border-radius: 50px;
   background: none;
-  padding: 0 10px;
-  height: 66px;
-  width: 80%;
+  padding: 0 0.5vw;
+  height: 4vw;
+  width: 85%;
 }
 
 .color-ranges input[type='range']::-webkit-slider-thumb {
   background: var(--block-8-color);
-  height: 48px;
-  width: 48px;
+  height: 3.25vw;
+  width: 3.25vw;
 }
 
 .disco-top-right {

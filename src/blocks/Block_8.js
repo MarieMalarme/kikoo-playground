@@ -16,6 +16,7 @@ export const Block_8 = ({ color }) => {
 
       {inputs.map((name) => (
         <Input
+          key={name}
           type="range"
           min={0}
           max={name === 'hue' ? 360 : 100}

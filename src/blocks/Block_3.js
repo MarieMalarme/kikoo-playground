@@ -37,7 +37,7 @@ const Icon = ({ plus, minus }) => (
     <path
       fill="none"
       stroke="black"
-      stroke-width={22}
+      strokeWidth={22}
       d={(plus && 'M65 15v100M115 65H15') || (minus && 'M115 65H15')}
     />
   </svg>
