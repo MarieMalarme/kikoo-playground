@@ -4,7 +4,6 @@ import { random } from '../utils/toolbox'
 
 export const Block_1 = (props) => {
   const [text, set_text] = useState('Bonjour')
-  const [input_ref, set_input_ref] = useState(null)
   const [increment, set_increment] = useState(50)
 
   return (
@@ -21,7 +20,6 @@ export const Block_1 = (props) => {
         <TextInput
           spellCheck="false"
           defaultValue="Type here!"
-          elemRef={set_input_ref}
           onInput={(event) => set_text(event.target.value)}
           type="text"
           {...props}
