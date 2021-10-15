@@ -35,6 +35,7 @@ input[type='range'] {
   height: 4px;
   outline: none;
   border-radius: 30px;
+  cursor: pointer;
 }
 
 input[type='range']::-webkit-slider-thumb {
@@ -42,9 +43,23 @@ input[type='range']::-webkit-slider-thumb {
   width: 14px;
   height: 14px;
   background: black;
-  cursor: pointer;
   border-radius: 30px;
   outline: none;
+}
+
+.color-ranges input[type='range'] {
+  border: solid 0.5px var(--block-8-color);
+  border-radius: 50px;
+  background: none;
+  padding: 0 10px;
+  height: 66px;
+  width: 80%;
+}
+
+.color-ranges input[type='range']::-webkit-slider-thumb {
+  background: var(--block-8-color);
+  height: 48px;
+  width: 48px;
 }
 
 .disco-top-right {
