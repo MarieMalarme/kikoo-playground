@@ -5,8 +5,18 @@
 }
 
 body {
-  font-family: sans-serif;
+  font-family: 'sans';
   overflow-x: hidden;
+}
+
+@font-face {
+  font-family: 'sans';
+  src: url('./fonts/px_grotesk_light.ttf');
+}
+
+@font-face {
+  font-family: 'mono';
+  src: url('./fonts/IBMPlexMono-Light.ttf');
 }
 
 #block-1 ::selection {

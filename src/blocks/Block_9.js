@@ -68,4 +68,4 @@ const blend_modes = [
 const Wrapper = Component.pa10.relative.of_hidden.section()
 const Image = Component.absolute.w100p.h100p.div()
 const Mode =
-  Component.zi1.of_hidden.ws_nowrap.white.c_pointer.fs7.ls1.uppercase.flex.ai_center.jc_center.pa5.h25.b_rad25.div()
+  Component.zi1.of_hidden.ws_nowrap.white.c_pointer.fs9.ls1.uppercase.flex.ai_center.jc_center.pa5.h25.b_rad25.div()

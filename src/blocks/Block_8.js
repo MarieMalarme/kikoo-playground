@@ -38,5 +38,5 @@ export const Block_8 = ({ color }) => {
 const inputs = ['hue', 'saturation', 'luminosity']
 const Wrapper =
   Component.ph50.pv15.flex.flex_wrap.flex_column.ai_center.jc_around.section()
-const Label = Component.mono.f_invert100.h30.flex.ai_center.label()
+const Label = Component.mono.fs13.f_invert100.h30.flex.ai_center.label()
 const Input = Component.f_invert100.input()

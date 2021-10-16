@@ -43,4 +43,4 @@ export const Block_11 = ({ color }) => {
 }
 
 const Wrapper = Component.pt20.pl25.section()
-const Measure = Component.mono.div()
+const Measure = Component.mono.fs12.lh18.div()

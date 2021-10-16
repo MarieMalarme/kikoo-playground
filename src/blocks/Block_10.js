@@ -55,7 +55,7 @@ const Controls = ({ pattern, set_pattern, set_clear }) => {
 const Settings = ({ pattern, set_pattern }) => (
   <Div>
     {Object.entries(layers).map(([layer, characters]) => (
-      <Div mb20>
+      <Div key={layer} mb20>
         <Label>Choose a {layer}:</Label>
         <Buttons
           characters={characters}
@@ -79,6 +79,7 @@ const Buttons = ({ characters, pattern, set_pattern, layer }) => (
   <Div mt10>
     {characters.map((character, index) => (
       <Button
+        key={character}
         bg_grey3={pattern[layer] === character}
         mr5={index !== characters.length - 1}
         onClick={() => set_pattern({ ...pattern, [layer]: character })}
@@ -151,7 +152,8 @@ const layers = {
 const letter_size = 15
 const Wrapper = Component.relative.of_hidden.section()
 const Grid = Component.flex.flex_wrap.section()
-const Character = Component.c_crosshair.flex.ai_center.jc_center.w10.h10.p()
+const Character =
+  Component.mono.c_crosshair.flex.ai_center.jc_center.w10.h10.p()
 const Label = Component.fs12.bg_white.pv5.block.ph10.label()
 const Parameters =
   Component.b_rad10.bg_blue1.flex.flex_column.absolute.w100p.t0.l0.ma15.header()

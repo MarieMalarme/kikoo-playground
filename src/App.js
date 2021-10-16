@@ -22,6 +22,6 @@ const blocks = blocks_list.map((block, index) => {
   return { block, color: { value: color, hue, saturation, luminosity } }
 })
 
-const Grid = Component.w100vw.minH100vh.div()
+const Grid = Component.no_select.w100vw.minH100vh.div()
 
 export default App
