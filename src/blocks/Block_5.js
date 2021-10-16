@@ -45,8 +45,13 @@ export const Block_5 = (props) => {
         ref={set_canvas}
         width={wrapper?.getBoundingClientRect().width}
         height={wrapper?.getBoundingClientRect().height}
-        onMouseMove={(event) =>
-          draw_point({ x: event.pageX, y: event.pageY, context, wrapper })
+        onMouseMove={({ pageX, pageY }) =>
+          draw_point({
+            x: pageX,
+            y: pageY - window.pageYOffset,
+            context,
+            wrapper,
+          })
         }
       />
     </Wrapper>
@@ -60,7 +65,7 @@ const draw_point = ({ x, y, context, wrapper }) => {
 
   // set the coordinates according to the position of the canvas' wrapper in the page
   x = x - left
-  y = y - top - window.pageYOffset
+  y = y - top
 
   context.fillStyle = 'orange'
   context.beginPath()
