@@ -46,16 +46,17 @@ body {
 input[type='range'] {
   appearance: none;
   width: 150px;
-  height: 4px;
+  height: 38px;
   outline: none;
   border-radius: 30px;
   cursor: pointer;
+  padding: 7px;
 }
 
 input[type='range']::-webkit-slider-thumb {
   appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 26px;
+  height: 26px;
   background: black;
   border-radius: 30px;
   outline: none;

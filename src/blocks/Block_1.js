@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Component } from '../utils/flags'
 import { random } from '../utils/toolbox'
 
-export const Block_1 = (props) => {
+export const Block_1 = ({ color, ...props }) => {
   const [text, set_text] = useState('Bonjour')
   const [increment, set_increment] = useState(50)
 
@@ -12,6 +12,7 @@ export const Block_1 = (props) => {
         <Text
           key={index}
           text={text}
+          color={color}
           transform={transform}
           increment={increment}
         />
@@ -37,12 +38,13 @@ export const Block_1 = (props) => {
   )
 }
 
-const Text = ({ text, transform, increment }) => {
+const Text = ({ text, color, transform, increment }) => {
   let { rotation, scale, skew } = transform
   rotation = rotation + increment
   return (
     <Span
       style={{
+        color: `hsl(${color.hue + 100}, 80%, 60%)`,
         transform: `rotate(${rotation}deg) scale(${scale.x}, ${scale.y}) skew(${skew.x}deg, ${skew.y}deg)`,
       }}
     >
@@ -62,4 +64,4 @@ const Span = Component.fs30.span()
 const Inputs = Component.flex.flex_column.absolute.t20.l20.div()
 const TextInput =
   Component.b_rad25.black.f_invert100.pv5.ph15.w150.fs25.ol_none.bg_none.ba0.input()
-const RangeInput = Component.mt20.f_invert100.input()
+const RangeInput = Component.mt10.f_invert100.input()
