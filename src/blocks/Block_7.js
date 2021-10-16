@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Component } from '../utils/flags'
+import { MouseWheel } from '../icons'
 
 export const Block_7 = (props) => {
   const [current_circles, set_current_circles] = useState(1)
@@ -34,20 +35,10 @@ export const Block_7 = (props) => {
           />
         ))}
       </svg>
-      <MouseWheel />
+      <MouseWheel absolute height="15%" />
     </Wrapper>
   )
 }
-
-const MouseWheel = () => (
-  <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 170" height="15%">
-    <g fill="none" stroke="white" strokeWidth="5" strokeLinecap="round">
-      <path d="M42.5 94.75a17.5 17.5 0 0 1-35 0v-19.5a17.5 17.5 0 0 1 35 0Z" />
-      <path d="M25 73v5" />
-      <path d="m15.5 21.05 9.5-9.5 9.5 9.5M15.5 36.59l9.5-9.5 9.5 9.5M34.5 148.95l-9.5 9.5-9.5-9.5M34.5 133.41l-9.5 9.5-9.5-9.5" />
-    </g>
-  </Svg>
-)
 
 const Circle = ({ wheeled, base_radius, index, color }) => (
   <circle
@@ -61,4 +52,3 @@ const Circle = ({ wheeled, base_radius, index, color }) => (
 
 const base_radius = 20
 const Wrapper = Component.relative.of_hidden.flex.ai_center.jc_center.section()
-const Svg = Component.absolute.svg()
