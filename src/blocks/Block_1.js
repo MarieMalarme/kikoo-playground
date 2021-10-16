@@ -7,7 +7,7 @@ export const Block_1 = (props) => {
   const [increment, set_increment] = useState(50)
 
   return (
-    <Wrapper {...props}>
+    <Wrapper id="block-1" {...props}>
       {texts.map((transform, index) => (
         <Text
           key={index}

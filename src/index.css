@@ -9,8 +9,12 @@ body {
   overflow-x: hidden;
 }
 
-::selection {
+#block-1 ::selection {
   background: black;
+}
+
+#block-10 ::selection {
+  background: var(--blue1);
 }
 
 ::-webkit-scrollbar {
