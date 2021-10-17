@@ -4,7 +4,7 @@ atomizify({
   custom_classes: {
     minH100vh: 'min-height: 100vh',
     no_select: 'user-select: none',
-    mono: 'font-family: monospace',
+    fs4vw: 'font-size: 4vw',
     sans: 'font-family: "sans"',
     mono: 'font-family: "mono"',
   },
