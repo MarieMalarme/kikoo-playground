@@ -1,5 +1,6 @@
-import { Fragment, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Component, Div } from '../utils/flags'
+import { Arrow } from '../icons'
 
 export const Block_10 = (props) => {
   const [wrapper, set_wrapper] = useState(null)
@@ -126,22 +127,6 @@ const Letter = ({ letter_size, pattern, clear }) => {
     </Character>
   )
 }
-
-const Arrow = ({ rotation }) => (
-  <svg
-    style={{ transform: `rotate(${rotation}deg)` }}
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 130 130"
-    width="18px"
-  >
-    <path
-      fill="none"
-      stroke="var(--grey5)"
-      strokeWidth={10}
-      d="m72.85 17.6 47.65 47.65-47.65 47.65M5.5 65.25h114.34"
-    />
-  </svg>
-)
 
 const layers = {
   grid: ['.', '+', `|/`, '*-*'],
