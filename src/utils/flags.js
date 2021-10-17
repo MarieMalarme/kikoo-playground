@@ -7,6 +7,7 @@ atomizify({
     fs4vw: 'font-size: 4vw',
     sans: 'font-family: "sans"',
     mono: 'font-family: "mono"',
+    ml7: 'margin-left: 7px',
   },
 })
 
