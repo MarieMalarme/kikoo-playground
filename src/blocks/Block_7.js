@@ -5,11 +5,18 @@ import { MouseWheel } from '../icons'
 export const Block_7 = (props) => {
   const [current_circles, set_current_circles] = useState(1)
   const [wheeled, set_wheeled] = useState(base_radius)
+  const [hovered, set_hovered] = useState(false)
 
   return (
     <Wrapper
-      onMouseEnter={() => (document.body.style.overflow = 'hidden')}
-      onMouseLeave={() => (document.body.style.overflow = 'auto')}
+      onMouseEnter={() => {
+        set_hovered(true)
+        document.body.style.overflow = 'hidden'
+      }}
+      onMouseLeave={() => {
+        set_hovered(false)
+        document.body.style.overflow = 'auto'
+      }}
       onWheel={(event) => {
         const wheeling_up = event.deltaY < 0
         if (wheeling_up && wheeled <= base_radius) return
@@ -35,7 +42,7 @@ export const Block_7 = (props) => {
           />
         ))}
       </svg>
-      <MouseWheel absolute height="15%" />
+      <MouseWheel hovered={hovered} absolute height="15%" />
     </Wrapper>
   )
 }

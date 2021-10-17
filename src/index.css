@@ -81,6 +81,10 @@ input[type='range']::-webkit-slider-thumb {
   animation: disco-top-right 2.5s linear infinite;
 }
 
+/* **********  */
+/* ANIMATIONS  */
+/* **********  */
+
 @keyframes disco-top-right {
   0% {
     background-position: 12.5vw -12.5vw;
@@ -126,6 +130,40 @@ input[type='range']::-webkit-slider-thumb {
   }
   100% {
     background-position: 37.5vw 37.5vw;
+  }
+}
+
+.arrows-top {
+  transform: translateY(-4px);
+}
+
+.arrows-top.to-top {
+  animation: arrows-to-top 0.5s alternate infinite;
+}
+
+@keyframes arrows-to-top {
+  0% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(-16px);
+  }
+}
+
+.arrows-bottom {
+  transform: translateY(4px);
+}
+
+.arrows-bottom.to-bottom {
+  animation: arrows-to-bottom 0.5s alternate infinite;
+}
+
+@keyframes arrows-to-bottom {
+  0% {
+    transform: translateY(4px);
+  }
+  100% {
+    transform: translateY(16px);
   }
 }
 
