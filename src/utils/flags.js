@@ -8,6 +8,7 @@ atomizify({
     sans: 'font-family: "sans"',
     mono: 'font-family: "mono"',
     ml7: 'margin-left: 7px',
+    fit_cover: 'object-fit: cover',
   },
 })
 
