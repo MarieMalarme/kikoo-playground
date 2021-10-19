@@ -9,6 +9,8 @@ atomizify({
     mono: 'font-family: "mono"',
     ml7: 'margin-left: 7px',
     fit_cover: 'object-fit: cover',
+    w15vmin: 'width: 15vmin',
+    h15vmin: 'height: 15vmin',
   },
 })
 
