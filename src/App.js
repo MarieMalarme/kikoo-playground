@@ -2,16 +2,26 @@ import { Component } from './utils/flags'
 import { random } from './utils/toolbox'
 import { blocks_list } from './blocks/blocks.js'
 
-const App = () => (
-  <Grid id="grid">
-    {blocks.map(({ block, color }, index) => {
-      const Block = block
-      return (
-        <Block key={index} color={color} style={{ background: color.value }} />
-      )
-    })}
-  </Grid>
-)
+const App = () => {
+  const rows_amount = Math.ceil(blocks.length / 3)
+  return (
+    <Grid
+      id="grid"
+      style={{ gridTemplateRows: `repeat(${rows_amount}, 25vw)` }}
+    >
+      {blocks.map(({ block, color }, index) => {
+        const Block = block
+        return (
+          <Block
+            key={index}
+            color={color}
+            style={{ background: color.value }}
+          />
+        )
+      })}
+    </Grid>
+  )
+}
 
 // assign a random color to each block
 const blocks = blocks_list.map((block, index) => {
@@ -22,6 +32,6 @@ const blocks = blocks_list.map((block, index) => {
   return { block, color: { value: color, hue, saturation, luminosity } }
 })
 
-const Grid = Component.no_select.w100vw.minH100vh.div()
+const Grid = Component.no_select.w100vw.div()
 
 export default App

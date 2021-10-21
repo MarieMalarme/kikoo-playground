@@ -48,6 +48,7 @@ const Buttons = ({ shape_index, set_shape_index, set_points }) => (
       Clear
     </Button>
     <Button
+      jc_flex_end
       onClick={() => {
         const is_last_index = shape_index === shapes.length - 1
         set_shape_index(is_last_index ? 0 : shape_index + 1)
@@ -228,5 +229,5 @@ const zigzag = [
 const shapes = [spiral, star, zigzag]
 
 const Wrapper = Component.relative.section()
-const Button = Component.flex.c_pointer.fs14.absolute.r10.t10.div()
+const Button = Component.w60.flex.c_pointer.fs14.absolute.r10.t10.div()
 const Dot = Component.c_pointer.g()
