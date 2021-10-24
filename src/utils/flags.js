@@ -3,6 +3,7 @@ import { atomizify, flagify } from 'atomizify'
 atomizify({
   custom_classes: {
     no_select: 'user-select: none',
+    fs12vw: 'font-size: 12vw',
     fs2vw: 'font-size: 2vw',
     fs4vw: 'font-size: 4vw',
     sans: 'font-family: "sans"',
