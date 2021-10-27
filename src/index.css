@@ -19,6 +19,11 @@ body {
   src: url('./fonts/IBMPlexMono-Light.ttf');
 }
 
+@font-face {
+  font-family: 'sun-moon';
+  src: url('./fonts/sun-moon.ttf') format('truetype');
+}
+
 #grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -187,4 +192,12 @@ input[type='range']::-webkit-slider-thumb {
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(8, 1fr);
   gap: 20px;
+}
+
+.block-20.text span {
+  opacity: 0.3;
+}
+
+.block-20.text:hover span {
+  opacity: 1;
 }
