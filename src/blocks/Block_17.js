@@ -3,7 +3,7 @@ import { Component } from '../utils/flags'
 
 export const Block_17 = ({ color, ...props }) => {
   const [focused, set_focused] = useState(false)
-  const [count, set_count] = useState(10)
+  const [count, set_count] = useState(20)
 
   useEffect(() => {
     const update_count = (event) => {
@@ -21,7 +21,7 @@ export const Block_17 = ({ color, ...props }) => {
       onMouseEnter={() => set_focused(true)}
       onMouseLeave={() => set_focused(false)}
       style={{
-        background: `repeating-radial-gradient(#e66465, #9198e5 ${count}%)`,
+        background: `repeating-radial-gradient(fuchsia, yellow ${count}%) 12.5vw 12.5vw`,
       }}
     >
       <Instruction>
