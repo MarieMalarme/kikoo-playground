@@ -19,6 +19,7 @@ import { Block_18 } from './Block_18'
 import { Block_19 } from './Block_19'
 import { Block_20 } from './Block_20'
 import { Block_21 } from './Block_21'
+import { Block_22 } from './Block_22'
 
 export const blocks_list = [
   Block_1,
@@ -42,4 +43,5 @@ export const blocks_list = [
   Block_19,
   Block_20,
   Block_21,
+  Block_22,
 ]
