@@ -91,6 +91,6 @@ const cat_3 = [cat_3_1, cat_3_2, cat_3_3, cat_3_4]
 const cat_4 = [cat_4_1, cat_4_2, cat_4_3, cat_4_4]
 const cats = [cat_1, cat_2, cat_3, cat_4]
 
-const Wrapper = Component.flex.flex_wrap.ai_center.jc_center.relative.section()
+const Wrapper = Component.flex.flex_wrap.ai_center.jc_center.section()
 const Button = Component.absolute.t20.mono.fs12.pv5.ph10.as_center.button()
 const Image = Component.ma0.img()

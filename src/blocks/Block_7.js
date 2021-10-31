@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Component } from '../utils/flags'
 import { MouseWheel } from '../icons'
 
-export const Block_7 = (props) => {
+export const Block_7 = ({ color, ...props }) => {
   const [current_circles, set_current_circles] = useState(1)
   const [wheeled, set_wheeled] = useState(base_radius)
   const [hovered, set_hovered] = useState(false)
@@ -38,7 +38,7 @@ export const Block_7 = (props) => {
             index={index}
             wheeled={wheeled}
             base_radius={base_radius}
-            color={props.style.background}
+            color={color.value}
           />
         ))}
       </svg>
@@ -58,4 +58,4 @@ const Circle = ({ wheeled, base_radius, index, color }) => (
 )
 
 const base_radius = 20
-const Wrapper = Component.relative.of_hidden.flex.ai_center.jc_center.section()
+const Wrapper = Component.flex.ai_center.jc_center.section()

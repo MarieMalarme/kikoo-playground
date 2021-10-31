@@ -59,7 +59,7 @@ const texts = [...Array(5).keys()].map(() => ({
   skew: { x: random(1, 10), y: random(1, 10) },
 }))
 
-const Wrapper = Component.of_hidden.flex.ai_center.jc_center.section()
+const Wrapper = Component.flex.ai_center.jc_center.section()
 const Span = Component.fs30.span()
 const Inputs = Component.flex.flex_column.absolute.t20.l20.div()
 const TextInput =

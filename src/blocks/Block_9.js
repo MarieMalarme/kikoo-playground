@@ -65,7 +65,7 @@ const blend_modes = [
   'luminosity',
 ].map((mode) => [mode, generate_cell()])
 
-const Wrapper = Component.pa10.relative.of_hidden.section()
+const Wrapper = Component.pa10.section()
 const Image = Component.absolute.w100p.h100p.div()
 const Mode =
   Component.zi1.of_hidden.ws_nowrap.white.c_pointer.fs9.ls1.uppercase.flex.ai_center.jc_center.pa5.h25.b_rad25.div()

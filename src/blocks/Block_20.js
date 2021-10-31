@@ -10,7 +10,7 @@ export const Block_20 = () => {
 
   const luminosity = translate_to_scale(mouse_y / height, 70)
   const weight = translate_to_scale(mouse_y / height, weight_diff) + min_weight
-  const top = -translate_to_scale(mouse_y / height, height) + height / 2
+  const top = -translate_to_scale(mouse_y / height, height) + height / 2 || 0
 
   return (
     <Wrapper
@@ -47,8 +47,7 @@ const max_weight = 300
 const min_weight = 100
 const weight_diff = max_weight - min_weight
 
-const Wrapper =
-  Component.relative.of_hidden.flex.flex_column.ai_center.jc_between.section()
+const Wrapper = Component.flex.flex_column.ai_center.jc_between.section()
 const Element = Component.events_none.absolute.lh22vw.fs20vw.sun_moon.div()
 const Div = Component.ph30.h50p.w100p.div()
 const Text =

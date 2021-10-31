@@ -19,6 +19,5 @@ atomizify({
 })
 
 export const { Component, Div } = flagify()
-export const Section = Component.section()
 
 // create custom cursors: cursor is an icon of the needed interaction (mouse scrolling, etc.)

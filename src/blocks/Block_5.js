@@ -75,4 +75,4 @@ const draw_point = ({ x, y, context, wrapper }) => {
 
 const point_size = 20
 const half_point = point_size / 2
-const Wrapper = Component.of_hidden.blend_exclusion.section()
+const Wrapper = Component.blend_exclusion.section()

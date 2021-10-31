@@ -114,7 +114,7 @@ let timeout_id
 const padding = 50
 const alpha = 0.25
 
-const Wrapper = Component.relative.flex.ai_center.jc_center.section()
+const Wrapper = Component.flex.ai_center.jc_center.section()
 const Button =
   Component.fs15.absolute.b_rad20.ba0.ph20.pv10.sans.c_pointer.button()
 const ErrorMessage =

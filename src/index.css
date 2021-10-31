@@ -29,6 +29,11 @@ body {
   grid-template-columns: repeat(4, 1fr);
 }
 
+#grid section {
+  position: relative;
+  overflow: hidden;
+}
+
 #grid section:nth-child(9n + 1),
 #grid section:nth-child(9n + 5),
 #grid section:nth-child(9n + 9) {

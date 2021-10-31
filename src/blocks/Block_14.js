@@ -110,7 +110,7 @@ const default_filters = {
   'hue-rotate': { value: 190, unit: 'deg' },
 }
 
-const Wrapper = Component.of_hidden.flex.ai_center.relative.section()
+const Wrapper = Component.flex.ai_center.section()
 const Video = Component.absolute.t0.fit_cover.video()
 const Canvas = Component.none.canvas()
 const Button =
