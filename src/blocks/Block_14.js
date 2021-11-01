@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Component } from '../utils/flags'
 
-export const Block_14 = (props) => {
+export const Block_14 = () => {
   const [video, set_video] = useState(null)
   const [canvas, set_canvas] = useState(null)
   const [picture, set_picture] = useState()
@@ -45,7 +45,7 @@ export const Block_14 = (props) => {
 
   if (stream?.error) {
     return (
-      <Wrapper flex_column jc_flex_start {...props}>
+      <Wrapper flex_column jc_flex_start>
         <ErrorMessage>
           An error occurred and we were not able to start your webcam :(
         </ErrorMessage>
@@ -56,7 +56,7 @@ export const Block_14 = (props) => {
   }
 
   return (
-    <Wrapper jc_center id="block-14" {...props}>
+    <Wrapper jc_center id="block-14">
       {picture && (
         <Image style={{ background: `top / cover url(${picture})`, filter }} />
       )}

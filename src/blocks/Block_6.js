@@ -2,7 +2,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { Component } from '../utils/flags'
 import { random } from '../utils/toolbox'
 
-export const Block_6 = (props) => {
+export const Block_6 = () => {
   const [wrapper, set_wrapper] = useState(null)
   const [hits, set_hits] = useState([])
 
@@ -21,7 +21,7 @@ export const Block_6 = (props) => {
   }, [wrapper, hits])
 
   return (
-    <Wrapper elemRef={set_wrapper} {...props}>
+    <Wrapper elemRef={set_wrapper}>
       {hits.map((hit, index) => {
         const { text, font_size, top, left, rotation } = hit
         return (

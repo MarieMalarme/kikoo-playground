@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
-export const Block_19 = ({ color, ...props }) => {
+export const Block_19 = ({ color }) => {
   const [scrolled, set_scrolled] = useState(-20)
   const [text, set_text] = useState('scroll')
 
@@ -10,7 +10,6 @@ export const Block_19 = ({ color, ...props }) => {
       onMouseEnter={() => (document.body.style.overflow = 'hidden')}
       onMouseLeave={() => (document.body.style.overflow = 'auto')}
       onWheel={(event) => set_scrolled(scrolled + (event.deltaY > 0 ? 2 : -2))}
-      {...props}
     >
       <Carousel text={text} set_text={set_text} scrolled={scrolled} />
       <Text>{text}</Text>

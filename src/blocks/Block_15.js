@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 import { random } from '../utils/toolbox'
 
-export const Block_15 = ({ color, ...props }) => {
+export const Block_15 = ({ color }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [canvas, set_canvas] = useState(null)
   const [context, set_context] = useState(null)
@@ -28,7 +28,7 @@ export const Block_15 = ({ color, ...props }) => {
   }, [canvas, color.value])
 
   return (
-    <Wrapper elemRef={set_wrapper} {...props}>
+    <Wrapper elemRef={set_wrapper}>
       {!clicked && (
         <Instruction>Click anywhere to draw more shapes!</Instruction>
       )}

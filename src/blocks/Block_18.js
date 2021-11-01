@@ -2,11 +2,11 @@ import { Fragment, useState } from 'react'
 import { Component } from '../utils/flags'
 import sk_files from '../data/sk_files.json'
 
-export const Block_18 = ({ color, ...props }) => {
+export const Block_18 = ({ color }) => {
   const [wrapper, set_wrapper] = useState(null)
 
   return (
-    <Wrapper elemRef={set_wrapper} {...props}>
+    <Wrapper elemRef={set_wrapper}>
       {wrapper && (
         <KillersDataviz data={sk_files} wrapper={wrapper} color={color.value} />
       )}

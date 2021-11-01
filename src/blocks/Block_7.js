@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Component } from '../utils/flags'
 import { MouseWheel } from '../icons'
 
-export const Block_7 = ({ color, ...props }) => {
+export const Block_7 = ({ color }) => {
   const [current_circles, set_current_circles] = useState(1)
   const [wheeled, set_wheeled] = useState(base_radius)
   const [hovered, set_hovered] = useState(false)
@@ -24,7 +24,6 @@ export const Block_7 = ({ color, ...props }) => {
         const circles = Number(Math.floor(wheeled / base_radius).toFixed())
         if (circles !== current_circles) set_current_circles(circles)
       }}
-      {...props}
     >
       <svg
         width="100%"

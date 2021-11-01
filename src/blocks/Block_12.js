@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Component } from '../utils/flags'
 import { MouseWheel } from '../icons'
 
-export const Block_12 = ({ color, ...props }) => {
+export const Block_12 = ({ color }) => {
   const [ref, set_ref] = useState(null)
   const [wheeled, set_wheeled] = useState(0)
   const [reached, set_reached] = useState(false)
@@ -18,7 +18,6 @@ export const Block_12 = ({ color, ...props }) => {
 
   return (
     <Wrapper
-      {...props}
       onMouseEnter={() => {
         set_hovered(true)
         document.body.style.overflow = 'hidden'

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 import { random } from '../utils/toolbox'
 
-export const Block_5 = (props) => {
+export const Block_5 = () => {
   const [wrapper, set_wrapper] = useState(null)
   const [canvas, set_canvas] = useState(null)
   const [context, set_context] = useState(null)
@@ -40,7 +40,7 @@ export const Block_5 = (props) => {
   }, [canvas, wrapper])
 
   return (
-    <Wrapper elemRef={set_wrapper} {...props}>
+    <Wrapper elemRef={set_wrapper}>
       <canvas
         ref={set_canvas}
         width={wrapper?.getBoundingClientRect().width}

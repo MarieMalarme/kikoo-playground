@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { random } from '../utils/toolbox'
 import { Component } from '../utils/flags'
 
-export const Block_22 = ({ color, ...props }) => {
+export const Block_22 = ({ color }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [canvas, set_canvas] = useState(null)
   const [context, set_context] = useState(null)
@@ -44,7 +44,7 @@ export const Block_22 = ({ color, ...props }) => {
 
   if (stream?.error) {
     return (
-      <Wrapper flex_column {...props}>
+      <Wrapper flex_column>
         <ErrorMessage>
           An error occurred and we were not able to start your microphone :(
         </ErrorMessage>
@@ -57,7 +57,7 @@ export const Block_22 = ({ color, ...props }) => {
   }
 
   return (
-    <Wrapper elemRef={set_wrapper} {...props}>
+    <Wrapper elemRef={set_wrapper}>
       <Button onClick={stream ? stop_mic : start_mic}>
         {stream ? 'Stop' : 'Start'} microphone
       </Button>

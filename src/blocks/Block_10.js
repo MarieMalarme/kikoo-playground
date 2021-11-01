@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Component, Div } from '../utils/flags'
 import { Arrow } from '../icons'
 
-export const Block_10 = (props) => {
+export const Block_10 = () => {
   const [wrapper, set_wrapper] = useState(null)
   const [clear, set_clear] = useState(15)
   const [pattern, set_pattern] = useState({
@@ -11,7 +11,7 @@ export const Block_10 = (props) => {
   })
 
   return (
-    <Wrapper id="block-10" elemRef={set_wrapper} {...props}>
+    <Wrapper id="block-10" elemRef={set_wrapper}>
       <Letters
         wrapper={wrapper}
         letter_size={letter_size}

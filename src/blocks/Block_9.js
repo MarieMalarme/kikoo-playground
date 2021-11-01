@@ -3,11 +3,11 @@ import { Component } from '../utils/flags'
 import { random } from '../utils/toolbox'
 import galaxy from '../images/galaxy.jpeg'
 
-export const Block_9 = (props) => {
+export const Block_9 = () => {
   const [selected_mode, set_selected_mode] = useState('normal')
 
   return (
-    <Wrapper className="blend-mode-grid" {...props}>
+    <Wrapper className="blend-mode-grid">
       <Image
         style={{
           mixBlendMode: selected_mode,
