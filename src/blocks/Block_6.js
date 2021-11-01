@@ -61,6 +61,6 @@ const generate_hit = (wrapper) => {
 }
 
 const texts = ['bim', 'bam', 'boom']
-const Wrapper = Component.pa30.flex.flex_column.ai_center.jc_between.section()
+const Wrapper = Component.pa30.flex.flex_column.ai_center.jc_between.article()
 const Hit = Component.white.absolute.blend_exclusion.p()
-const Instruction = Component.text_center.zi1.mv5.ba.pv10.ph15.header()
+const Instruction = Component.text_center.zi1.mv5.ba.pv10.ph15.div()

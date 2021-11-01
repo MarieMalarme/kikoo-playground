@@ -36,6 +36,6 @@ export const Block_17 = ({ color, ...props }) => {
   )
 }
 
-const Wrapper = Component.flex.flex_column.ai_center.jc_between.pa15.section()
+const Wrapper = Component.flex.flex_column.ai_center.jc_between.pa15.article()
 const Instruction = Component.fs15.flex.flex_column.ai_center.div()
 const Arrow = Component.fs12.b_rad4.mv10.ba.pv5.ph15.div()

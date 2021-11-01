@@ -61,5 +61,5 @@ const radius = center - 25
 const amount = 10
 const circles = [...Array(amount).keys()]
 
-const Wrapper = Component.flex.ai_center.jc_center.section()
+const Wrapper = Component.flex.ai_center.jc_center.article()
 const Count = Component.absolute.div()

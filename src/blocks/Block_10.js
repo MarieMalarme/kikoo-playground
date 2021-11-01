@@ -135,13 +135,13 @@ const layers = {
 
 // add slider to customise letter size
 const letter_size = 15
-const Wrapper = Component.section()
+const Wrapper = Component.article()
 const Grid = Component.flex.flex_wrap.div()
 const Character =
   Component.mono.c_crosshair.flex.ai_center.jc_center.w10.h10.p()
 const Label = Component.fs12.bg_white.pv5.block.ph10.label()
 const Parameters =
-  Component.b_rad10.bg_blue1.flex.flex_column.absolute.w100p.t0.l0.ma15.header()
+  Component.b_rad10.bg_blue1.flex.flex_column.absolute.w100p.t0.l0.ma15.div()
 const Toggle = Component.mono.c_pointer.flex.ai_center.fs11.grey5.div()
 const Collapsible = Component.ofy_scroll.h100p.flex.flex_column.jc_between.div()
 const Button =

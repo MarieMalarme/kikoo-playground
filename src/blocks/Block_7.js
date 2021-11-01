@@ -58,4 +58,4 @@ const Circle = ({ wheeled, base_radius, index, color }) => (
 )
 
 const base_radius = 20
-const Wrapper = Component.flex.ai_center.jc_center.section()
+const Wrapper = Component.flex.ai_center.jc_center.article()

@@ -11,8 +11,8 @@ export const Block_11 = ({ color }) => {
     const update_mouse = (event) => {
       const { width, height } = wrapper.getBoundingClientRect()
       // translate the mouse position in the page to the coordinate system of the block
-      const translator_x = width / 2 + wrapper.offsetLeft
-      const translator_y = height / 2 + wrapper.offsetTop
+      const translator_x = width / 2 + wrapper.offsetParent.offsetLeft
+      const translator_y = height / 2 + wrapper.offsetParent.offsetTop
 
       set_mouse({
         x: event.pageX - translator_x,
@@ -42,5 +42,5 @@ export const Block_11 = ({ color }) => {
   )
 }
 
-const Wrapper = Component.pt20.pl25.section()
+const Wrapper = Component.pt20.pl25.article()
 const Measure = Component.mono.fs12.lh18.div()

@@ -15,7 +15,9 @@ export const Block_20 = () => {
   return (
     <Wrapper
       elemRef={set_wrapper}
-      onMouseMove={(event) => set_mouse_y(event.pageY - wrapper.offsetTop)}
+      onMouseMove={(event) => {
+        set_mouse_y(event.pageY - wrapper.offsetParent.offsetTop)
+      }}
       style={{ background: `hsl(230, 50%, ${luminosity}%)` }}
     >
       <Period period="pm" time={time} set_time={set_time} />
@@ -47,7 +49,7 @@ const max_weight = 300
 const min_weight = 100
 const weight_diff = max_weight - min_weight
 
-const Wrapper = Component.flex.flex_column.ai_center.jc_between.section()
+const Wrapper = Component.flex.flex_column.ai_center.jc_between.article()
 const Element = Component.events_none.absolute.lh22vw.fs20vw.sun_moon.div()
 const Div = Component.ph30.h50p.w100p.div()
 const Text =

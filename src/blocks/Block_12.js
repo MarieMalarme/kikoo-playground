@@ -56,7 +56,7 @@ export const Block_12 = ({ color, ...props }) => {
   )
 }
 
-const Wrapper = Component.flex.flex_wrap.flex_column.h100p.jc_center.section()
+const Wrapper = Component.flex.flex_wrap.flex_column.h100p.jc_center.article()
 const Instruction = Component.absolute.r20.t20.div()
 const Text =
   Component.sans.lh35.fs4vw.black.ws_nowrap.fs60.flex.pl30.ai_center.p()

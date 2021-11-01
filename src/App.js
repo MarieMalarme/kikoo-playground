@@ -12,11 +12,17 @@ const App = () => {
       {blocks.map(({ block, color }, index) => {
         const Block = block
         return (
-          <Block
+          <Section
             key={index}
-            color={color}
-            style={{ background: color.value }}
-          />
+            name={index + 1}
+            style={{ '--color-block': color.value }}
+          >
+            <Block color={color} />
+            <Header>
+              <Control>{'</>'}</Control>
+              <Control>{'[ ]'}</Control>
+            </Header>
+          </Section>
         )
       })}
     </Grid>
@@ -33,5 +39,9 @@ const blocks = blocks_list.map((block, index) => {
 })
 
 const Grid = Component.no_select.w100vw.div()
+const Section = Component.section()
+const Header = Component.none.zi10.absolute.r10.t10.header()
+const Control =
+  Component.shadow_a_s.c_pointer.inline_flex.ml10.w25.h25.ba0.mono.fs11.b_rad5.button()
 
 export default App

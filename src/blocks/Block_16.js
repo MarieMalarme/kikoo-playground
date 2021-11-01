@@ -43,7 +43,8 @@ export const Block_16 = () => {
   const update_mouse = (event) => {
     event = event.type === 'touchmove' ? event.touches[0] : event
     const { clientX: client_x, clientY } = event
-    const client_y = clientY - (wrapper.offsetTop - window.pageYOffset)
+    const scrolled_y = wrapper.offsetParent.offsetTop - window.pageYOffset
+    const client_y = clientY - scrolled_y
 
     const allowed_x = client_x > limit && width - client_x > limit
     const allowed_y = client_y > limit && height - client_y > limit
@@ -91,6 +92,6 @@ const cat_3 = [cat_3_1, cat_3_2, cat_3_3, cat_3_4]
 const cat_4 = [cat_4_1, cat_4_2, cat_4_3, cat_4_4]
 const cats = [cat_1, cat_2, cat_3, cat_4]
 
-const Wrapper = Component.flex.flex_wrap.ai_center.jc_center.section()
+const Wrapper = Component.flex.flex_wrap.ai_center.jc_center.article()
 const Button = Component.absolute.t20.mono.fs12.pv5.ph10.as_center.button()
 const Image = Component.ma0.img()

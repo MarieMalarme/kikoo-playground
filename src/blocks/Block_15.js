@@ -88,7 +88,7 @@ const generate_bezier_curve = ({ x, y }) => {
   return [...bezier_curves, bezier_curves[0]] // add the origin point in the end to close the shape
 }
 
-const Wrapper = Component.flex.ai_center.jc_center.section()
+const Wrapper = Component.flex.ai_center.jc_center.article()
 const Instruction =
   Component.zi1.o75.fs15.flex.ai_center.jc_center.pa10.events_none.w15vmin.h15vmin.b_rad50p.bg_grey1.text_center.absolute.span()
 const Canvas = Component.f_invert100.canvas()

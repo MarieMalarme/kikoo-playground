@@ -43,7 +43,7 @@ const Icon = ({ plus, minus }) => (
   </svg>
 )
 
-const Wrapper = Component.flex.pa30.ai_center.jc_center.fs50.no_select.section()
+const Wrapper = Component.flex.pa30.ai_center.jc_center.fs50.no_select.article()
 const Button =
   Component.w30.h30.ba.bw3.fs30.b_rad50p.flex.ai_center.jc_center.c_pointer.div()
 const Tiles = Component.w150.text_center.div()

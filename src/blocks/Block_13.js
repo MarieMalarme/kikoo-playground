@@ -228,6 +228,6 @@ const zigzag = [
 
 const shapes = [spiral, star, zigzag]
 
-const Wrapper = Component.section()
+const Wrapper = Component.article()
 const Button = Component.w60.flex.c_pointer.fs14.absolute.r10.t10.div()
 const Dot = Component.c_pointer.g()

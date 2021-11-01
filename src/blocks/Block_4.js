@@ -97,7 +97,7 @@ const rotations = {
   'bottom-left': -45,
 }
 
-const Wrapper = Component.flex.flex_column.jc_between.section()
+const Wrapper = Component.flex.flex_column.jc_between.article()
 const Half = Component.w100p.h100p.flex.div()
 const Quarter = Component.pa30.flex.w50p.h100p.c_pointer.div()
 const Eyes =

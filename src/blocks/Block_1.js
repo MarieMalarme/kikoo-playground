@@ -7,7 +7,7 @@ export const Block_1 = ({ color, ...props }) => {
   const [increment, set_increment] = useState(50)
 
   return (
-    <Wrapper id="block-1" {...props}>
+    <Wrapper id="block-1">
       {texts.map((transform, index) => (
         <Text
           key={index}
@@ -23,7 +23,7 @@ export const Block_1 = ({ color, ...props }) => {
           defaultValue="Type here!"
           onInput={(event) => set_text(event.target.value)}
           type="text"
-          {...props}
+          style={{ background: color.value }}
         />
         <RangeInput
           min={0}
@@ -31,7 +31,7 @@ export const Block_1 = ({ color, ...props }) => {
           defaultValue={increment}
           onInput={(event) => set_increment(Number(event.target.value))}
           type="range"
-          {...props}
+          style={{ background: color.value }}
         />
       </Inputs>
     </Wrapper>
@@ -59,7 +59,7 @@ const texts = [...Array(5).keys()].map(() => ({
   skew: { x: random(1, 10), y: random(1, 10) },
 }))
 
-const Wrapper = Component.flex.ai_center.jc_center.section()
+const Wrapper = Component.flex.ai_center.jc_center.article()
 const Span = Component.fs30.span()
 const Inputs = Component.flex.flex_column.absolute.t20.l20.div()
 const TextInput =
