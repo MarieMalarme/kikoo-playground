@@ -51,7 +51,7 @@ body {
 }
 
 #grid section:hover header {
-  display: block;
+  display: inline-flex;
 }
 
 #grid section article {
