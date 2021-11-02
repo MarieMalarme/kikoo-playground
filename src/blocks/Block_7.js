@@ -2,21 +2,26 @@ import { useState } from 'react'
 import { Component } from '../utils/flags'
 import { MouseWheel } from '../icons'
 
-export const Block_7 = ({ color }) => {
+export const Block_7 = ({ color, is_selected }) => {
   const [current_circles, set_current_circles] = useState(1)
   const [wheeled, set_wheeled] = useState(base_radius)
-  const [hovered, set_hovered] = useState(false)
+  const [focused, set_focused] = useState(false)
+
+  const enable = () => {
+    set_focused(true)
+    document.body.style.overflow = 'hidden'
+  }
+
+  const disable = () => {
+    set_focused(false)
+    document.body.style.overflow = 'auto'
+  }
 
   return (
     <Wrapper
-      onMouseEnter={() => {
-        set_hovered(true)
-        document.body.style.overflow = 'hidden'
-      }}
-      onMouseLeave={() => {
-        set_hovered(false)
-        document.body.style.overflow = 'auto'
-      }}
+      onMouseOver={enable}
+      onMouseEnter={enable}
+      onMouseLeave={disable}
       onWheel={(event) => {
         const wheeling_up = event.deltaY < 0
         if (wheeling_up && wheeled <= base_radius) return
@@ -41,7 +46,7 @@ export const Block_7 = ({ color }) => {
           />
         ))}
       </svg>
-      <MouseWheel hovered={hovered} absolute height="15%" />
+      <MouseWheel focused={focused} absolute height="15%" />
     </Wrapper>
   )
 }

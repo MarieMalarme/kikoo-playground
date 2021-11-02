@@ -34,7 +34,8 @@ export const Block_5 = () => {
     })
 
     // event listener to clear the canvas on click
-    const clear_canvas = () => ctx.clearRect(0, 0, width, height)
+    const { innerWidth, innerHeight } = window
+    const clear_canvas = () => ctx.clearRect(0, 0, innerWidth, innerHeight)
     canvas.addEventListener('click', clear_canvas)
     return () => canvas.removeEventListener('click', clear_canvas)
   }, [canvas, wrapper])
@@ -43,8 +44,8 @@ export const Block_5 = () => {
     <Wrapper elemRef={set_wrapper}>
       <canvas
         ref={set_canvas}
-        width={wrapper?.getBoundingClientRect().width}
-        height={wrapper?.getBoundingClientRect().height}
+        width={window.innerWidth}
+        height={window.innerHeight}
         onMouseMove={({ pageX, pageY }) =>
           draw_point({
             x: pageX,

@@ -2,30 +2,43 @@ import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 import { random } from '../utils/toolbox'
 
-export const Block_15 = ({ color }) => {
+export const Block_15 = ({ color, is_selected }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [canvas, set_canvas] = useState(null)
   const [context, set_context] = useState(null)
   const [clicked, set_clicked] = useState(false)
 
   useEffect(() => {
-    if (!canvas) return
+    if (!canvas || !wrapper) return
     // get & set the context of the canvas
     const ctx = canvas.getContext('2d')
-    ctx.globalCompositeOperation = 'xor' // set a mask effect
     set_context(ctx)
 
+    const wrapper_half = {
+      x: wrapper.getBoundingClientRect().width / 2,
+      y: wrapper.getBoundingClientRect().height / 2,
+    }
+
+    const canvas_center = {
+      x: canvas.getBoundingClientRect().width / 2,
+      y: canvas.getBoundingClientRect().height / 2,
+    }
+
+    const left = canvas_center.x - wrapper_half.x + 30
+    const right = canvas_center.x + wrapper_half.x - 30
+    const top = canvas_center.y - wrapper_half.y + 30
+    const bottom = canvas_center.y + wrapper_half.y - 30
+
     // draw some blobs on canvas load
-    const { width, height } = canvas.getBoundingClientRect()
     for (let i = 0; i < 5; i++) {
       draw_blob({
-        x: random(30, width - 30),
-        y: random(30, height - 30),
+        x: random(left, right),
+        y: random(top, bottom),
         context: ctx,
         color: color.value,
       })
     }
-  }, [canvas, color.value])
+  }, [canvas, wrapper, color.value])
 
   return (
     <Wrapper elemRef={set_wrapper}>
@@ -34,17 +47,17 @@ export const Block_15 = ({ color }) => {
       )}
       <Canvas
         elemRef={set_canvas}
-        width={wrapper?.getBoundingClientRect().width}
-        height={wrapper?.getBoundingClientRect().height}
+        width={window.innerWidth}
+        height={window.innerHeight}
         onClick={(event) => {
           !clicked && set_clicked(true)
 
           const { top, left } = canvas.getBoundingClientRect()
           draw_blob({
-            x: event.pageX - left,
-            y: event.pageY - window.pageYOffset - top,
             context,
             color: color.value,
+            x: event.pageX - left,
+            y: event.pageY - window.pageYOffset - top,
           })
         }}
       />
@@ -62,6 +75,7 @@ const draw_blob = ({ x, y, context, color }) => {
   }, start_point)
 
   const path = new Path2D(bezier_curve)
+  context.globalCompositeOperation = 'xor' // set a mask effect
   context.fillStyle = color
   context.fill(path)
 }

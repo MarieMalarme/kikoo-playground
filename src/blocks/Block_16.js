@@ -32,13 +32,22 @@ export const Block_16 = () => {
 
   useEffect(() => {
     if (!wrapper) return
-    const { width, height } = wrapper.getBoundingClientRect()
-    set_dimensions({ width, height })
+    set_dimensions(wrapper.getBoundingClientRect())
     set_mouse({
       x: random(limit, width - limit),
       y: random(limit, height - limit),
     })
-  }, [wrapper])
+
+    const resizeObserver = new ResizeObserver(() => {
+      set_dimensions(wrapper.getBoundingClientRect())
+      set_mouse({
+        x: random(limit, width - limit),
+        y: random(limit, height - limit),
+      })
+    })
+    resizeObserver.observe(wrapper)
+    return () => resizeObserver.disconnect()
+  }, [wrapper, height, width])
 
   const update_mouse = (event) => {
     event = event.type === 'touchmove' ? event.touches[0] : event

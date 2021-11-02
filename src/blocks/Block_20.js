@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Component } from '../utils/flags'
 
-export const Block_20 = () => {
+export const Block_20 = ({ is_selected }) => {
   const [time, set_time] = useState('pm')
   const [mouse_y, set_mouse_y] = useState(135)
   const [wrapper, set_wrapper] = useState(null)
@@ -21,7 +21,10 @@ export const Block_20 = () => {
       style={{ background: `hsl(230, 50%, ${luminosity}%)` }}
     >
       <Period period="pm" time={time} set_time={set_time} />
-      <Element style={{ fontVariationSettings: `"wght" ${weight}`, top }}>
+      <Element
+        lh100vh={is_selected}
+        style={{ fontVariationSettings: `"wght" ${weight}`, top }}
+      >
         O
       </Element>
       <Period period="am" time={time} set_time={set_time} />

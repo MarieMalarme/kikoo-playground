@@ -2,26 +2,40 @@ import { useState, useEffect } from 'react'
 import { random } from '../utils/toolbox'
 import { Component } from '../utils/flags'
 
-export const Block_21 = ({ color }) => {
+export const Block_21 = ({ color, is_selected }) => {
   const [focused, set_focused] = useState(false)
   const [count, set_count] = useState(random(3, 7))
+  const [wrapper, set_wrapper] = useState(null)
+  const [dimensions, set_dimensions] = useState()
 
   useEffect(() => {
     setTimeout(() => focused && set_count(count < amount ? count + 1 : 1), 200)
   })
 
+  useEffect(() => {
+    if (!wrapper) return
+    set_dimensions(wrapper.getBoundingClientRect())
+  }, [wrapper])
+
   return (
     <Wrapper
+      elemRef={set_wrapper}
       style={{ background: color.value }}
+      onMouseOver={() => set_focused(true)}
       onMouseEnter={() => set_focused(true)}
       onMouseLeave={() => set_focused(false)}
     >
-      <svg viewBox={`0 0 ${size} ${size}`} xmlns="http://www.w3.org/2000/svg">
+      <svg
+        viewBox={`0 0 ${size} ${size}`}
+        xmlns="http://www.w3.org/2000/svg"
+        width={dimensions?.width}
+        height={dimensions?.height}
+      >
         {circles.map((index) => (
           <Circle key={index} index={index} count={count} color={color} />
         ))}
       </svg>
-      <Count f_invert100 style={{ color: color.value }}>
+      <Count fs4vw={is_selected} f_invert100 style={{ color: color.value }}>
         {count}
       </Count>
     </Wrapper>

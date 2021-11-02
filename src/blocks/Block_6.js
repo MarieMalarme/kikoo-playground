@@ -3,6 +3,7 @@ import { Component } from '../utils/flags'
 import { random } from '../utils/toolbox'
 
 export const Block_6 = () => {
+  const [focused, set_focused] = useState(null)
   const [wrapper, set_wrapper] = useState(null)
   const [hits, set_hits] = useState([])
 
@@ -10,18 +11,24 @@ export const Block_6 = () => {
     if (!wrapper) return
 
     const handle_keydown = (event) => {
+      if (!focused) return
       if (event.key === 'Backspace') set_hits([])
-      if (event.key !== 'Enter') return
+      if (event.key !== 'b') return
       const new_hit = generate_hit(wrapper)
       set_hits([...hits, new_hit])
     }
 
     document.addEventListener('keydown', handle_keydown)
     return () => document.removeEventListener('keydown', handle_keydown)
-  }, [wrapper, hits])
+  }, [wrapper, hits, focused])
 
   return (
-    <Wrapper elemRef={set_wrapper}>
+    <Wrapper
+      onMouseOver={() => set_focused(true)}
+      onMouseEnter={() => set_focused(true)}
+      onMouseLeave={() => set_focused(false)}
+      elemRef={set_wrapper}
+    >
       {hits.map((hit, index) => {
         const { text, font_size, top, left, rotation } = hit
         return (
@@ -40,7 +47,7 @@ export const Block_6 = () => {
       })}
       {!hits.length && (
         <Fragment>
-          <Instruction>Press Enter long to write</Instruction>
+          <Instruction>Press B for long to write</Instruction>
           <Instruction>Hit Backspace to delete</Instruction>
         </Fragment>
       )}

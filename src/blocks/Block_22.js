@@ -2,12 +2,18 @@ import { useState, useEffect } from 'react'
 import { random } from '../utils/toolbox'
 import { Component } from '../utils/flags'
 
-export const Block_22 = ({ color }) => {
+export const Block_22 = ({ color, is_selected }) => {
   const [wrapper, set_wrapper] = useState(null)
+  const [dimensions, set_dimensions] = useState(null)
   const [canvas, set_canvas] = useState(null)
   const [context, set_context] = useState(null)
   const [stream, set_stream] = useState(null)
   const [drawing, set_drawing] = useState(false)
+
+  useEffect(() => {
+    if (!wrapper) return
+    set_dimensions(wrapper.getBoundingClientRect())
+  }, [wrapper, is_selected])
 
   useEffect(() => {
     // cover progressively the circles by redrawing the background
@@ -63,8 +69,8 @@ export const Block_22 = ({ color }) => {
       </Button>
       <canvas
         ref={set_canvas}
-        width={wrapper?.getBoundingClientRect().width}
-        height={wrapper?.getBoundingClientRect().height}
+        width={dimensions?.width}
+        height={dimensions?.height}
       />
     </Wrapper>
   )

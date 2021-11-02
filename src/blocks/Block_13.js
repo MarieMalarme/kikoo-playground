@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react'
 import { Component } from '../utils/flags'
 import { Arrow, Plus } from '../icons'
 
-export const Block_13 = ({ color }) => {
+export const Block_13 = ({ color, is_selected }) => {
   const [points, set_points] = useState([])
   const [shape_index, set_shape_index] = useState(0)
 
@@ -13,11 +13,16 @@ export const Block_13 = ({ color }) => {
   return (
     <Wrapper style={{ background: `hsl(${color.hue}, 70%, 35%)` }}>
       <Buttons
+        is_selected={is_selected}
         set_points={set_points}
         shape_index={shape_index}
         set_shape_index={set_shape_index}
       />
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 230">
+      <svg
+        style={{ maxHeight: is_selected && '90vh' }}
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 230 230"
+      >
         <polyline
           strokeWidth={0.5}
           fill="none"
@@ -41,13 +46,20 @@ export const Block_13 = ({ color }) => {
   )
 }
 
-const Buttons = ({ shape_index, set_shape_index, set_points }) => (
+const Buttons = ({ shape_index, set_shape_index, set_points, is_selected }) => (
   <Fragment>
-    <Button l10 onClick={() => set_points([])}>
-      <Plus mr5 stroke="black" width={14} stroke_width={9} rotation={45} />
+    <Button
+      l10
+      pa25={is_selected}
+      fs30={is_selected}
+      onClick={() => set_points([])}
+    >
+      <Plus mr5 stroke="black" width={is_selected ? 30 : 12} rotation={45} />
       Clear
     </Button>
     <Button
+      pa25={is_selected}
+      fs30={is_selected}
       jc_flex_end
       onClick={() => {
         const is_last_index = shape_index === shapes.length - 1
@@ -56,7 +68,7 @@ const Buttons = ({ shape_index, set_shape_index, set_points }) => (
       }}
     >
       Next
-      <Arrow ml7 stroke="black" width={12} />
+      <Arrow ml7 stroke="black" width={is_selected ? 30 : 12} />
     </Button>
   </Fragment>
 )
@@ -228,6 +240,6 @@ const zigzag = [
 
 const shapes = [spiral, star, zigzag]
 
-const Wrapper = Component.article()
-const Button = Component.w60.flex.c_pointer.fs14.absolute.r10.t10.div()
+const Wrapper = Component.flex.ai_center.jc_center.article()
+const Button = Component.w60.flex.c_pointer.fs14.absolute.r10.b10.div()
 const Dot = Component.c_pointer.g()

@@ -8,6 +8,7 @@ atomizify({
     fs12vw: 'font-size: 12vw',
     fs20vw: 'font-size: 20vw',
     lh22vw: 'line-height: 22vw',
+    lh100vh: 'line-height: 100vh',
     sans: 'font-family: "sans"',
     mono: 'font-family: "mono"',
     sun_moon: 'font-family: "sun-moon"',

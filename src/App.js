@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Component } from './utils/flags'
 import { random } from './utils/toolbox'
 import { blocks_list } from './blocks/blocks'
@@ -10,6 +10,10 @@ const App = () => {
 
   const rows_amount = selected_block ? 1 : Math.ceil(blocks.length / 3)
   const row_height = selected_block ? '100vh' : '25vw'
+
+  useEffect(() => {
+    document.body.style.overflow = selected_block ? 'hidden' : 'auto'
+  }, [selected_block])
 
   return (
     <Grid

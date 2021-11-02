@@ -1,16 +1,27 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 import sk_files from '../data/sk_files.json'
 
-export const Block_18 = ({ color }) => {
+export const Block_18 = ({ color, is_selected }) => {
   const [wrapper, set_wrapper] = useState(null)
+  const [dimensions, set_dimensions] = useState()
+
+  useEffect(() => {
+    if (!wrapper) return
+    set_dimensions(wrapper.getBoundingClientRect())
+  }, [wrapper, is_selected])
 
   return (
-    <Wrapper elemRef={set_wrapper}>
-      {wrapper && (
-        <KillersDataviz data={sk_files} wrapper={wrapper} color={color.value} />
+    <Wrapper pa50={is_selected} elemRef={set_wrapper}>
+      {dimensions && (
+        <KillersDataviz
+          data={sk_files}
+          dimensions={dimensions}
+          color={color.value}
+          is_selected={is_selected}
+        />
       )}
-      <Title>
+      <Title b80={is_selected} l80={is_selected} fs4vw={is_selected}>
         Amount of
         <br />
         active serial killers
@@ -21,7 +32,7 @@ export const Block_18 = ({ color }) => {
   )
 }
 
-const KillersDataviz = ({ data, wrapper, color }) => {
+const KillersDataviz = ({ data, dimensions, color, is_selected }) => {
   // get all the indexed active years in the data
   const years_index = data
     .map((killer) => killer.active_years.map((year) => year))
@@ -62,7 +73,7 @@ const KillersDataviz = ({ data, wrapper, color }) => {
     killers: highest_killers_year[1],
   })
 
-  const { width, height } = wrapper.getBoundingClientRect()
+  const { width, height } = dimensions
   const year_line_chunk = width / (years_range.length - 1)
 
   return (
@@ -80,6 +91,7 @@ const KillersDataviz = ({ data, wrapper, color }) => {
           color={color}
           height={height}
           killers={killers}
+          is_selected={is_selected}
           hovered_line={hovered_line}
           set_hovered_line={set_hovered_line}
           year_line_chunk={year_line_chunk}
@@ -91,7 +103,7 @@ const KillersDataviz = ({ data, wrapper, color }) => {
 }
 
 const KillersPerYearLine = (props) => {
-  const { year, killers, i, color, height } = props
+  const { year, killers, i, color, height, is_selected } = props
   const { hovered_line, set_hovered_line, year_line_chunk } = props
   const is_hovered = hovered_line.year === year
   const line_coords_x = year_line_chunk * i
@@ -114,7 +126,7 @@ const KillersPerYearLine = (props) => {
         x2={line_coords_x}
         y1={0}
         y2={line_height}
-        strokeWidth={is_hovered ? 9 : 1}
+        strokeWidth={(is_hovered && 9) || (is_selected && 2) || 1.25}
         stroke={color}
       />
       {is_hovered && (

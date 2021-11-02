@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Component, Div } from '../utils/flags'
+import { useDOMRect } from '../utils/hooks'
 import { Arrow } from '../icons'
 
 export const Block_10 = () => {
-  const [wrapper, set_wrapper] = useState(null)
+  const { ref, dimensions } = useDOMRect()
   const [clear, set_clear] = useState(15)
   const [pattern, set_pattern] = useState({
     grid: layers.grid[0],
@@ -11,9 +12,9 @@ export const Block_10 = () => {
   })
 
   return (
-    <Wrapper id="block-10" elemRef={set_wrapper}>
+    <Wrapper id="block-10" elemRef={ref}>
       <Letters
-        wrapper={wrapper}
+        dimensions={dimensions}
         letter_size={letter_size}
         pattern={pattern}
         clear={clear}
@@ -91,10 +92,10 @@ const Buttons = ({ characters, pattern, set_pattern, layer }) => (
   </Div>
 )
 
-const Letters = ({ wrapper, letter_size, pattern, clear }) => {
-  if (!wrapper) return null
+const Letters = ({ dimensions, letter_size, pattern, clear }) => {
+  if (!dimensions) return null
 
-  const { width, height } = wrapper.getBoundingClientRect()
+  const { width, height } = dimensions
   const letters_per_row = Math.ceil(width / letter_size)
   const letters_per_column = Math.ceil(height / letter_size)
   const letters = letters_per_row * letters_per_column
@@ -141,7 +142,7 @@ const Character =
   Component.mono.c_crosshair.flex.ai_center.jc_center.w10.h10.p()
 const Label = Component.fs12.bg_white.pv5.block.ph10.label()
 const Parameters =
-  Component.b_rad10.bg_blue1.flex.flex_column.absolute.w100p.t0.l0.ma15.div()
+  Component.max_h325.b_rad10.bg_blue1.flex.flex_column.absolute.w100p.t0.l0.ma15.div()
 const Toggle = Component.mono.c_pointer.flex.ai_center.fs11.grey5.div()
 const Collapsible = Component.ofy_scroll.h100p.flex.flex_column.jc_between.div()
 const Button =

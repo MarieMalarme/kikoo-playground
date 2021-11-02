@@ -6,7 +6,7 @@ export const Block_12 = ({ color }) => {
   const [ref, set_ref] = useState(null)
   const [wheeled, set_wheeled] = useState(0)
   const [reached, set_reached] = useState(false)
-  const [hovered, set_hovered] = useState(false)
+  const [focused, set_focused] = useState(false)
 
   const handle_wheel = (event) => {
     if (wheeled <= 0 && event.deltaY < 0) return
@@ -16,21 +16,26 @@ export const Block_12 = ({ color }) => {
     set_wheeled(wheeled + (backwards ? -1 : 1))
   }
 
+  const enable = () => {
+    set_focused(true)
+    document.body.style.overflow = 'hidden'
+  }
+
+  const disable = () => {
+    set_focused(false)
+    document.body.style.overflow = 'auto'
+  }
+
   return (
     <Wrapper
-      onMouseEnter={() => {
-        set_hovered(true)
-        document.body.style.overflow = 'hidden'
-      }}
-      onMouseLeave={() => {
-        set_hovered(false)
-        document.body.style.overflow = 'auto'
-      }}
+      onMouseOver={enable}
+      onMouseEnter={enable}
+      onMouseLeave={disable}
       onWheel={handle_wheel}
     >
       {!wheeled && (
         <Instruction>
-          <MouseWheel hovered={hovered} stroke_width={6} />
+          <MouseWheel focused={focused} stroke_width={6} />
         </Instruction>
       )}
 

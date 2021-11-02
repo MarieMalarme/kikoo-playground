@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
-export const Block_17 = ({ color, ...props }) => {
+export const Block_17 = ({ color, is_selected }) => {
   const [focused, set_focused] = useState(false)
   const [count, set_count] = useState(20)
+
+  const x = is_selected ? '50vw' : '12.5vw'
+  const y = is_selected ? '50vh' : '12.5vw'
 
   useEffect(() => {
     const update_count = (event) => {
@@ -18,10 +21,11 @@ export const Block_17 = ({ color, ...props }) => {
 
   return (
     <Wrapper
+      onMouseOver={() => set_focused(true)}
       onMouseEnter={() => set_focused(true)}
       onMouseLeave={() => set_focused(false)}
       style={{
-        background: `repeating-radial-gradient(fuchsia, yellow ${count}%) 12.5vw 12.5vw`,
+        background: `repeating-radial-gradient(circle, fuchsia, yellow ${count}%) ${x} ${y}`,
       }}
     >
       <Instruction>

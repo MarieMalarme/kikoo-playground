@@ -1,22 +1,24 @@
 import { useState } from 'react'
 import { Component } from '../utils/flags'
 
-export const Block_4 = (props) => {
+export const Block_4 = ({ is_selected }) => {
   const [current_direction, set_current_direction] = useState('top-right')
   const [paused, set_paused] = useState(true)
 
   return (
     <Wrapper
       className={!paused && `disco-${current_direction}`}
+      onMouseOver={() => set_paused(false)}
       onMouseEnter={() => set_paused(false)}
       onMouseLeave={() => set_paused(true)}
       style={{
+        '--unit': is_selected ? '50vw' : '12.5vw',
         backgroundImage: `radial-gradient(
         yellow 0%,
         white 49%,
         white 51%,
         cyan 100%)`,
-        backgroundPosition: `12.5vw 12.5vw`,
+        backgroundPosition: is_selected ? '50vw 50vw' : '12.5vw 12.5vw',
       }}
     >
       <Half>

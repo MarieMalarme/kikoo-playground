@@ -7,6 +7,7 @@ export const Block_19 = ({ color }) => {
 
   return (
     <Wrapper
+      onMouseOver={() => (document.body.style.overflow = 'hidden')}
       onMouseEnter={() => (document.body.style.overflow = 'hidden')}
       onMouseLeave={() => (document.body.style.overflow = 'auto')}
       onWheel={(event) => set_scrolled(scrolled + (event.deltaY > 0 ? 2 : -2))}
