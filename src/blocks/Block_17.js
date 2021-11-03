@@ -21,6 +21,7 @@ export const Block_17 = ({ color, is_selected }) => {
 
   return (
     <Wrapper
+      pa50={is_selected}
       onMouseOver={() => set_focused(true)}
       onMouseEnter={() => set_focused(true)}
       onMouseLeave={() => set_focused(false)}
@@ -28,18 +29,34 @@ export const Block_17 = ({ color, is_selected }) => {
         background: `repeating-radial-gradient(circle, fuchsia, yellow ${count}%) ${x} ${y}`,
       }}
     >
-      <Instruction>
-        <Arrow>▲</Arrow>
-        <div>Arrow up</div>
+      <Instruction fs40={is_selected}>
+        <Arrow
+          mb10={!is_selected}
+          mb30={is_selected}
+          fs30={is_selected}
+          ph40={is_selected}
+          pv10={is_selected}
+        >
+          ▲
+        </Arrow>
+        Arrow up
       </Instruction>
-      <Instruction>
-        <div>Arrow down</div>
-        <Arrow>▼</Arrow>
+      <Instruction fs40={is_selected}>
+        Arrow down
+        <Arrow
+          mt10={!is_selected}
+          mt30={is_selected}
+          fs30={is_selected}
+          ph40={is_selected}
+          pv10={is_selected}
+        >
+          ▼
+        </Arrow>
       </Instruction>
     </Wrapper>
   )
 }
 
-const Wrapper = Component.flex.flex_column.ai_center.jc_between.pa15.article()
+const Wrapper = Component.flex.flex_column.ai_center.jc_between.pa25.article()
 const Instruction = Component.fs15.flex.flex_column.ai_center.div()
-const Arrow = Component.fs12.b_rad4.mv10.ba.pv5.ph15.div()
+const Arrow = Component.fs12.b_rad4.ba.pv5.ph15.div()

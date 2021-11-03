@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
-export const Block_11 = ({ color }) => {
+export const Block_11 = ({ color, is_selected }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [mouse, set_mouse] = useState({ x: 0, y: 0 })
 
@@ -29,15 +29,23 @@ export const Block_11 = ({ color }) => {
 
   return (
     <Wrapper
+      pt45={is_selected}
+      pl55={is_selected}
       elemRef={set_wrapper}
       style={{
         backgroundImage: `conic-gradient(from ${angle}deg, white, rgba(0, 0, 0, 0))`,
         backgroundColor: color.value,
       }}
     >
-      <Measure>angle: {displayed_angle.toFixed()}°</Measure>
-      <Measure>x: {mouse.x}</Measure>
-      <Measure>y: {mouse.y}</Measure>
+      <Measure fs25={is_selected} lh35={is_selected}>
+        angle: {displayed_angle.toFixed()}°
+      </Measure>
+      <Measure fs25={is_selected} lh35={is_selected}>
+        x: {mouse.x}
+      </Measure>
+      <Measure fs25={is_selected} lh35={is_selected}>
+        y: {mouse.y}
+      </Measure>
     </Wrapper>
   )
 }

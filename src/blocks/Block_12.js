@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Component } from '../utils/flags'
 import { MouseWheel } from '../icons'
 
-export const Block_12 = ({ color }) => {
+export const Block_12 = ({ color, is_selected }) => {
   const [ref, set_ref] = useState(null)
   const [wheeled, set_wheeled] = useState(0)
   const [reached, set_reached] = useState(false)
@@ -34,33 +34,44 @@ export const Block_12 = ({ color }) => {
       onWheel={handle_wheel}
     >
       {!wheeled && (
-        <Instruction>
-          <MouseWheel focused={focused} stroke_width={6} />
+        <Instruction t80={is_selected} r80={is_selected}>
+          <MouseWheel
+            width={is_selected ? 45 : 30}
+            focused={focused}
+            stroke_width={5}
+          />
         </Instruction>
       )}
 
-      <Text style={{ transform: `translateY(${-wheeled}px)` }}>Linus</Text>
-      <Text style={{ transform: `translate(${wheeled}px, ${-wheeled}px)` }}>
-        Torvalds
-      </Text>
-      <Text
-        elemRef={set_ref}
-        style={{
-          color: `hsl(${color.hue + 180}, 80%, 60%)`,
-          transform: `translateX(${-wheeled * 5}px)`,
-        }}
-      >
-        Talk is cheap, show me the code.
-      </Text>
-      <Text style={{ transform: `translate(${wheeled}px, ${wheeled}px)` }}>
-        Fri, 25
-      </Text>
-      <Text style={{ transform: `translateY(${wheeled}px)` }}>Aug 2000</Text>
+      {texts.map(({ text, translate, is_quote }) => (
+        <Text
+          fs9vw={is_selected}
+          lh10vw={is_selected}
+          elemRef={is_quote ? set_ref : null}
+          style={{
+            transform: `translate${translate(wheeled)}`,
+            color: is_quote ? `hsl(${color.hue + 180}, 80%, 60%)` : 'black',
+          }}
+        >
+          {text}
+        </Text>
+      ))}
     </Wrapper>
   )
 }
 
+const texts = [
+  { text: 'Linus', translate: (value) => `Y(${-value}px)` },
+  { text: 'Torvalds', translate: (value) => `(${value}px, ${-value}px)` },
+  {
+    text: 'Talk is cheap, show me the code.',
+    translate: (value) => `X(${-value * 5}px)`,
+    is_quote: true,
+  },
+  { text: 'Fri, 25', translate: (value) => `(${value}px, ${value}px)` },
+  { text: 'Aug 2000', translate: (value) => `Y(${value}px)` },
+]
+
 const Wrapper = Component.flex.flex_wrap.flex_column.h100p.jc_center.article()
-const Instruction = Component.absolute.r20.t20.div()
-const Text =
-  Component.sans.lh35.fs4vw.black.ws_nowrap.fs60.flex.pl30.ai_center.p()
+const Instruction = Component.absolute.r30.t30.div()
+const Text = Component.sans.fs4vw.black.ws_nowrap.fs60.flex.pl30.ai_center.p()

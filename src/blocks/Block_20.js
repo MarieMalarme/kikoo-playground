@@ -20,26 +20,27 @@ export const Block_20 = ({ is_selected }) => {
       }}
       style={{ background: `hsl(230, 50%, ${luminosity}%)` }}
     >
-      <Period period="pm" time={time} set_time={set_time} />
+      <Period fs100={is_selected} period="pm" time={time} set_time={set_time} />
       <Element
+        fs30vw={is_selected}
         lh100vh={is_selected}
         style={{ fontVariationSettings: `"wght" ${weight}`, top }}
       >
         O
       </Element>
-      <Period period="am" time={time} set_time={set_time} />
+      <Period fs100={is_selected} period="am" time={time} set_time={set_time} />
     </Wrapper>
   )
 }
 
-const Period = ({ period, time, set_time }) => (
+const Period = ({ period, time, set_time, ...style }) => (
   <Div
     pt30={period === 'pm'}
     pb30={period === 'am'}
     onMouseEnter={() => set_time(period)}
     className={time !== period && 'block-20 text'}
   >
-    <Text bt0={period === 'am'}>
+    <Text bt0={period === 'am'} {...style}>
       <span>{period}</span>
     </Text>
   </Div>
