@@ -2,8 +2,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { Component } from '../utils/flags'
 import { random } from '../utils/toolbox'
 
-export const Block_6 = () => {
-  const [focused, set_focused] = useState(null)
+export const Block_6 = ({ hovered }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [hits, set_hits] = useState([])
 
@@ -11,7 +10,7 @@ export const Block_6 = () => {
     if (!wrapper) return
 
     const handle_keydown = (event) => {
-      if (!focused) return
+      if (!hovered) return
       if (event.key === 'Backspace') set_hits([])
       if (event.key !== 'b') return
       const new_hit = generate_hit(wrapper)
@@ -20,15 +19,10 @@ export const Block_6 = () => {
 
     document.addEventListener('keydown', handle_keydown)
     return () => document.removeEventListener('keydown', handle_keydown)
-  }, [wrapper, hits, focused])
+  }, [wrapper, hits, hovered])
 
   return (
-    <Wrapper
-      onMouseOver={() => set_focused(true)}
-      onMouseEnter={() => set_focused(true)}
-      onMouseLeave={() => set_focused(false)}
-      elemRef={set_wrapper}
-    >
+    <Wrapper elemRef={set_wrapper}>
       {hits.map((hit, index) => {
         const { text, font_size, top, left, rotation } = hit
         return (

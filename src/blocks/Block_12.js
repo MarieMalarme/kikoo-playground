@@ -2,11 +2,10 @@ import { useState } from 'react'
 import { Component } from '../utils/flags'
 import { MouseWheel } from '../icons'
 
-export const Block_12 = ({ color, is_selected }) => {
+export const Block_12 = ({ color, is_selected, hovered }) => {
   const [ref, set_ref] = useState(null)
   const [wheeled, set_wheeled] = useState(0)
   const [reached, set_reached] = useState(false)
-  const [focused, set_focused] = useState(false)
 
   const handle_wheel = (event) => {
     if (wheeled <= 0 && event.deltaY < 0) return
@@ -16,46 +15,40 @@ export const Block_12 = ({ color, is_selected }) => {
     set_wheeled(wheeled + (backwards ? -1 : 1))
   }
 
-  const enable = () => {
-    set_focused(true)
-    document.body.style.overflow = 'hidden'
-  }
-
-  const disable = () => {
-    set_focused(false)
-    document.body.style.overflow = 'auto'
-  }
-
   return (
     <Wrapper
-      onMouseOver={enable}
-      onMouseEnter={enable}
-      onMouseLeave={disable}
+      onMouseOver={() => (document.body.style.overflow = 'hidden')}
+      onMouseEnter={() => (document.body.style.overflow = 'hidden')}
+      onMouseLeave={() => (document.body.style.overflow = 'auto')}
       onWheel={handle_wheel}
     >
       {!wheeled && (
         <Instruction t80={is_selected} r80={is_selected}>
           <MouseWheel
             width={is_selected ? 45 : 30}
-            focused={focused}
+            hovered={hovered}
             stroke_width={5}
           />
         </Instruction>
       )}
 
-      {texts.map(({ text, translate, is_quote }) => (
-        <Text
-          fs9vw={is_selected}
-          lh10vw={is_selected}
-          elemRef={is_quote ? set_ref : null}
-          style={{
-            transform: `translate${translate(wheeled)}`,
-            color: is_quote ? `hsl(${color.hue + 180}, 80%, 60%)` : 'black',
-          }}
-        >
-          {text}
-        </Text>
-      ))}
+      {texts.map(({ text, translate, is_quote }) => {
+        const ref = is_quote && { elemRef: set_ref }
+        return (
+          <Text
+            {...ref}
+            key={text}
+            fs9vw={is_selected}
+            lh10vw={is_selected}
+            style={{
+              transform: `translate${translate(wheeled)}`,
+              color: is_quote ? `hsl(${color.hue + 180}, 80%, 60%)` : 'black',
+            }}
+          >
+            {text}
+          </Text>
+        )
+      })}
     </Wrapper>
   )
 }

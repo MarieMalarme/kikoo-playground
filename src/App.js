@@ -15,6 +15,17 @@ const App = () => {
     document.body.style.overflow = selected_block ? 'hidden' : 'auto'
   }, [selected_block])
 
+  useEffect(() => {
+    const exit_fullscreen = async (event) => {
+      if (event.key !== 'Escape' || !selected_block) return
+      await set_selected_block(null)
+      window.scrollTo(0, scroll_top)
+    }
+
+    document.addEventListener('keydown', exit_fullscreen)
+    return () => document.removeEventListener('keydown', exit_fullscreen)
+  }, [scroll_top, selected_block])
+
   return (
     <Grid
       id="grid"

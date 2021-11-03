@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
-export const Block_17 = ({ color, is_selected }) => {
-  const [focused, set_focused] = useState(false)
+export const Block_17 = ({ color, is_selected, hovered }) => {
   const [count, set_count] = useState(20)
 
   const x = is_selected ? '50vw' : '12.5vw'
@@ -10,7 +9,7 @@ export const Block_17 = ({ color, is_selected }) => {
 
   useEffect(() => {
     const update_count = (event) => {
-      if (!focused) return
+      if (!hovered) return
       event.preventDefault()
       if (event.key === 'ArrowDown') count > 1 && set_count(count - 1)
       if (event.key === 'ArrowUp') count < 99 && set_count(count + 1)
@@ -22,9 +21,6 @@ export const Block_17 = ({ color, is_selected }) => {
   return (
     <Wrapper
       pa50={is_selected}
-      onMouseOver={() => set_focused(true)}
-      onMouseEnter={() => set_focused(true)}
-      onMouseLeave={() => set_focused(false)}
       style={{
         background: `repeating-radial-gradient(circle, fuchsia, yellow ${count}%) ${x} ${y}`,
       }}

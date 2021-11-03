@@ -50,10 +50,6 @@ body {
   overflow: hidden;
 }
 
-#grid section:hover header {
-  display: inline-flex;
-}
-
 #grid section article {
   background-color: var(--color-block);
   position: relative;

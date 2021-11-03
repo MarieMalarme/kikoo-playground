@@ -2,29 +2,22 @@ import { useState, useEffect } from 'react'
 import { random } from '../utils/toolbox'
 import { Component } from '../utils/flags'
 
-export const Block_21 = ({ color, is_selected }) => {
-  const [focused, set_focused] = useState(false)
+export const Block_21 = ({ color, is_selected, hovered }) => {
   const [count, set_count] = useState(random(3, 7))
   const [wrapper, set_wrapper] = useState(null)
   const [dimensions, set_dimensions] = useState()
 
   useEffect(() => {
-    setTimeout(() => focused && set_count(count < amount ? count + 1 : 1), 200)
+    setTimeout(() => hovered && set_count(count < amount ? count + 1 : 1), 200)
   })
 
   useEffect(() => {
     if (!wrapper) return
     set_dimensions(wrapper.getBoundingClientRect())
-  }, [wrapper])
+  }, [wrapper, is_selected])
 
   return (
-    <Wrapper
-      elemRef={set_wrapper}
-      style={{ background: color.value }}
-      onMouseOver={() => set_focused(true)}
-      onMouseEnter={() => set_focused(true)}
-      onMouseLeave={() => set_focused(false)}
-    >
+    <Wrapper elemRef={set_wrapper} style={{ background: color.value }}>
       <svg
         viewBox={`0 0 ${size} ${size}`}
         xmlns="http://www.w3.org/2000/svg"
