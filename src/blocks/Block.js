@@ -91,21 +91,30 @@ const Fullscreen = ({ index, is_selected, fullscreen }) => {
 }
 
 const SourceCode = ({ index }) => {
-  const [source_code, set_source_code] = useState()
+  const [source_code, set_source_code] = useState('Loading source code...')
   const source_code_url = `${github_url}/Block_${index + 1}.js`
 
   useEffect(() => {
     const fetch_source_code = async () => {
       const response = await fetch(source_code_url)
-      const text = await response.text()
-      set_source_code(text)
+      const code = await response.text()
+      const { status } = response
+      set_source_code(status === 200 ? code : error(status))
     }
 
     fetch_source_code()
   }, [source_code_url])
 
-  return <Code>{source_code}</Code>
+  return (
+    <Code>
+      <Title>Block_{index + 1}.js</Title>
+      {source_code}
+    </Code>
+  )
 }
+
+const error = (status) =>
+  `The code could not be loaded!\nAn error ${status} was encountered.`
 
 const github_url =
   'https://raw.githubusercontent.com/MarieMalarme/kikoo-playground/master/src/blocks/'
@@ -114,4 +123,6 @@ const Section = Component.section()
 const Header = Component.flex.zi10.absolute.r10.t10.header()
 const Toggle =
   Component.ol_none.flex.ai_center.jc_center.shadow_a_s.c_pointer.bg_white.ml10.w25.h25.ba0.b_rad5.button()
-const Code = Component.mono.fs14.of_scroll.ws_pre.pv30.ph35.code()
+const Code =
+  Component.relative.mono.fs14.of_scroll.ws_pre.pt90.pb30.ph35.lh22.code()
+const Title = Component.fs14.grey4.b_grey3.pb10.absolute.bb.t30.l0.mh35.w85p.p()
