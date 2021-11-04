@@ -17,6 +17,12 @@ body {
   overflow-x: hidden;
 }
 
+code {
+  width: calc(100vw - 70vh);
+  user-select: text;
+  min-width: 500px;
+}
+
 /* ******* */
 /*  FONTS  */
 /* ******* */
