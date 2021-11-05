@@ -8,9 +8,6 @@ const App = () => {
   const [selected_block, set_selected_block] = useState(null)
   const [scroll_top, set_scroll_top] = useState(null)
 
-  const rows_amount = selected_block ? 1 : Math.ceil(blocks.length / 3)
-  const row_height = selected_block ? '100vh' : '25vw'
-
   useEffect(() => {
     document.body.style.overflow = selected_block ? 'hidden' : 'auto'
   }, [selected_block])
@@ -29,7 +26,11 @@ const App = () => {
   return (
     <Grid
       id="grid"
-      style={{ gridTemplateRows: `repeat(${rows_amount}, ${row_height})` }}
+      style={{
+        '--rows-amount-xs': selected_block ? 1 : blocks.length,
+        '--rows-amount-m': selected_block ? 1 : Math.ceil(blocks.length / 1.5),
+        '--rows-amount-l': selected_block ? 1 : Math.ceil(blocks.length / 3),
+      }}
     >
       {blocks.map((block, index) => (
         <Block

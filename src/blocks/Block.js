@@ -124,5 +124,5 @@ const Header = Component.flex.zi10.absolute.r10.t10.header()
 const Toggle =
   Component.ol_none.flex.ai_center.jc_center.shadow_a_s.c_pointer.bg_white.ml10.w25.h25.ba0.b_rad5.button()
 const Code =
-  Component.relative.mono.fs14.of_scroll.ws_pre.pt90.pb30.ph35.lh22.code()
+  Component.zi5.br.bb.bg_white.mono.fs14.of_scroll.ws_pre.pt90.pb30.ph35.lh22.code()
 const Title = Component.fs14.grey4.b_grey3.pb10.absolute.bb.t30.l0.mh35.w85p.p()
