@@ -9,6 +9,7 @@ atomizify({
     fs12vw: 'font-size: 12vw',
     fs20vw: 'font-size: 20vw',
     fs30vw: 'font-size: 30vw',
+    lh33: 'line-height: 33px',
     lh35: 'line-height: 35px',
     lh10vw: 'line-height: 10vw',
     lh22vw: 'line-height: 22vw',

@@ -62,7 +62,7 @@ export const Block = ({ block, index, ...states }) => {
 
 const DisplayCode = ({ display_code, set_display_code }) => (
   <Toggle onClick={() => set_display_code(!display_code)}>
-    <Tags width={19} stroke_width={8} />
+    <Tags width={20} stroke_width={9} stroke="black" />
   </Toggle>
 )
 
@@ -71,7 +71,7 @@ const Fullscreen = ({ index, is_selected, fullscreen }) => {
 
   return (
     <Toggle onClick={is_selected ? fullscreen.exit : fullscreen.enter}>
-      <Icon width={13} stroke_width={10} stroke="var(--grey6)" />
+      <Icon width={14} stroke_width={12} stroke="black" />
     </Toggle>
   )
 }
@@ -116,7 +116,7 @@ const github_url =
 const Section = Component.section()
 const Header = Component.flex.zi10.absolute.r10.t10.header()
 const Toggle =
-  Component.ol_none.flex.ai_center.jc_center.shadow_a_s.c_pointer.bg_white.ml10.w25.h25.ba0.b_rad5.button()
+  Component.ol_none.flex.ai_center.jc_center.c_pointer.bg_white.ml10.w30.h30.ba.bw2.button()
 const Code =
   Component.relative.zi5.br.bb.b_grey2.bg_white.mono.fs14.of_scroll.ws_pre.pt80.pb30.ph35.lh22.w100p__s.h100p__s.absolute__s.t0__s.l0__s.code()
 const Title = Component.fs14.grey4.b_grey3.pb10.absolute.t30.l0.mh35.w85p.p()

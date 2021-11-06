@@ -47,9 +47,9 @@ code {
 
 #grid {
   display: grid;
-  grid-auto-flow: row dense;
+  grid-auto-flow: dense;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(var(--rows-amount-l), 25vw);
+  grid-template-rows: repeat(var(--rows-l), 25vw);
 }
 
 #grid section {
@@ -76,14 +76,14 @@ code {
 @media (min-width: 900px) and (max-width: 1300px) {
   #grid {
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(var(--rows-amount-m), 33vw);
+    grid-template-rows: repeat(var(--rows-m), 33vw);
   }
 }
 
 @media (min-width: 600px) and (max-width: 900px) {
   #grid {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(var(--rows-amount-m), 50vw);
+    grid-template-rows: repeat(var(--rows-s), 50vw);
   }
 }
 
@@ -91,7 +91,7 @@ code {
   #grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(var(--rows-amount-xs), 100vw);
+    grid-template-rows: repeat(var(--rows-xs), 100vw);
   }
 
   #grid section {

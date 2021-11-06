@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Component } from './utils/flags'
 import { random } from './utils/toolbox'
 import { blocks_list } from './blocks/blocks'
 import { Block } from './blocks/Block'
+import { Intro } from './Intro'
 
 const App = () => {
   const [selected_block, set_selected_block] = useState(null)
@@ -24,26 +25,30 @@ const App = () => {
   }, [scroll_top, selected_block])
 
   return (
-    <Grid
-      id="grid"
-      style={{
-        '--rows-amount-xs': selected_block ? 1 : blocks.length,
-        '--rows-amount-m': selected_block ? 1 : Math.ceil(blocks.length / 1.5),
-        '--rows-amount-l': selected_block ? 1 : Math.ceil(blocks.length / 3),
-      }}
-    >
-      {blocks.map((block, index) => (
-        <Block
-          key={index}
-          block={block}
-          index={index}
-          selected_block={selected_block}
-          set_selected_block={set_selected_block}
-          scroll_top={scroll_top}
-          set_scroll_top={set_scroll_top}
-        />
-      ))}
-    </Grid>
+    <Fragment>
+      {!selected_block && <Intro />}
+      <Grid
+        id="grid"
+        style={{
+          '--rows-xs': selected_block ? 1 : blocks.length,
+          '--rows-m': selected_block ? 1 : Math.ceil(blocks.length / 2.33),
+          '--rows-s': selected_block ? 1 : Math.ceil(blocks.length / 1.5),
+          '--rows-l': selected_block ? 1 : Math.ceil(blocks.length / 3),
+        }}
+      >
+        {blocks.map((block, index) => (
+          <Block
+            key={index}
+            block={block}
+            index={index}
+            selected_block={selected_block}
+            set_selected_block={set_selected_block}
+            scroll_top={scroll_top}
+            set_scroll_top={set_scroll_top}
+          />
+        ))}
+      </Grid>
+    </Fragment>
   )
 }
 
