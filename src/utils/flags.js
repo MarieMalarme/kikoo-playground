@@ -21,6 +21,13 @@ atomizify({
     w15vmin: 'width: 15vmin',
     h15vmin: 'height: 15vmin',
   },
+
+  media_queries: {
+    __s: {
+      query: 'max-width: 900px',
+      description: 'small screens',
+    },
+  },
 })
 
 export const { Component, Div } = flagify()

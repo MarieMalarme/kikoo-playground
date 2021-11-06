@@ -23,6 +23,7 @@ export const Block = ({ block, index, ...states }) => {
       await set_selected_block(null)
       set_hovered(false)
       window.scrollTo(0, scroll_top)
+      set_display_code(false)
     },
   }
 
@@ -45,8 +46,6 @@ export const Block = ({ block, index, ...states }) => {
           <DisplayCode
             display_code={display_code}
             set_display_code={set_display_code}
-            is_selected={is_selected}
-            fullscreen={fullscreen}
           />
           <Fullscreen
             index={index}
@@ -56,29 +55,16 @@ export const Block = ({ block, index, ...states }) => {
         </Header>
       )}
 
-      {display_code && is_selected && <SourceCode index={index} />}
+      {display_code && <SourceCode index={index} is_selected={is_selected} />}
     </Section>
   )
 }
 
-const DisplayCode = (props) => {
-  const { display_code, set_display_code, is_selected, fullscreen } = props
-
-  const toggle_display_code = () => {
-    if (!is_selected) {
-      set_display_code(true)
-      fullscreen.enter()
-    } else {
-      set_display_code(!display_code)
-    }
-  }
-
-  return (
-    <Toggle onClick={toggle_display_code}>
-      <Tags width={19} stroke_width={8} />
-    </Toggle>
-  )
-}
+const DisplayCode = ({ display_code, set_display_code }) => (
+  <Toggle onClick={() => set_display_code(!display_code)}>
+    <Tags width={19} stroke_width={8} />
+  </Toggle>
+)
 
 const Fullscreen = ({ index, is_selected, fullscreen }) => {
   const Icon = is_selected ? Downsize : Upsize
@@ -90,7 +76,7 @@ const Fullscreen = ({ index, is_selected, fullscreen }) => {
   )
 }
 
-const SourceCode = ({ index }) => {
+const SourceCode = ({ index, is_selected }) => {
   const [source_code, set_source_code] = useState('Loading source code...')
   const source_code_url = `${github_url}/Block_${index + 1}.js`
 
@@ -106,8 +92,16 @@ const SourceCode = ({ index }) => {
   }, [source_code_url])
 
   return (
-    <Code>
-      <Title>Block_{index + 1}.js</Title>
+    <Code
+      t0={!is_selected}
+      l0={!is_selected}
+      w100p={!is_selected}
+      h100p={!is_selected}
+      min_w500={is_selected}
+      absolute={!is_selected}
+      min_w100vw__s={is_selected}
+    >
+      <Title>>>> Block_{index + 1}.js</Title>
       {source_code}
     </Code>
   )
@@ -124,5 +118,5 @@ const Header = Component.flex.zi10.absolute.r10.t10.header()
 const Toggle =
   Component.ol_none.flex.ai_center.jc_center.shadow_a_s.c_pointer.bg_white.ml10.w25.h25.ba0.b_rad5.button()
 const Code =
-  Component.zi5.br.bb.bg_white.mono.fs14.of_scroll.ws_pre.pt90.pb30.ph35.lh22.code()
-const Title = Component.fs14.grey4.b_grey3.pb10.absolute.bb.t30.l0.mh35.w85p.p()
+  Component.relative.zi5.br.bb.b_grey2.bg_white.mono.fs14.of_scroll.ws_pre.pt80.pb30.ph35.lh22.w100p__s.h100p__s.absolute__s.t0__s.l0__s.code()
+const Title = Component.fs14.grey4.b_grey3.pb10.absolute.t30.l0.mh35.w85p.p()
