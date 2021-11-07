@@ -3,27 +3,27 @@ import { Component } from '../utils/flags'
 
 export const Block_2 = ({ color }) => {
   const [mouse, set_mouse] = useState({ x: 100, y: 250 })
-  const [ref, set_ref] = useState(null)
+  const [wrapper, set_wrapper] = useState(null)
 
-  useEffect(() => {
-    if (!ref) return
-    const update_mouse = (e) => set_mouse({ x: e.clientX, y: e.clientY })
-    ref.addEventListener('mousemove', update_mouse)
-    return () => ref.removeEventListener('mousemove', update_mouse)
-  }, [ref])
+  const update_mouse = (event) =>
+    set_mouse({
+      x: event.clientX - wrapper.offsetParent.offsetLeft,
+      y: event.clientY - wrapper.offsetParent.offsetTop - window.pageYOffset,
+    })
 
   return (
-    <Wrapper elemRef={set_ref}>
+    <Wrapper onMouseMove={update_mouse} elemRef={set_wrapper}>
       {circles.map((index) => {
-        const x = mouse.x / 3.5
-        const y = mouse.y / 2 + 10
+        const x = mouse.x / 3.5 + 30
+        const y = mouse.y / 2 + 130
+
         return (
           <Circle
             key={index}
             style={{
               transform: `rotate(${index * 45}deg)`,
-              width: index % 2 ? x : y,
               height: index % 2 ? y : x,
+              width: index % 2 ? x : y,
               background: color.value,
             }}
           />

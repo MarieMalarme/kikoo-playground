@@ -51,9 +51,9 @@ export const Block_16 = () => {
 
   const update_mouse = (event) => {
     event = event.type === 'touchmove' ? event.touches[0] : event
-    const { clientX: client_x, clientY } = event
-    const scrolled_y = wrapper.offsetParent.offsetTop - window.pageYOffset
-    const client_y = clientY - scrolled_y
+    const { offsetTop, offsetLeft } = wrapper.offsetParent
+    const client_x = event.clientX - offsetLeft
+    const client_y = event.clientY - (offsetTop - window.pageYOffset)
 
     const allowed_x = client_x > limit && width - client_x > limit
     const allowed_y = client_y > limit && height - client_y > limit
