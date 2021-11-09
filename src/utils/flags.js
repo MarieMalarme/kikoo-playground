@@ -21,6 +21,7 @@ atomizify({
     fit_cover: 'object-fit: cover',
     w15vmin: 'width: 15vmin',
     h15vmin: 'height: 15vmin',
+    b_rad50: 'border-radius: 50px',
   },
 
   media_queries: {
