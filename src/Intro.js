@@ -145,7 +145,7 @@ const instructions = [
 ]
 
 const Presentation =
-  Component.bw2.b_grey8.bb.lh33.w100vw.ph50.pv45.sans.fs30.div()
+  Component.bw2.b_grey8.bb.lh33.w100vw.pl50.pr100.pv45.sans.fs30.div()
 const Line = Component.p()
 const Menu =
   Component.absolute.zi20.mono.fs24.c_pointer.r40.t40.w35.h35.ba.b_rad50p.bw2.flex.ai_center.jc_center.div()

@@ -13,7 +13,7 @@ export const Block_19 = ({ color }) => {
       onWheel={(event) => set_scrolled(scrolled + (event.deltaY > 0 ? 2 : -2))}
     >
       <Carousel text={text} set_text={set_text} scrolled={scrolled} />
-      <Text>{text}</Text>
+      <Text style={{ color: color.value }}>{text}</Text>
     </Wrapper>
   )
 }
@@ -77,7 +77,7 @@ const slide_height = 500 / Math.log(window.innerWidth)
 const angle_offset = 160 / slides.length
 
 const Wrapper = Component.flex.ai_center.jc_center.article()
-const History = Component.w80p.h100p.absolute.div()
+const History = Component.zi1.w80p.h100p.absolute.div()
 const Slides = Component.w100p.flex.ai_center.jc_center.h100p.absolute.div()
 const Word = Component.fs12.flex.ai_center.jc_center.pa15.div()
-const Text = Component.uppercase.fs12vw.p()
+const Text = Component.uppercase.f_invert100.fs12vw.p()

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_2 = ({ color }) => {
