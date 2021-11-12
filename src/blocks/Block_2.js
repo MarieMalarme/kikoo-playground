@@ -7,15 +7,15 @@ export const Block_2 = ({ color }) => {
 
   const update_mouse = (event) =>
     set_mouse({
-      x: event.clientX - wrapper.offsetParent.offsetLeft,
-      y: event.clientY - wrapper.offsetParent.offsetTop - window.pageYOffset,
+      x: event.pageX - wrapper.offsetParent.offsetLeft,
+      y: event.pageY,
     })
 
   return (
     <Wrapper onMouseMove={update_mouse} elemRef={set_wrapper}>
       {circles.map((index) => {
         const x = mouse.x / 3.5 + 30
-        const y = mouse.y / 2 + 130
+        const y = mouse.y / 3.5 + 100
 
         return (
           <Circle
