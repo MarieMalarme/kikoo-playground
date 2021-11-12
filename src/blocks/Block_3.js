@@ -1,19 +1,28 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_3 = (props) => {
+  const [wrapper, set_wrapper] = useState(null)
+  const [tile_size, set_tile_size] = useState(null)
   const [tiles, set_tiles] = useState(5)
+
+  useEffect(() => {
+    if (!wrapper) return
+    const { width } = wrapper.getBoundingClientRect()
+    set_tile_size(Math.ceil(width / tiles))
+  }, [wrapper, tiles])
 
   return (
     <Wrapper
+      elemRef={set_wrapper}
       style={{
+        backgroundSize: `${tile_size}px ${tile_size}px`,
         backgroundImage: `linear-gradient(
         45deg,
         hotpink 0%,
         hotpink 50%,
         lime 50%,
         lime 100%)`,
-        backgroundSize: `calc(25vw / ${tiles}) calc(25vw / ${tiles})`,
       }}
     >
       <Button onClick={() => tiles > 1 && set_tiles(tiles - 1)}>
