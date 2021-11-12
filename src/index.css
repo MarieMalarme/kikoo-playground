@@ -171,6 +171,24 @@ input[type='range']::-webkit-slider-thumb {
   background: var(--blue1);
 }
 
+@media (min-width: 900px) and (max-width: 1300px) {
+  .block-12.text {
+    font-size: 5.5vw;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 900px) {
+  .block-12.text {
+    font-size: 8vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .block-12.text {
+    font-size: 14vw;
+  }
+}
+
 .block-20.text span {
   opacity: 0.3;
 }

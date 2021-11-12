@@ -40,6 +40,7 @@ export const Block_12 = ({ color, is_selected, hovered }) => {
             key={text}
             fs9vw={is_selected}
             lh10vw={is_selected}
+            className="block-12 text"
             style={{
               transform: `translate${translate(wheeled)}`,
               color: is_quote ? `hsl(${color.hue + 180}, 80%, 60%)` : 'black',
