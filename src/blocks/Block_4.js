@@ -1,24 +1,33 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_4 = ({ is_selected }) => {
   const [current_direction, set_current_direction] = useState('top-right')
   const [paused, set_paused] = useState(true)
+  const [wrapper, set_wrapper] = useState(null)
+  const [background_size, set_background_size] = useState(null)
+
+  useEffect(() => {
+    if (!wrapper) return
+    const { width } = wrapper.getBoundingClientRect()
+    set_background_size(`${Math.ceil((100 * width) / 2 / window.innerWidth)}vw`)
+  }, [wrapper, current_direction])
 
   return (
     <Wrapper
+      elemRef={set_wrapper}
       className={!paused && `disco-${current_direction}`}
       onMouseOver={() => set_paused(false)}
       onMouseEnter={() => set_paused(false)}
       onMouseLeave={() => set_paused(true)}
       style={{
-        '--unit': is_selected ? '50vw' : '12.5vw',
+        '--unit': background_size,
         backgroundImage: `radial-gradient(
         yellow 0%,
         white 49%,
         white 51%,
         cyan 100%)`,
-        backgroundPosition: is_selected ? '50vw 50vw' : '12.5vw 12.5vw',
+        backgroundPosition: `${background_size} ${background_size}`,
       }}
     >
       <Half>
