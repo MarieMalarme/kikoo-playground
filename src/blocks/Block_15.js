@@ -104,5 +104,5 @@ const generate_bezier_curve = ({ x, y }) => {
 
 const Wrapper = Component.flex.ai_center.jc_center.article()
 const Instruction =
-  Component.zi1.o75.fs15.flex.ai_center.jc_center.pa10.events_none.w15vmin.h15vmin.b_rad50p.bg_grey1.text_center.absolute.span()
+  Component.zi1.o75.fs15.flex.ai_center.jc_center.pa10.events_none.w120.h120.b_rad50p.bg_grey1.text_center.absolute.span()
 const Canvas = Component.f_invert100.canvas()
