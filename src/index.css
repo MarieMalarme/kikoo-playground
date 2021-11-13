@@ -147,6 +147,43 @@ input[type='range']::-webkit-slider-thumb {
   width: 3.25vw;
 }
 
+@media (max-width: 600px) {
+  .color-ranges input[type='range'] {
+    padding: 0 1.5vw;
+    height: 16vw;
+  }
+
+  .color-ranges input[type='range']::-webkit-slider-thumb {
+    height: 13vw;
+    width: 13vw;
+    border-radius: 50px;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 900px) {
+  .color-ranges input[type='range'] {
+    padding: 0 0.75vw;
+    height: 8vw;
+  }
+
+  .color-ranges input[type='range']::-webkit-slider-thumb {
+    height: 6.5vw;
+    width: 6.5vw;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1300px) {
+  .color-ranges input[type='range'] {
+    padding: 0 0.5vw;
+    height: 5vw;
+  }
+
+  .color-ranges input[type='range']::-webkit-slider-thumb {
+    height: 4vw;
+    width: 4vw;
+  }
+}
+
 #block-14 input[type='range'] {
   width: 50px;
   height: 10px;
