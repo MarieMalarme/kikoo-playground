@@ -3,7 +3,7 @@ import { Component } from '../utils/flags'
 
 export const Block_19 = ({ color }) => {
   const [wheelable, set_wheelable] = useState(true)
-  const [wheeled, set_wheeled] = useState(-20)
+  const [wheeled, set_wheeled] = useState(0)
   const [text, set_text] = useState('scroll')
 
   useEffect(() => {
