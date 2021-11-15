@@ -1,20 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 import { MouseWheel } from '../icons'
 
 export const Block_7 = ({ color, is_selected, hovered }) => {
   const [current_circles, set_current_circles] = useState(1)
   const [wheeled, set_wheeled] = useState(base_radius)
+  const [wheelable, set_wheelable] = useState(true)
+
+  useEffect(() => {
+    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
+  }, [wheelable])
 
   return (
     <Wrapper
-      onMouseOver={() => (document.body.style.overflow = 'hidden')}
-      onMouseEnter={() => (document.body.style.overflow = 'hidden')}
-      onMouseLeave={() => (document.body.style.overflow = 'auto')}
+      onMouseOver={() => set_wheelable(wheeled > base_radius)}
+      onMouseEnter={() => set_wheelable(wheeled > base_radius)}
+      onMouseLeave={() => set_wheelable(false)}
       onWheel={(event) => {
-        const wheeling_up = event.deltaY < 0
-        if (wheeling_up && wheeled <= base_radius) return
-        set_wheeled(wheeling_up ? wheeled - 1 : wheeled + 1)
+        const wheeling = { down: event.deltaY > 0, up: event.deltaY < 0 }
+        const reached = { top: wheeled <= base_radius, bottom: wheeled > 175 }
+
+        const can_wheel =
+          (wheeling.down && !reached.bottom) || (wheeling.up && !reached.top)
+        set_wheelable(can_wheel)
+
+        if (!can_wheel) return
+        set_wheeled(wheeling.up ? wheeled - 1 : wheeled + 1)
         const circles = Number(Math.floor(wheeled / base_radius).toFixed())
         if (circles !== current_circles) set_current_circles(circles)
       }}

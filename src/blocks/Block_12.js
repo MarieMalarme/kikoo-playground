@@ -1,25 +1,35 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 import { MouseWheel } from '../icons'
 
 export const Block_12 = ({ color, is_selected, hovered }) => {
   const [ref, set_ref] = useState(null)
   const [wheeled, set_wheeled] = useState(0)
-  const [reached, set_reached] = useState(false)
+  const [wheelable, set_wheelable] = useState(true)
 
   const handle_wheel = (event) => {
-    if (wheeled <= 0 && event.deltaY < 0) return
-    wheeled > ref.getBoundingClientRect().width / 8 && set_reached(true)
-    wheeled <= 0 && set_reached(false)
-    const backwards = event.deltaY < 0 || reached
-    set_wheeled(wheeled + (backwards ? -1 : 1))
+    const { width } = ref.getBoundingClientRect()
+
+    const wheeling = { down: event.deltaY > 0, up: event.deltaY < 0 }
+    const reached = { top: !wheeled, bottom: wheeled > width / 8 }
+
+    const can_wheel =
+      (wheeling.down && !reached.bottom) || (wheeling.up && !reached.top)
+    set_wheelable(can_wheel)
+
+    if (!can_wheel) return
+    set_wheeled(wheeled + (wheeling.up ? -1 : 1))
   }
+
+  useEffect(() => {
+    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
+  }, [wheelable])
 
   return (
     <Wrapper
-      onMouseOver={() => (document.body.style.overflow = 'hidden')}
-      onMouseEnter={() => (document.body.style.overflow = 'hidden')}
-      onMouseLeave={() => (document.body.style.overflow = 'auto')}
+      onMouseOver={() => set_wheelable(wheeled > 0)}
+      onMouseEnter={() => set_wheelable(wheeled > 0)}
+      onMouseLeave={() => set_wheelable(false)}
       onWheel={handle_wheel}
     >
       {!wheeled && (

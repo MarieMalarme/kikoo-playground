@@ -2,24 +2,39 @@ import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_19 = ({ color }) => {
-  const [scrolled, set_scrolled] = useState(-20)
+  const [wheelable, set_wheelable] = useState(true)
+  const [wheeled, set_wheeled] = useState(-20)
   const [text, set_text] = useState('scroll')
+
+  useEffect(() => {
+    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
+  }, [wheelable])
 
   return (
     <Wrapper
-      onMouseOver={() => (document.body.style.overflow = 'hidden')}
-      onMouseEnter={() => (document.body.style.overflow = 'hidden')}
-      onMouseLeave={() => (document.body.style.overflow = 'auto')}
-      onWheel={(event) => set_scrolled(scrolled + (event.deltaY > 0 ? 2 : -2))}
+      onMouseOver={() => set_wheelable(wheeled > 0)}
+      onMouseEnter={() => set_wheelable(wheeled > 0)}
+      onMouseLeave={() => set_wheelable(false)}
+      onWheel={(event) => {
+        const wheeling = { down: event.deltaY > 0, up: event.deltaY < 0 }
+        const reached = { top: !wheeled, bottom: wheeled > 360 }
+
+        const can_wheel =
+          (wheeling.down && !reached.bottom) || (wheeling.up && !reached.top)
+        set_wheelable(can_wheel)
+
+        if (!can_wheel) return
+        set_wheeled(wheeled + (event.deltaY > 0 ? 2 : -2))
+      }}
     >
-      <Carousel text={text} set_text={set_text} scrolled={scrolled} />
+      <Carousel text={text} set_text={set_text} wheeled={wheeled} />
       <Text style={{ color: color.value }}>{text}</Text>
     </Wrapper>
   )
 }
 
-const Carousel = ({ scrolled, text, set_text }) => {
-  const rotation = -scrolled
+const Carousel = ({ wheeled, text, set_text }) => {
+  const rotation = -wheeled
   const transform = `rotateX(${rotation}deg)`
 
   return (
