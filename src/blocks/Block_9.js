@@ -1,10 +1,38 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 import { random } from '../utils/toolbox'
 import galaxy from '../images/galaxy.jpeg'
 
+const grid = {
+  xs: { columns: 4, rows: 8 },
+  l: { columns: 5, rows: 6 },
+}
+
 export const Block_9 = () => {
+  const media_query_xs = window.matchMedia('(max-width: 600px)')
+
+  const [modes, set_modes] = useState([])
   const [selected_mode, set_selected_mode] = useState('normal')
+  const [{ columns, rows }, set_grid] = useState({
+    columns: media_query_xs.matches ? grid.xs.columns : grid.l.columns,
+    rows: media_query_xs.matches ? grid.xs.rows : grid.l.rows,
+  })
+
+  useEffect(() => {
+    media_query_xs.addEventListener('change', ({ matches }) => {
+      const grid_size = grid[matches ? 'xs' : 'l']
+      set_grid({ columns: grid_size.columns, rows: grid_size.rows })
+    })
+  }, [media_query_xs])
+
+  useEffect(() => {
+    const cells = {}
+    const modes = blend_modes.map((mode) => {
+      const cell = generate_cell(cells, columns, rows)
+      return [mode, cell]
+    })
+    set_modes(modes)
+  }, [columns, rows])
 
   return (
     <Wrapper className="blend-mode-grid">
@@ -12,9 +40,11 @@ export const Block_9 = () => {
         style={{
           mixBlendMode: selected_mode,
           background: ` center / cover url(${galaxy})`,
+          gridTemplateColumns: `repeat(${columns}, 1fr)`,
+          gridTemplateRows: `repeat(${rows}, 1fr)`,
         }}
       />
-      {blend_modes.map(([mode, cell]) => (
+      {modes.map(([mode, cell]) => (
         <Mode
           key={mode}
           style={{ gridArea: cell }}
@@ -31,14 +61,12 @@ export const Block_9 = () => {
   )
 }
 
-const cells = {}
-
-const generate_cell = () => {
+const generate_cell = (cells, columns = 5, rows = 5) => {
   let cell
 
   do {
-    const cell_column = random(1, 6)
-    const cell_row = random(1, 8)
+    const cell_column = random(1, columns)
+    const cell_row = random(1, rows)
     cell = `${cell_row} / ${cell_column}`
   } while (cells[cell])
 
@@ -63,7 +91,7 @@ const blend_modes = [
   'saturation',
   'color',
   'luminosity',
-].map((mode) => [mode, generate_cell()])
+]
 
 const Wrapper = Component.pa10.article()
 const Image = Component.absolute.w100p.h100p.div()
