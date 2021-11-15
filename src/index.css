@@ -22,6 +22,22 @@ code {
   user-select: text;
 }
 
+@media (min-width: 600px) {
+  section header {
+    display: none;
+  }
+
+  section:hover header {
+    display: flex;
+  }
+}
+
+@media (max-width: 600px) {
+  section header {
+    display: flex;
+  }
+}
+
 /* ******* */
 /*  FONTS  */
 /* ******* */

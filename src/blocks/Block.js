@@ -41,19 +41,17 @@ export const Block = ({ block, index, ...states }) => {
     >
       <Component color={color} is_selected={is_selected} hovered={hovered} />
 
-      {hovered && (
-        <Header>
-          <DisplayCode
-            display_code={display_code}
-            set_display_code={set_display_code}
-          />
-          <Fullscreen
-            index={index}
-            is_selected={is_selected}
-            fullscreen={fullscreen}
-          />
-        </Header>
-      )}
+      <Header>
+        <DisplayCode
+          display_code={display_code}
+          set_display_code={set_display_code}
+        />
+        <Fullscreen
+          index={index}
+          is_selected={is_selected}
+          fullscreen={fullscreen}
+        />
+      </Header>
 
       {display_code && <SourceCode index={index} is_selected={is_selected} />}
     </Section>
@@ -114,7 +112,7 @@ const github_url =
   'https://raw.githubusercontent.com/MarieMalarme/kikoo-playground/master/src/blocks/'
 
 const Section = Component.section()
-const Header = Component.flex.zi10.absolute.r10.t10.header()
+const Header = Component.zi10.absolute.r10.t10.header()
 const Toggle =
   Component.ol_none.flex.ai_center.jc_center.c_pointer.bg_white.ml10.w30.h30.ba.bw2.button()
 const Code =
