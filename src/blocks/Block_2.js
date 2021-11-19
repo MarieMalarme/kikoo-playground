@@ -1,18 +1,31 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_2 = ({ color }) => {
+  const [touched, set_touched] = useState()
   const [mouse, set_mouse] = useState({ x: 100, y: 250 })
   const [wrapper, set_wrapper] = useState(null)
 
-  const update_mouse = (event) =>
+  const update_mouse = (event) => {
+    event = event.type === 'touchmove' ? event.changedTouches[0] : event
     set_mouse({
       x: event.pageX - wrapper.offsetParent.offsetLeft,
       y: event.pageY,
     })
+  }
+
+  useEffect(() => {
+    document.body.style.overflow = touched ? 'hidden' : 'auto'
+  }, [touched])
 
   return (
-    <Wrapper onMouseMove={update_mouse} elemRef={set_wrapper}>
+    <Wrapper
+      onTouchStart={() => set_touched(true)}
+      onTouchEnd={() => set_touched()}
+      onTouchMove={update_mouse}
+      onMouseMove={update_mouse}
+      elemRef={set_wrapper}
+    >
       {circles.map((index) => {
         const x = mouse.x / 3.5 + 30
         const y = mouse.y / 3.5 + 100
