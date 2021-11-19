@@ -25,9 +25,18 @@ atomizify({
   },
 
   media_queries: {
+    // to review
+    __xs: {
+      query: 'max-width: 600px',
+      description: 'small screens',
+    },
     __s: {
       query: 'max-width: 900px',
-      description: 'small screens',
+      description: 'extra small screens',
+    },
+    __d: {
+      query: 'min-width: 600px',
+      description: 'desktop screens',
     },
   },
 })

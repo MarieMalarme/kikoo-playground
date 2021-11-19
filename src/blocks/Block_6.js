@@ -22,7 +22,13 @@ export const Block_6 = ({ hovered }) => {
   }, [wrapper, hits, hovered])
 
   return (
-    <Wrapper elemRef={set_wrapper}>
+    <Wrapper
+      onTouchStart={() => {
+        const new_hit = generate_hit(wrapper)
+        set_hits([...hits, new_hit])
+      }}
+      elemRef={set_wrapper}
+    >
       {hits.map((hit, index) => {
         const { text, font_size, top, left, rotation } = hit
         return (
@@ -41,8 +47,11 @@ export const Block_6 = ({ hovered }) => {
       })}
       {!hits.length && (
         <Fragment>
-          <Instruction>Press B for long to write</Instruction>
-          <Instruction>Hit Backspace to delete</Instruction>
+          <Instruction hidden__xs>Press B for long to write</Instruction>
+          <Instruction hidden__d block__xs>
+            Tap to write
+          </Instruction>
+          <Instruction hidden__xs>Hit Backspace to delete</Instruction>
         </Fragment>
       )}
     </Wrapper>
