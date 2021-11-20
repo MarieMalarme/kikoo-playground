@@ -3,14 +3,13 @@ import { Component } from '../utils/flags'
 import { MouseWheel } from '../icons'
 
 export const Block_12 = ({ color, is_selected, hovered }) => {
+  const [touched, set_touched] = useState()
   const [ref, set_ref] = useState(null)
   const [wheeled, set_wheeled] = useState(0)
   const [wheelable, set_wheelable] = useState(true)
 
-  const handle_wheel = (event) => {
+  const handle_wheel = (wheeling) => {
     const { width } = ref.getBoundingClientRect()
-
-    const wheeling = { down: event.deltaY > 0, up: event.deltaY < 0 }
     const reached = { top: !wheeled, bottom: wheeled > width / 8 }
 
     const can_wheel =
@@ -30,7 +29,23 @@ export const Block_12 = ({ color, is_selected, hovered }) => {
       onMouseOver={() => set_wheelable(wheeled > 0)}
       onMouseEnter={() => set_wheelable(wheeled > 0)}
       onMouseLeave={() => set_wheelable(false)}
-      onWheel={handle_wheel}
+      onWheel={(event) => {
+        const wheeling = { down: event.deltaY > 0, up: event.deltaY < 0 }
+        handle_wheel(wheeling)
+      }}
+      onTouchStart={(event) => {
+        set_wheelable(wheeled > 0)
+        set_touched(event.touches[0].pageY)
+      }}
+      onTouchEnd={() => {
+        set_wheelable(false)
+        set_touched(false)
+      }}
+      onTouchMove={(event) => {
+        const { pageY } = event.touches[0]
+        const wheeling = { down: touched > pageY, up: touched < pageY }
+        handle_wheel(wheeling)
+      }}
     >
       {!wheeled && (
         <Instruction t80={is_selected} r80={is_selected}>
