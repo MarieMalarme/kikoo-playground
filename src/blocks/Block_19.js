@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_19 = ({ color }) => {
+  const [touched, set_touched] = useState()
   const [wheelable, set_wheelable] = useState(true)
   const [wheeled, set_wheeled] = useState(0)
   const [text, set_text] = useState('scroll')
@@ -10,11 +11,39 @@ export const Block_19 = ({ color }) => {
     document.body.style.overflow = wheelable ? 'hidden' : 'auto'
   }, [wheelable])
 
+  const handle_wheel = (event, wheeling) => {
+    const reached = { top: !wheeled, bottom: wheeled > 360 }
+
+    const can_wheel =
+      (wheeling.down && !reached.bottom) || (wheeling.up && !reached.top)
+    set_wheelable(can_wheel)
+
+    if (!can_wheel) return
+    set_wheeled(wheeled + (wheeling.down > 0 ? 2 : -2))
+  }
+
   return (
     <Wrapper
+      onTouchStart={(event) => {
+        set_wheelable(wheeled >= 0)
+        set_touched(Math.round(event.touches[0].pageY))
+      }}
+      onTouchEnd={() => {
+        set_wheelable(false)
+        set_touched(false)
+      }}
+      onTouchMove={(event) => {
+        const { pageY } = event.touches[0]
+        const wheeling = { down: touched > pageY, up: touched < pageY }
+        handle_wheel(event, wheeling)
+      }}
       onMouseOver={() => set_wheelable(wheeled > 0)}
       onMouseEnter={() => set_wheelable(wheeled > 0)}
       onMouseLeave={() => set_wheelable(false)}
+      onWheel={(event) => {
+        const wheeling = { down: event.deltaY > 0, up: event.deltaY < 0 }
+        handle_wheel(event, wheeling)
+      }}
       onWheel={(event) => {
         const wheeling = { down: event.deltaY > 0, up: event.deltaY < 0 }
         const reached = { top: !wheeled, bottom: wheeled > 360 }
@@ -95,4 +124,4 @@ const Wrapper = Component.flex.ai_center.jc_center.article()
 const History = Component.zi1.w80p.h100p.absolute.div()
 const Slides = Component.w100p.flex.ai_center.jc_center.h100p.absolute.div()
 const Word = Component.fs12.flex.ai_center.jc_center.pa15.div()
-const Text = Component.uppercase.f_invert100.fs12vw.p()
+const Text = Component.uppercase.f_invert100.fs12vw.fs80__xs.p()
