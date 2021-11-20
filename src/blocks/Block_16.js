@@ -26,6 +26,7 @@ const limit = 50
 
 export const Block_16 = () => {
   const [selected_cat_index, set_selected_cat_index] = useState(0)
+  const [touched, set_touched] = useState()
   const [mouse, set_mouse] = useState({ x: 0, y: 0 })
   const [wrapper, set_wrapper] = useState(null)
   const [{ width, height }, set_dimensions] = useState({ width: 0, height: 0 })
@@ -49,6 +50,10 @@ export const Block_16 = () => {
     return () => resizeObserver.disconnect()
   }, [wrapper, height, width])
 
+  useEffect(() => {
+    document.body.style.overflow = touched ? 'hidden' : 'auto'
+  }, [touched])
+
   const update_mouse = (event) => {
     event = event.type === 'touchmove' ? event.touches[0] : event
     const { offsetTop, offsetLeft } = wrapper.offsetParent
@@ -67,6 +72,8 @@ export const Block_16 = () => {
     <Wrapper
       elemRef={set_wrapper}
       onMouseMove={update_mouse}
+      onTouchStart={() => set_touched(true)}
+      onTouchEnd={() => set_touched()}
       onTouchMove={update_mouse}
     >
       {wrapper &&
