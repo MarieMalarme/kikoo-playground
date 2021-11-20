@@ -2,27 +2,26 @@ import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_11 = ({ color, is_selected }) => {
+  const [touched, set_touched] = useState()
   const [wrapper, set_wrapper] = useState(null)
   const [mouse, set_mouse] = useState({ x: 0, y: 0 })
 
+  const update_mouse = (event) => {
+    event = event.type === 'touchmove' ? event.changedTouches[0] : event
+    const { width, height } = wrapper.getBoundingClientRect()
+    // translate the mouse position in the page to the coordinate system of the block
+    const translator_x = width / 2 + wrapper.offsetParent.offsetLeft
+    const translator_y = height / 2 + wrapper.offsetParent.offsetTop
+
+    set_mouse({
+      x: event.pageX - translator_x,
+      y: -(event.pageY - translator_y),
+    })
+  }
+
   useEffect(() => {
-    if (!wrapper) return
-
-    const update_mouse = (event) => {
-      const { width, height } = wrapper.getBoundingClientRect()
-      // translate the mouse position in the page to the coordinate system of the block
-      const translator_x = width / 2 + wrapper.offsetParent.offsetLeft
-      const translator_y = height / 2 + wrapper.offsetParent.offsetTop
-
-      set_mouse({
-        x: event.pageX - translator_x,
-        y: -(event.pageY - translator_y),
-      })
-    }
-
-    wrapper.addEventListener('mousemove', update_mouse)
-    return () => wrapper.removeEventListener('mousemove', update_mouse)
-  }, [wrapper])
+    document.body.style.overflow = touched ? 'hidden' : 'auto'
+  }, [touched])
 
   const angle = (Math.atan2(mouse.x, mouse.y) * 180) / Math.PI
   const displayed_angle = angle > 0 ? angle : 360 + angle
@@ -32,6 +31,10 @@ export const Block_11 = ({ color, is_selected }) => {
       pt45={is_selected}
       pl55={is_selected}
       elemRef={set_wrapper}
+      onTouchStart={() => set_touched(true)}
+      onTouchEnd={() => set_touched()}
+      onTouchMove={update_mouse}
+      onMouseMove={update_mouse}
       style={{
         backgroundImage: `conic-gradient(from ${angle}deg, white, rgba(0, 0, 0, 0))`,
         backgroundColor: color.value,
