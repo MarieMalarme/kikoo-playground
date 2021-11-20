@@ -44,17 +44,6 @@ export const Block_19 = ({ color }) => {
         const wheeling = { down: event.deltaY > 0, up: event.deltaY < 0 }
         handle_wheel(event, wheeling)
       }}
-      onWheel={(event) => {
-        const wheeling = { down: event.deltaY > 0, up: event.deltaY < 0 }
-        const reached = { top: !wheeled, bottom: wheeled > 360 }
-
-        const can_wheel =
-          (wheeling.down && !reached.bottom) || (wheeling.up && !reached.top)
-        set_wheelable(can_wheel)
-
-        if (!can_wheel) return
-        set_wheeled(wheeled + (event.deltaY > 0 ? 2 : -2))
-      }}
     >
       <Carousel text={text} set_text={set_text} wheeled={wheeled} />
       <Text style={{ color: color.value }}>{text}</Text>
