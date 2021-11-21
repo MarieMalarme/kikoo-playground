@@ -151,6 +151,6 @@ const KillersPerYearLine = (props) => {
 const current_year = new Date().getFullYear()
 
 const Wrapper = Component.c_crosshair.article()
-const Svg = Component.mh50.mt75.of_visible.svg()
+const Svg = Component.mh50.mh25__xs.mt75.of_visible.svg()
 const Year = Component.f_invert100.text()
-const Title = Component.fs2vw.b50.l50.absolute.p()
+const Title = Component.fs2vw.fs22__xs.b50.b30__xs.l50.l30__xs.absolute.p()
