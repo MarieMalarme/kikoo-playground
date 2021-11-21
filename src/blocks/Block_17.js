@@ -2,30 +2,32 @@ import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_17 = ({ color, is_selected, hovered }) => {
+  const [ref, set_ref] = useState(null)
   const [count, set_count] = useState(20)
 
-  const x = is_selected ? '50vw' : '12.5vw'
-  const y = is_selected ? '50vh' : '12.5vw'
+  const x = ref?.getBoundingClientRect().width / 2
+  const y = ref?.getBoundingClientRect().height / 2
 
-  useEffect(() => {
-    const update_count = (event) => {
-      if (!hovered) return
-      event.preventDefault()
-      if (event.key === 'ArrowDown') count > 1 && set_count(count - 1)
-      if (event.key === 'ArrowUp') count < 99 && set_count(count + 1)
-    }
-    document.addEventListener('keydown', update_count)
-    return () => document.removeEventListener('keydown', update_count)
-  })
+  const update_count = (event) => {
+    if (!hovered) return
+    event.preventDefault()
+    if (event.key === 'ArrowDown') count > 1 && set_count(count - 1)
+    if (event.key === 'ArrowUp') count < 99 && set_count(count + 1)
+  }
 
   return (
     <Wrapper
+      onKeyDown={update_count}
+      elemRef={set_ref}
       pa50={is_selected}
       style={{
-        background: `repeating-radial-gradient(circle, fuchsia, yellow ${count}%) ${x} ${y}`,
+        background: `repeating-radial-gradient(circle, fuchsia, yellow ${count}%) ${x}px ${y}px`,
       }}
     >
-      <Instruction fs40={is_selected}>
+      <Instruction
+        onClick={() => count > 1 && set_count(count - 1)}
+        fs40={is_selected}
+      >
         <Arrow
           mb10={!is_selected}
           mb30={is_selected}
@@ -37,7 +39,10 @@ export const Block_17 = ({ color, is_selected, hovered }) => {
         </Arrow>
         Arrow up
       </Instruction>
-      <Instruction fs40={is_selected}>
+      <Instruction
+        onClick={() => count < 99 && set_count(count + 1)}
+        fs40={is_selected}
+      >
         Arrow down
         <Arrow
           mt10={!is_selected}
