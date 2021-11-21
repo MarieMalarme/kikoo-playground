@@ -22,6 +22,7 @@ const Icon = ({ path, ...props }) => {
 }
 
 export const Plus = (props) => <Icon path={paths.plus} {...props} />
+export const Minus = (props) => <Icon path={paths.minus} {...props} />
 export const Arrow = (props) => <Icon path={paths.arrow} {...props} />
 export const Tags = (props) => <Icon path={paths.tags} {...props} />
 export const Upsize = (props) => <Icon path={paths.upsize} {...props} />
@@ -59,6 +60,7 @@ export const MouseWheel = (props) => {
 
 const paths = {
   plus: 'M65 15v100M115 65H15',
+  minus: 'M115 65H15',
   arrow: 'm72.85 17.6 47.65 47.65-47.65 47.65M5.5 65.25h114.34',
   tags: 'M42.24 38.04 10 65l32.24 26.96M87.75 91.96 120 65 87.75 38.04',
   upsize: 'M12 51V12h39M12 79v39h39M118 51V12H79M118 79v39H79',
