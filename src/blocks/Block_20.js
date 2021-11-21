@@ -14,7 +14,7 @@ export const Block_20 = ({ is_selected }) => {
   const top = -translate_to_scale(mouse_y / height, height) + height / 2 || 0
 
   const handle_wheel = (event) => {
-    event = event.type === 'touchmove' ? event.changedTouches[0] : event
+    event = event.type === 'touchmove' ? event.touches[0] : event
     set_mouse_y(event.pageY - wrapper.offsetParent.offsetTop)
   }
 

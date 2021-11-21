@@ -7,7 +7,7 @@ export const Block_2 = ({ color }) => {
   const [wrapper, set_wrapper] = useState(null)
 
   const update_mouse = (event) => {
-    event = event.type === 'touchmove' ? event.changedTouches[0] : event
+    event = event.type === 'touchmove' ? event.touches[0] : event
     set_mouse({
       x: event.pageX - wrapper.offsetParent.offsetLeft,
       y: event.pageY,

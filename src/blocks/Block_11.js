@@ -7,7 +7,7 @@ export const Block_11 = ({ color, is_selected }) => {
   const [mouse, set_mouse] = useState({ x: 0, y: 0 })
 
   const update_mouse = (event) => {
-    event = event.type === 'touchmove' ? event.changedTouches[0] : event
+    event = event.type === 'touchmove' ? event.touches[0] : event
     const { width, height } = wrapper.getBoundingClientRect()
     // translate the mouse position in the page to the coordinate system of the block
     const translator_x = width / 2 + wrapper.offsetParent.offsetLeft

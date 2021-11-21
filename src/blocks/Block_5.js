@@ -46,7 +46,7 @@ export const Block_5 = () => {
   }, [touched])
 
   const draw = (event) => {
-    event = event.type === 'touchmove' ? event.changedTouches[0] : event
+    event = event.type === 'touchmove' ? event.touches[0] : event
     draw_point({
       x: event.pageX,
       y: event.pageY - window.pageYOffset,

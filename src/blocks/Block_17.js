@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_17 = ({ color, is_selected, hovered }) => {
-  const [ref, set_ref] = useState(null)
+  const [wrapper, set_wrapper] = useState(null)
   const [count, set_count] = useState(20)
 
-  const x = ref?.getBoundingClientRect().width / 2
-  const y = ref?.getBoundingClientRect().height / 2
+  const x = wrapper?.getBoundingClientRect().width / 2
+  const y = wrapper?.getBoundingClientRect().height / 2
 
   const update_count = (event) => {
     if (!hovered) return
@@ -18,7 +18,7 @@ export const Block_17 = ({ color, is_selected, hovered }) => {
   return (
     <Wrapper
       onKeyDown={update_count}
-      elemRef={set_ref}
+      elemRef={set_wrapper}
       pa50={is_selected}
       style={{
         background: `repeating-radial-gradient(circle, fuchsia, yellow ${count}%) ${x}px ${y}px`,
