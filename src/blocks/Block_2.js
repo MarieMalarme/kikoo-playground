@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_2 = ({ color }) => {
-  const [touched, set_touched] = useState()
   const [mouse, set_mouse] = useState({ x: 100, y: 250 })
   const [wrapper, set_wrapper] = useState(null)
 
@@ -15,13 +14,13 @@ export const Block_2 = ({ color }) => {
   }
 
   useEffect(() => {
-    document.body.style.overflow = touched ? 'hidden' : 'auto'
-  }, [touched])
+    const prevent_scroll = (event) => event.preventDefault()
+    if (!wrapper) return
+    wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
+  }, [wrapper])
 
   return (
     <Wrapper
-      onTouchStart={() => set_touched(true)}
-      onTouchEnd={() => set_touched()}
       onTouchMove={update_mouse}
       onMouseMove={update_mouse}
       elemRef={set_wrapper}

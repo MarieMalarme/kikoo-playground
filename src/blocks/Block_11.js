@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_11 = ({ color, is_selected }) => {
-  const [touched, set_touched] = useState()
   const [wrapper, set_wrapper] = useState(null)
   const [mouse, set_mouse] = useState({ x: 0, y: 0 })
 
@@ -20,8 +19,10 @@ export const Block_11 = ({ color, is_selected }) => {
   }
 
   useEffect(() => {
-    document.body.style.overflow = touched ? 'hidden' : 'auto'
-  }, [touched])
+    const prevent_scroll = (event) => event.preventDefault()
+    if (!wrapper) return
+    wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
+  }, [wrapper])
 
   const angle = (Math.atan2(mouse.x, mouse.y) * 180) / Math.PI
   const displayed_angle = angle > 0 ? angle : 360 + angle
@@ -31,8 +32,6 @@ export const Block_11 = ({ color, is_selected }) => {
       pt45={is_selected}
       pl55={is_selected}
       elemRef={set_wrapper}
-      onTouchStart={() => set_touched(true)}
-      onTouchEnd={() => set_touched()}
       onTouchMove={update_mouse}
       onMouseMove={update_mouse}
       style={{

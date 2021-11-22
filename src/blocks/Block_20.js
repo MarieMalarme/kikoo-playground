@@ -3,7 +3,6 @@ import { Component } from '../utils/flags'
 
 export const Block_20 = ({ is_selected }) => {
   const [time, set_time] = useState('pm')
-  const [touched, set_touched] = useState()
   const [mouse_y, set_mouse_y] = useState(135)
   const [wrapper, set_wrapper] = useState(null)
 
@@ -19,14 +18,14 @@ export const Block_20 = ({ is_selected }) => {
   }
 
   useEffect(() => {
-    document.body.style.overflow = touched ? 'hidden' : 'auto'
-  }, [touched])
+    const prevent_scroll = (event) => event.preventDefault()
+    if (!wrapper) return
+    wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
+  }, [wrapper])
 
   return (
     <Wrapper
       elemRef={set_wrapper}
-      onTouchStart={() => set_touched(true)}
-      onTouchEnd={() => set_touched()}
       onTouchMove={handle_wheel}
       onMouseMove={handle_wheel}
       style={{ background: `hsl(230, 50%, ${luminosity}%)` }}

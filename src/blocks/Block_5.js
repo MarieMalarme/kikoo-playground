@@ -6,7 +6,6 @@ export const Block_5 = () => {
   const [wrapper, set_wrapper] = useState(null)
   const [canvas, set_canvas] = useState(null)
   const [context, set_context] = useState(null)
-  const [touched, set_touched] = useState()
 
   useEffect(() => {
     if (!canvas || !wrapper) return
@@ -41,10 +40,6 @@ export const Block_5 = () => {
     return () => canvas.removeEventListener('click', clear_canvas)
   }, [canvas, wrapper])
 
-  useEffect(() => {
-    document.body.style.overflow = touched ? 'hidden' : 'auto'
-  }, [touched])
-
   const draw = (event) => {
     event = event.type === 'touchmove' ? event.touches[0] : event
     draw_point({
@@ -55,6 +50,12 @@ export const Block_5 = () => {
     })
   }
 
+  useEffect(() => {
+    const prevent_scroll = (event) => event.preventDefault()
+    if (!wrapper) return
+    wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
+  }, [wrapper])
+
   return (
     <Wrapper elemRef={set_wrapper}>
       <canvas
@@ -63,8 +64,6 @@ export const Block_5 = () => {
         height={window.innerHeight}
         onMouseMove={(event) => draw(event)}
         onTouchMove={(event) => draw(event)}
-        onTouchStart={() => set_touched(true)}
-        onTouchEnd={() => set_touched()}
       />
     </Wrapper>
   )

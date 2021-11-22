@@ -1,18 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Component } from '../utils/flags'
 import { MouseWheel } from '../icons'
 
 export const Block_7 = ({ color, is_selected, hovered }) => {
+  const [wrapper, set_wrapper] = useState(null)
   const [current_circles, set_current_circles] = useState(1)
   const [wheeled, set_wheeled] = useState(base_radius)
-  const [wheelable, set_wheelable] = useState(true)
+  const [wheelable, _set_wheelable] = useState(false)
   const [touched, set_touched] = useState(false)
 
-  useEffect(() => {
-    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
-  }, [wheelable])
+  const wheelable_ref = useRef(wheelable)
+  const set_wheelable = (data) => {
+    wheelable_ref.current = data
+    _set_wheelable(data)
+  }
 
-  const update_wheeled = (wheeling) => {
+  const update_wheeled = (wheeling, touchevent) => {
     const reached = { top: wheeled <= base_radius, bottom: wheeled > 175 }
 
     const can_wheel =
@@ -20,25 +23,42 @@ export const Block_7 = ({ color, is_selected, hovered }) => {
     set_wheelable(can_wheel)
 
     if (!can_wheel) return
-    set_wheeled(wheeling.up ? wheeled - 1 : wheeled + 1)
+    const increment = touchevent ? 2 : 1
+    set_wheeled(wheeling.up ? wheeled - increment : wheeled + increment)
     const circles = Number(Math.floor(wheeled / base_radius).toFixed())
     if (circles !== current_circles) set_current_circles(circles)
   }
 
+  useEffect(() => {
+    const prevent_scroll = (event) => {
+      if (!wheelable_ref.current) return
+      event.preventDefault()
+    }
+
+    if (!wrapper) return
+    wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
+  }, [wrapper, wheelable_ref])
+
+  useEffect(() => {
+    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
+  }, [wheelable])
+
+  useEffect(() => {
+    if (!wrapper) return
+    document.addEventListener('touchstart', (event) => {
+      !event.target.contains(wrapper) && set_wheelable(false)
+    })
+  }, [wrapper])
+
   return (
     <Wrapper
-      onTouchStart={(event) => {
-        set_wheelable(wheeled >= base_radius)
-        set_touched(Math.round(event.touches[0].pageY))
-      }}
-      onTouchEnd={() => {
-        set_wheelable(false)
-        set_touched(false)
-      }}
+      elemRef={set_wrapper}
+      onTouchStart={(event) => set_touched(event.touches[0].pageY)}
+      onTouchEnd={() => set_touched(false)}
       onTouchMove={(event) => {
         const { pageY } = event.touches[0]
         const wheeling = { down: touched > pageY, up: touched < pageY }
-        update_wheeled(wheeling)
+        update_wheeled(wheeling, true)
       }}
       onMouseOver={() => set_wheelable(wheeled > base_radius)}
       onMouseEnter={() => set_wheelable(wheeled >= base_radius)}
@@ -48,12 +68,7 @@ export const Block_7 = ({ color, is_selected, hovered }) => {
         update_wheeled(wheeling)
       }}
     >
-      <svg
-        width="100%"
-        height="100%"
-        viewBox="0 0 130 130"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <Svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
         {[...Array(current_circles).keys()].map((index) => (
           <Circle
             key={index}
@@ -63,7 +78,7 @@ export const Block_7 = ({ color, is_selected, hovered }) => {
             color={color.value}
           />
         ))}
-      </svg>
+      </Svg>
       <MouseWheel hovered={hovered} absolute height="15%" />
     </Wrapper>
   )
@@ -81,3 +96,4 @@ const Circle = ({ wheeled, base_radius, index, color }) => (
 
 const base_radius = 20
 const Wrapper = Component.flex.ai_center.jc_center.article()
+const Svg = Component.w100p.h100p.events_none.svg()

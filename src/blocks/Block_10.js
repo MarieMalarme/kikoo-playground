@@ -4,16 +4,29 @@ import { useDOMRect } from '../utils/hooks'
 import { Arrow } from '../icons'
 
 export const Block_10 = () => {
-  const { ref, dimensions } = useDOMRect()
+  const { element, ref, dimensions } = useDOMRect()
+  const [touched, set_touched] = useState()
   const [clear, set_clear] = useState(15)
   const [pattern, set_pattern] = useState({
     grid: layers.grid[0],
     brush: layers.brush[0],
   })
 
+  useEffect(() => {
+    const prevent_scroll = (event) => event.preventDefault()
+    if (!element) return
+    element.addEventListener('touchmove', prevent_scroll, { passive: false })
+  }, [element])
+
   return (
-    <Wrapper id="block-10" elemRef={ref}>
+    <Wrapper
+      id="block-10"
+      elemRef={ref}
+      onTouchStart={() => set_touched(true)}
+      onTouchEnd={() => set_touched()}
+    >
       <Letters
+        touched={touched}
         dimensions={dimensions}
         letter_size={letter_size}
         pattern={pattern}
@@ -92,7 +105,9 @@ const Buttons = ({ characters, pattern, set_pattern, layer }) => (
   </Div>
 )
 
-const Letters = ({ dimensions, letter_size, pattern, clear }) => {
+const Letters = ({ dimensions, letter_size, pattern, clear, touched }) => {
+  const [touch, set_touch] = useState(false)
+
   if (!dimensions) return null
 
   const { width, height } = dimensions
@@ -101,26 +116,42 @@ const Letters = ({ dimensions, letter_size, pattern, clear }) => {
   const letters = letters_per_row * letters_per_column
 
   return (
-    <Grid>
+    <Grid onTouchMove={(event) => touched && set_touch(event.touches[0])}>
       {[...Array(Math.ceil(letters)).keys()].map((index) => (
         <Letter
           key={index}
           letter_size={letter_size}
           pattern={pattern}
           clear={clear}
+          touch={touch}
         />
       ))}
     </Grid>
   )
 }
 
-const Letter = ({ letter_size, pattern, clear }) => {
+const Letter = ({ letter_size, pattern, clear, touch }) => {
+  const [ref, set_ref] = useState(null)
   const [hovered, set_hovered] = useState(false)
 
   useEffect(() => set_hovered(false), [clear])
 
+  useEffect(() => {
+    if (!ref || !touch || hovered) return
+    const { top, left, width, height } = ref.getBoundingClientRect()
+    const { clientX, clientY } = touch
+
+    const is_touched =
+      top >= Math.floor(clientY - 15) &&
+      top + height <= Math.ceil(clientY + 15) &&
+      left >= Math.floor(clientX - 15) &&
+      left + width <= Math.ceil(clientX + 15)
+    set_hovered(is_touched)
+  }, [ref, touch, hovered])
+
   return (
     <Character
+      elemRef={set_ref}
       onMouseEnter={() => set_hovered(true)}
       style={{ height: letter_size, width: letter_size }}
     >

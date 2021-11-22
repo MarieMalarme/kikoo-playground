@@ -1,13 +1,19 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_23 = ({ color }) => {
   const [touched, set_touched] = useState()
-  const [wheelable, set_wheelable] = useState(true)
+  const [wheelable, _set_wheelable] = useState(false)
   const [wrapper, set_wrapper] = useState(null)
   const [inc, set_inc] = useState(0)
 
-  const handle_wheel = (wheeling) => {
+  const wheelable_ref = useRef(wheelable)
+  const set_wheelable = (data) => {
+    wheelable_ref.current = data
+    _set_wheelable(data)
+  }
+
+  const handle_wheel = (wheeling, touchevent) => {
     const reached = { top: inc < -1580, bottom: inc > 2890 }
 
     const can_wheel =
@@ -15,12 +21,30 @@ export const Block_23 = ({ color }) => {
     set_wheelable(can_wheel)
 
     if (!can_wheel) return
-    set_inc(wheeling.up ? inc - 5 : inc + 5)
+    const increment = touchevent ? 10 : 5
+    set_inc(wheeling.up ? inc - increment : inc + increment)
   }
+
+  useEffect(() => {
+    const prevent_scroll = (event) => {
+      if (!wheelable_ref.current) return
+      event.preventDefault()
+    }
+
+    if (!wrapper) return
+    wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
+  }, [wrapper, wheelable_ref])
 
   useEffect(() => {
     document.body.style.overflow = wheelable ? 'hidden' : 'auto'
   }, [wheelable])
+
+  useEffect(() => {
+    if (!wrapper) return
+    document.addEventListener('touchstart', (event) => {
+      !event.target.contains(wrapper) && set_wheelable(false)
+    })
+  }, [wrapper])
 
   return (
     <Wrapper
@@ -32,18 +56,12 @@ export const Block_23 = ({ color }) => {
         const wheeling = { down: event.deltaY > 0, up: event.deltaY < 0 }
         handle_wheel(wheeling)
       }}
-      onTouchStart={(event) => {
-        set_wheelable(inc > 0)
-        set_touched(event.touches[0].pageY)
-      }}
-      onTouchEnd={() => {
-        set_wheelable(false)
-        set_touched()
-      }}
+      onTouchStart={(event) => set_touched(event.touches[0].pageY)}
+      onTouchEnd={() => set_touched()}
       onTouchMove={(event) => {
         const { pageY } = event.touches[0]
         const wheeling = { down: touched > pageY, up: touched < pageY }
-        handle_wheel(wheeling)
+        handle_wheel(wheeling, true)
       }}
     >
       <Curve
@@ -74,5 +92,6 @@ export const Block_23 = ({ color }) => {
 }
 
 const Wrapper = Component.flex.ai_center.jc_center.article()
-const Curve = Component.absolute.t50.l50.f_invert100.of_visible.svg()
+const Curve =
+  Component.events_none.absolute.t50.l50.f_invert100.of_visible.svg()
 const Text = Component.fs80.ls10.text()

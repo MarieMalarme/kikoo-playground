@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_24 = ({ color }) => {
-  const [touched, set_touched] = useState()
   const [wrapper, set_wrapper] = useState(null)
   const [mouse, set_mouse] = useState()
 
@@ -15,8 +14,10 @@ export const Block_24 = ({ color }) => {
   }
 
   useEffect(() => {
-    document.body.style.overflow = touched ? 'hidden' : 'auto'
-  }, [touched])
+    const prevent_scroll = (event) => event.preventDefault()
+    if (!wrapper) return
+    wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
+  }, [wrapper])
 
   const colors = [color.hue + 200, color.hue + 100]
   const coords = mouse ? `${mouse.x}px ${mouse.y}px` : '50% 50%'
@@ -26,8 +27,6 @@ export const Block_24 = ({ color }) => {
   return (
     <Wrapper
       elemRef={set_wrapper}
-      onTouchStart={() => set_touched(true)}
-      onTouchEnd={() => set_touched()}
       onTouchMove={update_mouse}
       onMouseMove={update_mouse}
       style={{ backgroundImage: `radial-gradient(${definition}, ${radial})` }}

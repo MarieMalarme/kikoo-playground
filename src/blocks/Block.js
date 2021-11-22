@@ -29,6 +29,7 @@ export const Block = ({ block, index, ...states }) => {
 
   return (
     <Section
+      id={`section-${index + 1}`}
       name={index + 1}
       flex={is_selected}
       w100vw={is_selected}

@@ -1,14 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Component } from '../utils/flags'
 import { MouseWheel } from '../icons'
 
 export const Block_12 = ({ color, is_selected, hovered }) => {
   const [touched, set_touched] = useState()
+  const [wrapper, set_wrapper] = useState(null)
   const [ref, set_ref] = useState(null)
   const [wheeled, set_wheeled] = useState(0)
-  const [wheelable, set_wheelable] = useState(true)
+  const [wheelable, _set_wheelable] = useState(false)
 
-  const handle_wheel = (wheeling) => {
+  const wheelable_ref = useRef(wheelable)
+  const set_wheelable = (data) => {
+    wheelable_ref.current = data
+    _set_wheelable(data)
+  }
+
+  const handle_wheel = (wheeling, touchevent) => {
     const { width } = ref.getBoundingClientRect()
     const reached = { top: !wheeled, bottom: wheeled > width / 8 }
 
@@ -17,15 +24,38 @@ export const Block_12 = ({ color, is_selected, hovered }) => {
     set_wheelable(can_wheel)
 
     if (!can_wheel) return
-    set_wheeled(wheeled + (wheeling.up ? -1 : 1))
+    const increment = touchevent ? 20 : 1
+    set_wheeled(wheeled + (wheeling.up ? -increment : increment))
   }
 
   useEffect(() => {
     document.body.style.overflow = wheelable ? 'hidden' : 'auto'
   }, [wheelable])
 
+  useEffect(() => {
+    const prevent_scroll = (event) => {
+      if (!wheelable_ref.current) return
+      event.preventDefault()
+    }
+
+    if (!wrapper) return
+    wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
+  }, [wrapper, wheelable_ref])
+
+  useEffect(() => {
+    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
+  }, [wheelable])
+
+  useEffect(() => {
+    if (!wrapper) return
+    document.addEventListener('touchstart', (event) => {
+      !event.target.contains(wrapper) && set_wheelable(false)
+    })
+  }, [wrapper])
+
   return (
     <Wrapper
+      elemRef={set_wrapper}
       onMouseOver={() => set_wheelable(wheeled > 0)}
       onMouseEnter={() => set_wheelable(wheeled > 0)}
       onMouseLeave={() => set_wheelable(false)}
@@ -33,14 +63,8 @@ export const Block_12 = ({ color, is_selected, hovered }) => {
         const wheeling = { down: event.deltaY > 0, up: event.deltaY < 0 }
         handle_wheel(wheeling)
       }}
-      onTouchStart={(event) => {
-        set_wheelable(wheeled > 0)
-        set_touched(event.touches[0].pageY)
-      }}
-      onTouchEnd={() => {
-        set_wheelable(false)
-        set_touched(false)
-      }}
+      onTouchStart={(event) => set_touched(event.touches[0].pageY)}
+      onTouchEnd={() => set_touched(false)}
       onTouchMove={(event) => {
         const { pageY } = event.touches[0]
         const wheeling = { down: touched > pageY, up: touched < pageY }
@@ -93,4 +117,5 @@ const texts = [
 
 const Wrapper = Component.flex.flex_wrap.flex_column.h100p.jc_center.article()
 const Instruction = Component.absolute.r30.t30.div()
-const Text = Component.sans.fs4vw.black.ws_nowrap.fs60.flex.pl30.ai_center.p()
+const Text =
+  Component.events_none.sans.fs4vw.black.ws_nowrap.fs60.flex.pl30.ai_center.p()
