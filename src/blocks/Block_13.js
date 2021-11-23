@@ -58,6 +58,7 @@ const Buttons = ({ shape_index, set_shape_index, set_points, is_selected }) => (
       Clear
     </Button>
     <Button
+      l70__xs
       pa25={is_selected}
       fs30={is_selected}
       jc_flex_end

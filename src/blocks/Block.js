@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
-import { Tags, Downsize, Upsize } from '../icons'
+import { Tags, Downsize, Upsize, ScrollTo } from '../icons'
 
 export const Block = ({ block, index, ...states }) => {
   const [display_code, set_display_code] = useState(false)
@@ -55,6 +55,8 @@ export const Block = ({ block, index, ...states }) => {
       </Header>
 
       {display_code && <SourceCode index={index} is_selected={is_selected} />}
+
+      <ScrollTo section={index} />
     </Section>
   )
 }

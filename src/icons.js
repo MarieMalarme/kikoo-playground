@@ -1,3 +1,4 @@
+import { scroll_to } from './utils/toolbox'
 import { Component } from './utils/flags'
 
 const Icon = ({ path, ...props }) => {
@@ -27,6 +28,22 @@ export const Arrow = (props) => <Icon path={paths.arrow} {...props} />
 export const Tags = (props) => <Icon path={paths.tags} {...props} />
 export const Upsize = (props) => <Icon path={paths.upsize} {...props} />
 export const Downsize = (props) => <Icon path={paths.downsize} {...props} />
+export const ScrollDown = (props) => (
+  <Icon path={paths.scroll_down} {...props} />
+)
+
+export const ScrollTo = ({ section }) => (
+  <ScrollDown
+    onClick={(event) => scroll_to(event, `section-${section + 2}`)}
+    stroke="black"
+    width={35}
+    hidden__d
+    absolute
+    zi20
+    b20
+    r10
+  />
+)
 
 export const MouseWheel = (props) => {
   const { stroke, width, stroke_width, hovered, ...style } = props
@@ -65,6 +82,7 @@ const paths = {
   tags: 'M42.24 38.04 10 65l32.24 26.96M87.75 91.96 120 65 87.75 38.04',
   upsize: 'M12 51V12h39M12 79v39h39M118 51V12H79M118 79v39H79',
   downsize: 'M39 0v39H0M39 130V91H0M91 0v39h39M91 130V91h39',
+  scroll_down: 'm90 87.84-38 38-38-38M90 45 52 83 14 45M90 4.16l-38 38-38-38',
 }
 
 const Svg = Component.of_visible.svg()
