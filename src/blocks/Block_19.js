@@ -1,140 +1,148 @@
-import { useState, useEffect, useRef } from 'react'
-import { Component } from '../utils/flags'
+import React, { useState, useEffect } from 'react'
+import { Body, Engine, Render, World, Bodies, Runner } from 'matter-js'
+import { Component } from '../utils/flags.js'
 
-export const Block_19 = ({ color }) => {
+export const Block_19 = ({ color, hovered }) => {
   const [wrapper, set_wrapper] = useState(null)
-  const [touched, set_touched] = useState()
-  const [wheelable, _set_wheelable] = useState(false)
-  const [wheeled, set_wheeled] = useState(0)
-  const [text, set_text] = useState('scroll')
+  const [engine, set_engine] = useState(null)
+  const [matter, set_matter] = useState({})
+  const [loaded, set_loaded] = useState(false)
+  // const [runner, set_runner] = useState()
+  const [circle_size, set_circle_size] = useState(base_circle_size)
 
-  const wheelable_ref = useRef(wheelable)
-  const set_wheelable = (data) => {
-    wheelable_ref.current = data
-    _set_wheelable(data)
-  }
+  // set up engine
+  useEffect(() => set_engine(Engine.create()), [])
 
-  const handle_wheel = (wheeling, touchevent) => {
-    const reached = { top: !wheeled, bottom: wheeled > 360 }
-
-    const can_wheel =
-      (wheeling.down && !reached.bottom) || (wheeling.up && !reached.top)
-    set_wheelable(can_wheel)
-
-    if (!can_wheel) return
-    const increment = touchevent ? 4 : 2
-    set_wheeled(wheeled + (wheeling.down > 0 ? increment : -increment))
-  }
-
+  // set up render & create the circles
   useEffect(() => {
-    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
-  }, [wheelable])
+    if (!engine || !wrapper) return
 
-  useEffect(() => {
-    const prevent_scroll = (event) => {
-      if (!wheelable_ref.current) return
-      event.preventDefault()
-    }
+    const { width, height } = wrapper.getBoundingClientRect()
 
-    if (!wrapper) return
-    wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
-  }, [wrapper, wheelable_ref])
-
-  useEffect(() => {
-    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
-  }, [wheelable])
-
-  useEffect(() => {
-    if (!wrapper) return
-    document.addEventListener('touchstart', (event) => {
-      !event.target.contains(wrapper) && set_wheelable(false)
+    const render = Render.create({
+      engine,
+      element: wrapper,
+      options: { width, height, wireframes: false, background: 'transparent' },
     })
-  }, [wrapper])
+    const runner = Runner.create()
+    set_matter({ render, runner })
+    Runner.run(runner, engine)
+    Render.run(render)
 
-  return (
-    <Wrapper
-      elemRef={set_wrapper}
-      onTouchStart={(event) => set_touched(event.touches[0].pageY)}
-      onTouchEnd={() => set_touched(false)}
-      onTouchMove={(event) => {
-        const { pageY } = event.touches[0]
-        const wheeling = { down: touched > pageY, up: touched < pageY }
-        handle_wheel(wheeling, true)
-      }}
-      onMouseOver={() => set_wheelable(wheeled > 0)}
-      onMouseEnter={() => set_wheelable(wheeled > 0)}
-      onMouseLeave={() => set_wheelable(false)}
-      onWheel={(event) => {
-        const wheeling = { down: event.deltaY > 0, up: event.deltaY < 0 }
-        handle_wheel(wheeling)
-      }}
-    >
-      <Carousel text={text} set_text={set_text} wheeled={wheeled} />
-      <Text style={{ color: color.value }}>{text}</Text>
-    </Wrapper>
-  )
-}
+    circles.forEach((i) => {
+      const { hue, saturation, luminosity } = color
+      const fillStyle = `hsl(${hue + 180}, ${100 - saturation}%, ${
+        100 - luminosity
+      }%)`
+      const circle = Bodies.circle(10, 10, base_circle_size, {
+        render: { fillStyle, id: `circle-${i + 1}` },
+      })
+      World.add(engine.world, circle)
+    })
 
-const Carousel = ({ wheeled, text, set_text }) => {
-  const rotation = -wheeled
-  const transform = `rotateX(${rotation}deg)`
+    engine.world.gravity.y = 5
 
-  return (
-    <History style={{ perspective: '400px' }}>
-      <Slides style={{ transformStyle: 'preserve-3d', transform }}>
-        {slides.map((slide, index) => (
-          <Slide
-            index={index}
-            slide={slide}
-            text={text}
-            set_text={set_text}
-            key={`carousel-slide-${index}`}
-            rx_carousel={Math.abs(rotation)}
-          />
-        ))}
-      </Slides>
-    </History>
-  )
-}
+    setTimeout(() => set_loaded(true), 1500)
+  }, [engine, wrapper, color])
 
-const Slide = ({ index, rx_carousel, slide, set_text, text }) => {
-  const rx = (360 * index) / slides.length
-  const tz = Math.floor(slide_height / 2 / Math.tan(Math.PI / slides.length))
+  // resize observer
+  useEffect(() => {
+    if (!wrapper || !matter.render) return
 
-  const revolutions = Math.floor(rx_carousel / 360)
-  const rx_without_revolutions = rx_carousel - 360 * revolutions
+    const resizeObserver = new ResizeObserver(() => {
+      const { width, height } = wrapper.getBoundingClientRect()
 
-  const in_view_min = Math.abs(rx_without_revolutions > rx - angle_offset)
-  const in_view_max = Math.abs(rx_without_revolutions < rx + angle_offset)
-  const in_view = in_view_min && in_view_max
+      // set size of the render & canvas
+      matter.render.options.width = width
+      matter.render.options.height = height
+      matter.render.canvas.width = width
+      matter.render.canvas.height = height
+
+      // set positions of the circles
+      const circles = get_bodies('Circle', engine)
+      circles.map((circle) => {
+        Body.setPosition(circle, { x: 10, y: 10 })
+        return Body
+      })
+
+      // remove existing walls
+      const existing_walls = get_bodies('Rectangle', engine)
+      existing_walls.forEach((wall) => World.remove(engine.world, wall))
+
+      // create new walls
+      const up = { x: width / 2, width, height: 100 }
+      const side = { y: height / 2, width: 100, height }
+      const walls = {
+        ground: { ...up, y: height + 50 },
+        ceiling: { ...up, y: -50 },
+        left: { ...side, x: -50 },
+        right: { ...side, x: width + 50 },
+      }
+
+      Object.values(walls).map(({ x, y, width, height }) => {
+        const wall = Bodies.rectangle(x, y, width, height, {
+          density: 1,
+          isStatic: true,
+          render: { fillStyle: color.value },
+        })
+        World.add(engine.world, wall)
+        return World
+      })
+    })
+
+    resizeObserver.observe(wrapper)
+    return () => resizeObserver.disconnect()
+  }, [wrapper, matter.render, engine, color.value])
 
   useEffect(() => {
-    if (in_view && text !== slide) set_text(slide)
-  })
+    if (!engine || !matter.render || !matter.runner) return
+    Runner.stop(engine)
+    // engine.enabled = !loaded && true||  hovered
+    matter.runner.enabled = !loaded || hovered
+    matter.render.options.enabled = !loaded || hovered
+  }, [engine, matter.render, matter.runner, hovered, loaded])
+
+  const set_circles_size = () => {
+    const is_small = circle_size === base_circle_size
+    set_circle_size(is_small ? base_circle_size * 2 : base_circle_size)
+    const scale = is_small ? 2 : 0.5
+
+    const circles = get_bodies('Circle', engine)
+    circles.map((circle) => {
+      Body.scale(circle, scale, scale)
+      return Body
+    })
+  }
+
+  const change_gravity = (event) => {
+    event = event.type === 'touchmove' ? event.touches[0] : event
+
+    const { width, height } = wrapper.getBoundingClientRect()
+    const { offsetLeft, offsetTop } = wrapper.offsetParent
+
+    const client_x = event.clientX - offsetLeft
+    const client_y = event.clientY - (offsetTop - window.pageYOffset)
+
+    const scale = 4
+    engine.world.gravity.x = get_coord(client_x, width, scale)
+    engine.world.gravity.y = get_coord(client_y, height, scale)
+  }
 
   return (
-    <Word
-      style={{
-        width: slide_height,
-        height: slide_height,
-        border: 'solid 1px rgb(255, 255, 0)',
-        color: in_view ? 'rgb(255, 255, 0)' : 'black',
-        background: in_view ? 'transparent' : 'rgb(255, 255, 0)',
-        transform: `rotateX(${rx}deg) translateZ(${tz}px)`,
-      }}
-    >
-      {slide}
-    </Word>
+    <Canvas
+      onClick={set_circles_size}
+      onMouseMove={change_gravity}
+      onTouchMove={change_gravity}
+      elemRef={set_wrapper}
+    />
   )
 }
 
-const slides = [`un`, `deux`, `trois`, `quatre`, `cinq`, `six`, `sept`, `huit`]
+const get_bodies = (type, engine) =>
+  engine.world.bodies.filter((body) => body.label === `${type} Body`)
+const get_coord = (position, max, scale) => (position / max) * scale - scale / 2
 
-const slide_height = 500 / Math.log(window.innerWidth)
-const angle_offset = 160 / slides.length
+const circles = Array(15).fill()
+const base_circle_size = 35
 
-const Wrapper = Component.flex.ai_center.jc_center.article()
-const History = Component.events_none.zi1.w80p.h100p.absolute.div()
-const Slides = Component.w100p.flex.ai_center.jc_center.h100p.absolute.div()
-const Word = Component.fs12.flex.ai_center.jc_center.pa15.div()
-const Text = Component.events_none.uppercase.f_invert100.fs12vw.fs80__xs.p()
+const Canvas = Component.w100p.h100p.f_invert100.article()
