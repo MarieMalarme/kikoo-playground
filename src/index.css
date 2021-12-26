@@ -18,6 +18,15 @@ body {
   cursor: url('./images/cursor.png'), auto;
 }
 
+canvas {
+  display: block;
+  border: none;
+}
+
+article {
+  outline: none;
+}
+
 code {
   width: calc(100vw - 70vh);
   user-select: text;

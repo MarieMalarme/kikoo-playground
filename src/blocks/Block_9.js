@@ -19,10 +19,13 @@ export const Block_9 = () => {
   })
 
   useEffect(() => {
-    media_query_xs.addEventListener('change', ({ matches }) => {
+    const handle_change = ({ matches }) => {
       const grid_size = grid[matches ? 'xs' : 'l']
       set_grid({ columns: grid_size.columns, rows: grid_size.rows })
-    })
+    }
+
+    media_query_xs.addEventListener('change', handle_change)
+    return () => media_query_xs.removeEventListener('change', handle_change)
   }, [media_query_xs])
 
   useEffect(() => {

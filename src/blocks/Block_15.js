@@ -69,12 +69,12 @@ const draw_blob = ({ x, y, context, color }) => {
   const bezier_curves = generate_bezier_curve({ x, y })
 
   const start_point = `M${bezier_curves[0].x1}, ${bezier_curves[1].y1}`
-  const bezier_curve = bezier_curves.reduce((path, curve) => {
+  const bezier_curve_path = bezier_curves.reduce((path, curve) => {
     const next_bezier_curve = `S${curve.x2}, ${curve.y2}, ${curve.x1}, ${curve.y1}`
     return `${path} ${next_bezier_curve}`
   }, start_point)
 
-  const path = new Path2D(bezier_curve)
+  const path = new Path2D(bezier_curve_path)
   context.globalCompositeOperation = 'xor' // set a mask effect
   context.fillStyle = color
   context.fill(path)

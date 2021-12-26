@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
+import { get_invert_color } from '../utils/toolbox'
 
-export const Block_3 = (props) => {
+export const Block_3 = ({ color }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [tile_size, set_tile_size] = useState(null)
   const [tiles, set_tiles] = useState(5)
@@ -12,6 +13,8 @@ export const Block_3 = (props) => {
     set_tile_size(Math.ceil(width / tiles))
   }, [wrapper, tiles])
 
+  const color2 = get_invert_color(color)
+
   return (
     <Wrapper
       elemRef={set_wrapper}
@@ -19,10 +22,10 @@ export const Block_3 = (props) => {
         backgroundSize: `${tile_size}px ${tile_size}px`,
         backgroundImage: `linear-gradient(
         45deg,
-        hotpink 0%,
-        hotpink 50%,
-        lime 50%,
-        lime 100%)`,
+        ${color.value} 0%,
+        ${color.value} 50%,
+        ${color2} 50%,
+        ${color2} 100%)`,
       }}
     >
       <Button onClick={() => tiles > 1 && set_tiles(tiles - 1)}>

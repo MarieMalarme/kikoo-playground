@@ -10,3 +10,8 @@ export const scroll_to = (event, id) => {
   if (!target) return
   target.scrollIntoView({ behavior: 'smooth' })
 }
+
+export const get_invert_color = (color) => {
+  const { hue, saturation, luminosity } = color
+  return `hsl(${hue + 180}, ${100 - saturation}%, ${100 - luminosity}%)`
+}

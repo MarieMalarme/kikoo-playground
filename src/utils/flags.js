@@ -9,6 +9,7 @@ atomizify({
     fs12vw: 'font-size: 12vw',
     fs20vw: 'font-size: 20vw',
     fs30vw: 'font-size: 30vw',
+    fs35: 'font-size: 35px',
     fs200: 'font-size: 200px',
     lh33: 'line-height: 33px',
     lh35: 'line-height: 35px',
@@ -24,6 +25,8 @@ atomizify({
     w15vmin: 'width: 15vmin',
     h15vmin: 'height: 15vmin',
     b_rad50: 'border-radius: 50px',
+    pt100p: 'padding-top: 100%',
+    h200p: 'height: 200%',
   },
 
   media_queries: {
