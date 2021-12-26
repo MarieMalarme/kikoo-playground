@@ -15,13 +15,19 @@ export const Block_17 = ({ color, is_selected, hovered }) => {
     if (event.key === 'ArrowUp') count < 99 && set_count(count + 1)
   }
 
+  const color1 = `hsl(${color.hue}, ${color.saturation}%, ${color.luminosity}%)`
+  const color2 = `hsl(${color.hue + 180}, ${100 - color.saturation}%, ${
+    100 - color.luminosity
+  }%)`
+
   return (
     <Wrapper
       onKeyDown={update_count}
       elemRef={set_wrapper}
       pa50={is_selected}
+      tabIndex="0"
       style={{
-        background: `repeating-radial-gradient(circle, fuchsia, yellow ${count}%) ${x}px ${y}px`,
+        background: `repeating-radial-gradient(circle, ${color1}, ${color2} ${count}%) ${x}px ${y}px`,
       }}
     >
       <Instruction
