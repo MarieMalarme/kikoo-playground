@@ -184,6 +184,33 @@ input[type='range']::-webkit-slider-thumb {
   }
 }
 
+#block-35 input[type='range'] {
+  padding: 0;
+  height: 1px;
+  width: 30%;
+  background: black;
+}
+
+#block-35 input[type='range']::-webkit-slider-thumb {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+}
+
+#block-35 input[type='text'] {
+  font-family: 'sans';
+}
+
+#block-35 input[type='text']::placeholder {
+  color: black;
+  opacity: 0.5;
+  font-size: 13.75px;
+}
+
+#block-35 input[type='text']::selection {
+  background: white;
+}
+
 @media (min-width: 600px) and (max-width: 900px) {
   .color-ranges input[type='range'] {
     padding: 0 0.75vw;
