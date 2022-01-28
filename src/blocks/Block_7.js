@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Component } from '../utils/flags'
 import { MouseWheel } from '../icons'
 
-export const Block_7 = ({ color, is_selected, hovered }) => {
+export const Block_7 = ({ color, hovered }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [current_circles, set_current_circles] = useState(1)
   const [wheeled, set_wheeled] = useState(base_radius)
@@ -19,7 +19,8 @@ export const Block_7 = ({ color, is_selected, hovered }) => {
     const reached = { top: wheeled <= base_radius, bottom: wheeled > 175 }
 
     const can_wheel =
-      (wheeling.down && !reached.bottom) || (wheeling.up && !reached.top)
+      hovered &&
+      ((wheeling.down && !reached.bottom) || (wheeling.up && !reached.top))
     set_wheelable(can_wheel)
 
     if (!can_wheel) return

@@ -20,7 +20,8 @@ export const Block_12 = ({ color, is_selected, hovered }) => {
     const reached = { top: !wheeled, bottom: wheeled > width / 8 }
 
     const can_wheel =
-      (wheeling.down && !reached.bottom) || (wheeling.up && !reached.top)
+      hovered &&
+      ((wheeling.down && !reached.bottom) || (wheeling.up && !reached.top))
     set_wheelable(can_wheel)
 
     if (!can_wheel) return
