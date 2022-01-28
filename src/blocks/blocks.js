@@ -24,6 +24,21 @@ import { Block_23 } from './Block_23'
 import { Block_24 } from './Block_24'
 import { Block_25 } from './Block_25'
 import { Block_26 } from './Block_26'
+import { Block_27 } from './Block_27'
+import { Block_28 } from './Block_28'
+import { Block_29 } from './Block_29'
+import { Block_30 } from './Block_30'
+import { Block_31 } from './Block_31'
+import { Block_32 } from './Block_32'
+import { Block_33 } from './Block_33'
+import { Block_34 } from './Block_34'
+import { Block_35 } from './Block_35'
+import { Block_36 } from './Block_36'
+import { Block_37 } from './Block_37'
+import { Block_38 } from './Block_38'
+import { Block_39 } from './Block_39'
+import { Block_40 } from './Block_40'
+import { Block_41 } from './Block_41'
 
 export const blocks_list = [
   Block_1,
@@ -52,4 +67,19 @@ export const blocks_list = [
   Block_24,
   Block_25,
   Block_26,
+  Block_27,
+  Block_28,
+  Block_29,
+  Block_30,
+  Block_31,
+  Block_32,
+  Block_33,
+  Block_34,
+  Block_35,
+  Block_36,
+  Block_37,
+  Block_38,
+  Block_39,
+  Block_40,
+  Block_41,
 ]
