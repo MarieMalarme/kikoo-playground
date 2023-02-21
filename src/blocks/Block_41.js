@@ -1,25 +1,58 @@
 import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
-export const Block_41 = () => {
+export const Block_41 = ({ is_selected }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [canvas, set_canvas] = useState(null)
+  const [context, set_context] = useState(null)
+  const [name, set_name] = useState('Marie Malarme')
 
-  useEffect(() => {
-    if (!canvas || !wrapper) return
-    // get & set the context of the canvas
-    const context = canvas.getContext('2d')
+  const letters = [...new Set(name.split(''))]
+
+  const draw = () => {
     context.clearRect(0, 0, window.innerWidth, window.innerHeight)
     context.globalCompositeOperation = 'xor'
 
-    name.forEach((letter, index) => {
+    letters.forEach((letter, index) => {
       const is_vowel = vowels.includes(letter)
 
       is_vowel
         ? draw_flower({ index, wrapper, letter, context })
         : draw_curve({ wrapper, context, letter, index })
     })
-  }, [canvas, wrapper])
+  }
+
+  useEffect(() => {
+    if (!canvas || !wrapper) return
+    // get & set the context of the canvas
+    const context = canvas.getContext('2d')
+    set_context(context)
+
+    // draw()
+  }, [canvas, wrapper, name])
+
+  useEffect(() => {
+    if (!wrapper || !context || !canvas) return
+    const resizeObserver = new ResizeObserver(() => {
+      canvas.width = wrapper.getBoundingClientRect().width
+      canvas.height = wrapper.getBoundingClientRect().height
+
+      draw()
+    })
+    resizeObserver.observe(wrapper)
+    return () => resizeObserver.disconnect()
+  }, [wrapper, context, canvas])
+
+  const download = () => {
+    const link = document.createElement('a')
+    const image = canvas
+      .toDataURL('image/png')
+      .replace('image/png', 'image/octet-stream')
+    link.href = image
+    link.setAttribute('download', `canvas.png`)
+    link.click()
+    link.remove()
+  }
 
   return (
     <Wrapper elemRef={set_wrapper}>
@@ -28,6 +61,12 @@ export const Block_41 = () => {
         width={wrapper?.getBoundingClientRect().width}
         height={wrapper?.getBoundingClientRect().height}
       />
+      <Input
+        type="text"
+        defaultValue={name}
+        onChange={(event) => set_name(event.target.value)}
+      />
+      <Button onClick={download}>Download</Button>
     </Wrapper>
   )
 }
@@ -118,7 +157,8 @@ const generate_bezier_curve = ({ x, y, char_code, i }) => {
 
 const max_char_code = 122
 const vowels = ['a', 'e', 'i', 'o', 'u', 'y']
-const name = [...new Set('Marie Malarme'.split(''))]
 
 const Wrapper = Component.article()
 const Canvas = Component.canvas()
+const Input = Component.absolute.t20.l20.input()
+const Button = Component.absolute.t50.l20.button()
