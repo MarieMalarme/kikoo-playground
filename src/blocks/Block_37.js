@@ -18,15 +18,12 @@ export const Block_37 = ({ color }) => {
       elemRef={set_wrapper}
       onMouseMove={() => set_count(count + 1)}
       onTouchMove={() => set_count(count + 1)}
-      style={{
-        background: `repeating-conic-gradient(from ${count}deg at 50%, ${colors[0]} 5deg, ${colors[1]} 20deg)`,
-      }}
     >
-      {gradients.map((props, index) => (
+      {gradients.map((e, index) => (
         <Gradient
           key={index}
           style={{
-            ...props,
+            left: `${index * 10}%`,
             background: `repeating-conic-gradient(from ${
               index % 2 ? count : -count
             }deg at 50%, ${colors[0]} 5deg, ${colors[1]} 20deg)`,
@@ -37,13 +34,7 @@ export const Block_37 = ({ color }) => {
   )
 }
 
-const gradients = Array(12)
-  .fill()
-  .map((e) => ({
-    top: `${random(-100, 50)}%`,
-    left: `${random(-20, 90)}%`,
-    transform: `rotate(${random(0, 180)}deg)`,
-  }))
+const gradients = Array(20).fill()
 
 const Wrapper = Component.flex.flex_wrap.article()
-const Gradient = Component.w25p.h200p.b_rad50p.absolute.div()
+const Gradient = Component.w10p.h100p.div()
