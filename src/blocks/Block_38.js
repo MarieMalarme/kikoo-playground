@@ -146,7 +146,7 @@ const generate_treasures = (colors, wrapper) =>
     const height = wrapper?.getBoundingClientRect().height
 
     let items = []
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 3; i++) {
       const x = random(50, width - 50)
       const y = random(50, height - 50)
       const item = { x, y, found: false, color }
