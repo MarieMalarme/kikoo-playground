@@ -10,6 +10,8 @@ export const Block_41 = ({ is_selected }) => {
   const letters = [...new Set(name.split(''))]
 
   const draw = () => {
+    if (!context) return
+
     context.clearRect(0, 0, window.innerWidth, window.innerHeight)
     context.globalCompositeOperation = 'xor'
 
@@ -28,7 +30,7 @@ export const Block_41 = ({ is_selected }) => {
     const context = canvas.getContext('2d')
     set_context(context)
 
-    // draw()
+    draw()
   }, [canvas, wrapper, name])
 
   useEffect(() => {
