@@ -13,11 +13,23 @@ export const Block_39 = () => {
 
   useEffect(() => {
     if (!wrapper) return
-    const existing_canvas = [...document.querySelectorAll('#section-39 canvas')]
-    existing_canvas.forEach((canvas) => canvas.remove())
+
+    const canvas_to_keep_ids = letters.map(
+      (letter, index) => `${index + 1}_${letter}`,
+    )
+
+    const existing_canvases = [
+      ...document.querySelectorAll('#section-39 canvas'),
+    ].filter((canvas) => canvas_to_keep_ids.includes(canvas.id.split('-')[0]))
+
+    existing_canvases.forEach((canvas) => canvas.remove())
+
     letters.forEach((letter, index) => {
+      const id = `${index + 1}_${letter}-${name}`
+      const existing_canvases = document.getElementById(id)
+      if (existing_canvases) return
       const canvas = document.createElement('canvas')
-      canvas.id = `${index + 1}_${letter}-${name}`
+      canvas.id = id
       canvas.width = wrapper.getBoundingClientRect().width
       canvas.height = wrapper.getBoundingClientRect().height
       canvas.style.transform = `scaleX(${vowels.includes(letter) ? -1 : 1})`
@@ -50,9 +62,9 @@ export const Block_39 = () => {
 
   const download = async () => {
     let count = 0
-    const existing_canvas = [...document.querySelectorAll('#section-39 canvas')]
+    const canvases = [...document.querySelectorAll('#section-39 canvas')]
 
-    for (var canvas of existing_canvas) {
+    for (const canvas of canvases) {
       const link = document.createElement('a')
       const image = canvas
         .toDataURL('image/png')
