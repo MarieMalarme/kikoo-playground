@@ -1,91 +1,84 @@
 import { useState, useEffect } from 'react'
+import { random } from '../utils/toolbox'
 import { Component } from '../utils/flags'
 
-export const Block_40 = ({ hovered, color }) => {
-  const colors = generate_colors(color)
-
-  //states hooks
+export const Block_40 = ({ color, is_selected, hovered }) => {
+  const [count, set_count] = useState(random(3, 7))
   const [wrapper, set_wrapper] = useState(null)
-  const [canvas, set_canvas] = useState(null)
-  const [context, set_context] = useState(null)
-  const [selected_color, set_selected_color] = useState(colors[0])
-  const [{ x, y }, set_position] = useState({ x: 100, y: 230 })
+  const [dimensions, set_dimensions] = useState()
 
-  // init context and draw first item
   useEffect(() => {
-    if (!canvas) return
-    const context = canvas.getContext('2d')
-    set_context(context)
+    setTimeout(() => hovered && set_count(count < amount ? count + 1 : 1), 200)
+  })
 
-    // draw user cursor
-    context.fillStyle = selected_color
-    context.fillRect(100, 230, 10, 10)
-  }, [canvas, selected_color])
-
-  // redraw item with new coordinates on key move
-  useEffect(() => {
-    if (!context || !hovered) return
-    context.fillRect(x, y, 10, 10)
-  }, [context, x, y, hovered, selected_color])
-
-  // focus canvas when the block is hovered; onfocus when not
   useEffect(() => {
     if (!wrapper) return
-    hovered ? wrapper.focus() : wrapper.blur()
-  }, [hovered, wrapper])
+    const resizeObserver = new ResizeObserver(() => {
+      set_dimensions(wrapper.getBoundingClientRect())
+    })
+    resizeObserver.observe(wrapper)
+    return () => resizeObserver.disconnect()
+  }, [wrapper])
 
   return (
-    <Wrapper
-      onKeyDown={(event) => {
-        const { key } = event
-        if (
-          key !== 'ArrowDown' &&
-          key !== 'ArrowUp' &&
-          key !== 'ArrowLeft' &&
-          key !== 'ArrowRight'
-        )
-          return
-        event.preventDefault()
-        event.key === 'ArrowDown' && set_position({ x, y: y + 1 })
-        event.key === 'ArrowUp' && set_position({ x, y: y - 1 })
-        event.key === 'ArrowLeft' && set_position({ x: x - 1, y })
-        event.key === 'ArrowRight' && set_position({ x: x + 1, y })
-      }}
-      tabIndex="0"
-      elemRef={set_wrapper}
-    >
-      <canvas
-        ref={set_canvas}
-        width={wrapper?.getBoundingClientRect().width}
-        height={wrapper?.getBoundingClientRect().height}
-      />
-      <Colors>
-        {colors.map((color, index) => {
-          return (
-            <Color
-              key={index}
-              style={{ background: color }}
-              onClick={() => {
-                context.fillStyle = color
-                set_selected_color(color)
-              }}
-            />
-          )
-        })}
-      </Colors>
+    <Wrapper elemRef={set_wrapper} style={{ background: color.value }}>
+      <svg
+        viewBox={`0 0 ${size} ${size}`}
+        xmlns="http://www.w3.org/2000/svg"
+        width={dimensions?.width}
+        height={dimensions?.height}
+      >
+        {shapes.map((index) => (
+          <Shape key={index} index={index} count={count} color={color} />
+        ))}
+      </svg>
+      <Count fs4vw={is_selected} f_invert100 style={{ color: color.value }}>
+        {count}
+      </Count>
     </Wrapper>
   )
 }
 
-const generate_colors = (color) =>
-  Array(3)
-    .fill()
-    .map((e, index) => {
-      const { hue, saturation, luminosity } = color
-      const hue_inc = (index + 1) * 100
-      return `hsl(${hue + hue_inc}, ${saturation}%, ${luminosity}%)`
-    })
+const Shape = ({ index, count, color }) => {
+  const { x, y } = calc_coords(index)
+  const visible = index + 1 <= count
 
-const Wrapper = Component.article()
-const Colors = Component.absolute.b20.l20.div()
-const Color = Component.mt10.c_pointer.h25.w25.b_rad50p.div()
+  return (
+    <Svg
+      width={size / 2}
+      height={size / 2}
+      x={x - size / 2 / 2}
+      y={y - size / 2 / 2}
+      viewBox="0 0 1000 1000"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ filter: 'invert(100%)', mixBlendMode: 'difference' }}
+    >
+      <path
+        fill={visible ? 'black' : 'none'}
+        d="M600.28 77.53a117.76 117.76 0 0 0 127.54 52.82c85.34-20.3 162.13 56.49 141.83 141.83a117.76 117.76 0 0 0 52.82 127.54c74.71 46 74.71 154.57 0 200.56a117.76 117.76 0 0 0-52.82 127.54C890 813.16 813.16 890 727.82 869.65a117.76 117.76 0 0 0-127.54 52.82c-46 74.71-154.57 74.71-200.56 0a117.76 117.76 0 0 0-127.54-52.82C186.84 890 110.05 813.16 130.35 727.82a117.76 117.76 0 0 0-52.82-127.54c-74.71-46-74.71-154.57 0-200.56a117.76 117.76 0 0 0 52.82-127.54c-20.3-85.34 56.49-162.13 141.83-141.83a117.76 117.76 0 0 0 127.54-52.82c45.99-74.71 154.57-74.71 200.56 0Z"
+      />
+    </Svg>
+  )
+}
+
+const calc_coords = (point) => {
+  const radians = 90 * (Math.PI / 180)
+  const theta = (Math.PI * 2) / shapes.length
+  const angle = theta * point - radians
+
+  const x = radius * Math.cos(angle) + center
+  const y = radius * Math.sin(angle) + center
+
+  return { x, y }
+}
+
+const size = 20
+const center = size / 2
+const radius = center
+
+const amount = 10
+const shapes = [...Array(amount).keys()]
+
+const Wrapper = Component.flex.ai_center.jc_center.article()
+const Count = Component.absolute.div()
+const Svg = Component.f_invert100.blend_difference.svg()
