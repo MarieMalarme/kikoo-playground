@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { random, get_invert_color } from '../utils/toolbox'
+import { get_invert_color } from '../utils/toolbox'
 import { Component } from '../utils/flags'
 
 export const Block_37 = ({ color }) => {
