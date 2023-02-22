@@ -1,166 +1,239 @@
-import { useState, useEffect } from 'react'
-import { Component } from '../utils/flags'
+import { Fragment, useState, useEffect } from 'react'
+import { Component, Div } from '../utils/flags'
+import { random, get_invert_color } from '../utils/toolbox'
+import glitch from '../images/grey_gradient.jpeg'
 
-export const Block_41 = ({ is_selected }) => {
-  const [wrapper, set_wrapper] = useState(null)
+const base_patterns = ['{', '88', ',', '+', 'A', '@', `//`, '#', '0', 'mmm']
+const padding = 25
+const character_width = 5
+
+export const Block_41 = ({ color, is_selected }) => {
   const [canvas, set_canvas] = useState(null)
-  const [context, set_context] = useState(null)
-  const [name, set_name] = useState('Marie Malarme')
-
-  const letters = [...new Set(name.split(''))]
-
-  const draw = () => {
-    if (!context) return
-
-    context.clearRect(0, 0, window.innerWidth, window.innerHeight)
-    context.globalCompositeOperation = 'xor'
-
-    letters.forEach((letter, index) => {
-      const is_vowel = vowels.includes(letter)
-
-      is_vowel
-        ? draw_flower({ index, wrapper, letter, context })
-        : draw_curve({ wrapper, context, letter, index })
-    })
-  }
+  const [wrapper, set_wrapper] = useState(null)
+  const [image, set_image] = useState(glitch)
+  const [ascii_lines, set_ascii_lines] = useState([])
+  const [copy_text, set_copy_text] = useState('Copy ASCII image')
+  const [patterns, set_patterns] = useState(base_patterns)
 
   useEffect(() => {
     if (!canvas || !wrapper) return
-    // get & set the context of the canvas
     const context = canvas.getContext('2d')
-    set_context(context)
+    load_image(context)
+  }, [canvas, wrapper, patterns, image])
 
-    draw()
-  }, [canvas, wrapper, name])
+  const load_image = (context) => {
+    const img = new Image()
+    img.onload = () => {
+      const ratio = img.height / img.width
+      const wrapper_width = wrapper.getBoundingClientRect().width
+      const line_width = wrapper_width - padding * 2
+      const patterns_per_line = Math.round(line_width / character_width)
+      const target_width = patterns_per_line
+      const target_height = Math.floor(target_width * ratio)
+      const img_dimensions = [0, 0, img.width, img.height]
+      const target_dimensions = [0, 0, target_width, target_height]
 
-  useEffect(() => {
-    if (!wrapper || !context || !canvas) return
-    const resizeObserver = new ResizeObserver(() => {
-      canvas.width = wrapper.getBoundingClientRect().width
-      canvas.height = wrapper.getBoundingClientRect().height
+      canvas.width = target_width
+      canvas.height = target_height
 
-      draw()
-    })
-    resizeObserver.observe(wrapper)
-    return () => resizeObserver.disconnect()
-  }, [wrapper, context, canvas])
+      context.drawImage(img, ...img_dimensions, ...target_dimensions)
+      const pixels = context.getImageData(...target_dimensions).data
 
-  const download = () => {
-    const link = document.createElement('a')
-    const image = canvas
-      .toDataURL('image/png')
-      .replace('image/png', 'image/octet-stream')
-    link.href = image
-    link.setAttribute('download', `canvas.png`)
-    link.click()
-    link.remove()
+      let patterns_list = []
+      const chunk_size = 4
+      for (let i = 0; i < pixels.length; i += chunk_size) {
+        const [red, green, blue] = pixels.slice(i, i + chunk_size)
+        const grey = Math.floor((red + green + blue) / 3)
+        const index = Math.floor(grey / (255 / patterns.length))
+        const matching_pattern = patterns[index]
+        patterns_list.push(matching_pattern || patterns.at(0))
+      }
+
+      let lines = []
+      for (let i = 0; i < patterns_list.length; i += patterns_per_line) {
+        lines.push(patterns_list.slice(i, i + patterns_per_line))
+      }
+
+      set_ascii_lines(lines)
+    }
+    img.src = image
   }
 
   return (
     <Wrapper elemRef={set_wrapper}>
-      <Canvas
-        elemRef={set_canvas}
-        width={wrapper?.getBoundingClientRect().width}
-        height={wrapper?.getBoundingClientRect().height}
+      <ControlsPanel
+        patterns={patterns}
+        set_patterns={set_patterns}
+        image={image}
+        set_image={set_image}
+        copy_text={copy_text}
+        set_copy_text={set_copy_text}
+        set_canvas={set_canvas}
+        ascii_lines={ascii_lines}
       />
-      <Input
-        type="text"
-        defaultValue={name}
-        onChange={(event) => set_name(event.target.value)}
-      />
-      <Button onClick={download}>Download</Button>
+
+      <Canvas none elemRef={set_canvas} width="0" height="0" />
+
+      <AsciiImage style={{ lineHeight: '5px', color: get_invert_color(color) }}>
+        {ascii_lines.map((line, index) => (
+          <Line key={index}>
+            {line.map((pattern, index) => (
+              <Character key={index}>{pattern}</Character>
+            ))}
+          </Line>
+        ))}
+      </AsciiImage>
     </Wrapper>
   )
 }
 
-const draw_curve = ({ context, wrapper, letter, index }) => {
-  const char_code = letter.charCodeAt(0) - 65
-  const { width, height } = wrapper.getBoundingClientRect()
+const ControlsPanel = (props) => {
+  const { patterns, set_patterns, ascii_lines } = props
+  const { image, set_image, copy_text, set_copy_text } = props
+  const [is_open, set_is_open] = useState(true)
 
-  const start = [
-    index % 2
-      ? (char_code * width) / max_char_code
-      : width - (char_code * width) / max_char_code,
-    index % 2
-      ? (char_code * height) / max_char_code
-      : height - (char_code * height) / max_char_code,
-  ]
+  return (
+    <Fragment>
+      <Toggle
+        onClick={() => set_is_open(!is_open)}
+        style={{ left: is_open ? 270 : 30 }}
+        pv5={!is_open}
+        ph20={!is_open}
+        fs15={is_open}
+        w20={is_open}
+        h20={is_open}
+      >
+        {is_open ? '×' : 'Open settings'}
+      </Toggle>
 
-  context.beginPath()
-  context.moveTo(start[0], start[1])
+      {is_open && (
+        <Controls>
+          <Div mb10 relative flex ai_center jc_center>
+            <LoadedImage
+              style={{ objectFit: 'cover' }}
+              src={image}
+            ></LoadedImage>
+            <Label>
+              <LabelText>Import image</LabelText>
+              <UploadInput
+                type="file"
+                onChange={(event) => {
+                  const reader = new FileReader()
+                  reader.onload = (event) => {
+                    set_image(event.target.result)
+                  }
+                  reader.readAsDataURL(event.target.files[0])
+                }}
+              />
+            </Label>
+          </Div>
 
-  context.bezierCurveTo(
-    char_code + (index % 2 ? 200 : -200),
-    char_code + (index % 3 ? 400 : -100),
+          {patterns.map((pattern, index) => (
+            <Parameter
+              type="text"
+              index={index}
+              value={pattern}
+              key={`${index}-${pattern}`}
+              label={`Pattern #${index + 1}`}
+              remove_pattern={() =>
+                set_patterns(patterns.filter((p) => p !== pattern))
+              }
+              set_value={(value) => {
+                const first_half = patterns.slice(0, index)
+                const second_half = patterns.slice(index + 1, patterns.length)
+                const new_patterns = [...first_half, value, ...second_half]
+                if (patterns.join() === new_patterns.join()) return
+                set_patterns(new_patterns)
+              }}
+            />
+          ))}
 
-    char_code + (index % 3 ? -200 : 500),
-    char_code + (index % 2 ? 100 : -800),
+          <AddButton
+            onClick={() =>
+              set_patterns([
+                ...patterns,
+                ascii_characters.at(random(0, ascii_characters.length)),
+              ])
+            }
+          >
+            + Add a new pattern
+          </AddButton>
+        </Controls>
+      )}
 
-    start[0] + (char_code * width) / max_char_code + (index % 3 ? 200 : -100),
-    start[1] + (char_code * height) / max_char_code + (index % 4 ? -200 : 150),
+      <CopyButton
+        onClick={() => {
+          const ascii_string = ascii_lines
+            .map((line) => `${line.map((c) => c[0]).join('')}\n`)
+            .join('')
+
+          navigator.clipboard.writeText(ascii_string)
+          set_copy_text('ASCII image copied!')
+          setTimeout(() => set_copy_text('Copy ASCII image'), 2000)
+        }}
+      >
+        {copy_text}
+      </CopyButton>
+    </Fragment>
   )
-
-  context.lineWidth = char_code
-  context.lineJoin = 'round'
-  context.lineCap = 'round'
-  context.fill()
 }
 
-const draw_flower = ({ context, index, wrapper, letter }) => {
-  const { width, height } = wrapper.getBoundingClientRect()
-  const char_code = letter.charCodeAt(0) - 65
+const Parameter = ({ value, set_value, label, remove_pattern, ...props }) => {
+  const [input_value, set_input_value] = useState(value)
+  const has_typed = value.toString() !== input_value.toString()
 
-  const start = [
-    index % 2
-      ? (char_code * width) / max_char_code
-      : width - (char_code * width) / max_char_code,
-    index % 2
-      ? (char_code * height) / max_char_code
-      : height - (char_code * height) / max_char_code,
-  ]
-
-  const bezier_curves = generate_bezier_curve({
-    x: start[0],
-    y: start[1],
-    char_code,
-    index,
-  })
-
-  const start_point = `M${bezier_curves[0].x1}, ${bezier_curves[1].y1}`
-  const bezier_curve_path = bezier_curves.reduce((path, curve) => {
-    const next_bezier_curve = `S${curve.x2}, ${curve.y2}, ${curve.x1}, ${curve.y1}`
-    return `${path} ${next_bezier_curve}`
-  }, start_point)
-
-  const path = new Path2D(bezier_curve_path)
-  context.lineWidth = 1
-  context.fill(path)
+  return (
+    <ParameterWrapper
+      onKeyDown={({ key }) => key === 'Enter' && set_value(input_value)}
+    >
+      <Div flex ai_center>
+        <Input
+          defaultValue={value}
+          className="outline_button"
+          onInput={({ target }) => set_input_value(target.value)}
+          {...props}
+        />
+        <Button
+          ml5
+          mr10
+          o50={!has_typed}
+          c_pointer={has_typed}
+          onClick={() => has_typed && set_value(input_value)}
+        >
+          OK
+        </Button>
+        {label}
+      </Div>
+      <RemoveButton onClick={remove_pattern}>-</RemoveButton>
+    </ParameterWrapper>
+  )
 }
 
-const generate_bezier_curve = ({ x, y, char_code, i }) => {
-  const radius = char_code * 1.5
-  const curves_amount = [...Array(i % 3 ? 5 : 8).keys()]
-  const angle_chunk = 360 / curves_amount.length
+const ascii_characters = `~!@#$%^&*()_-+={}[]|\\'":;?/,.><o0`
 
-  const bezier_curves = curves_amount.map((index) => {
-    const angle = index * angle_chunk
-    const degrees = [(angle * Math.PI) / 50, ((angle - 20) * Math.PI) / 50]
-
-    return {
-      x1: x + radius * Math.sin(degrees[0] + char_code) - char_code,
-      y1: y + radius * Math.cos(degrees[0] + char_code) + char_code,
-      x2: x + radius * Math.sin(degrees[1]) + char_code,
-      y2: y + radius * Math.cos(degrees[1]) + char_code,
-    }
-  })
-
-  return [...bezier_curves, bezier_curves[0]] // add the origin point in the end to close the shape
-}
-
-const max_char_code = 122
-const vowels = ['a', 'e', 'i', 'o', 'u', 'y']
-
-const Wrapper = Component.article()
+const Wrapper = Component.relative.pa20.article()
 const Canvas = Component.canvas()
-const Input = Component.absolute.t20.l20.input()
-const Button = Component.absolute.t50.l20.button()
+const Button =
+  Component.ls1.hover_shadow.b_rad10.h20.bg_white.ba.fs10.ph10.mono.button()
+const RemoveButton =
+  Component.c_pointer.flex_shrink0.ba.h15.w15.flex.ai_center.jc_center.b_rad50p.div()
+const AddButton =
+  Component.mt20.pv5.fs12.c_pointer.w100p.b_rad25.mono.bg_white.ba.button()
+const CopyButton =
+  Component.ph20.absolute.b30.l30.pv5.fs12.c_pointer.b_rad25.mono.bg_white.ba.button()
+const Controls =
+  Component.b_rad5.fs12.flex.flex_column.ai_flex_start.absolute.t30.l30.bg_white.pa20.w235.h65p.of_scroll.mr30.ba.flex_shrink0.div()
+const ParameterWrapper = Component.w100p.mt10.flex.ai_center.jc_between.div()
+const Input = Component.b_rad10.ba.h20.w45.text_center.fs12.input()
+const AsciiImage =
+  Component.of_scroll.fs8.w100p.h100p.mono.ws_nowrap.flex.ai_center.flex_column.div()
+const Line = Component.flex.ai_center.div()
+const Character =
+  Component.w5.h5.flex_shrink0.flex.ai_center.jc_center.text_center.span()
+const LoadedImage = Component.max_h100.w195.img()
+const Label =
+  Component.blend_difference.white.fs18.w100p.h100p.absolute.flex.ai_center.jc_center.label()
+const LabelText = Component.ba.b_rad20.b_white.bw2.ph25.pv5.span()
+const UploadInput = Component.o0.w100p.h100p.absolute.c_pointer.input()
+const Toggle =
+  Component.c_pointer.mono.lh15.t30.absolute.bg_white.b_rad25.fs12.ba.flex.ai_center.jc_center.div()
