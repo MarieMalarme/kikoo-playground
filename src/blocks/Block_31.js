@@ -19,7 +19,7 @@ export const Block_31 = ({ color }) => {
   }, [path_length])
 
   return (
-    <Wrapper id="block-35">
+    <Wrapper>
       <Svg
         width="100%"
         height="100%"
@@ -50,6 +50,7 @@ export const Block_31 = ({ color }) => {
         <Label>font-size:</Label>
         <Input
           type="range"
+          className="range-input-thin"
           value={font_size}
           min={30}
           max={100}
@@ -58,6 +59,7 @@ export const Block_31 = ({ color }) => {
         <Label mt20>text-offset:</Label>
         <Input
           type="range"
+          className="range-input-thin"
           value={inc}
           min={0}
           max={path_length}
@@ -66,6 +68,7 @@ export const Block_31 = ({ color }) => {
         <Label mt20>characters:</Label>
         <Input
           type="range"
+          className="range-input-thin"
           value={characters_amount}
           min={100}
           max={300}
@@ -74,6 +77,7 @@ export const Block_31 = ({ color }) => {
         <Test>
           <Label mr5>text:</Label>
           <TextInput
+            className="text-input-thin"
             placeholder="Type here!"
             type="text"
             value={text}
