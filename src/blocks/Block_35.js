@@ -37,7 +37,7 @@ export const Block_35 = ({ color }) => {
       elemRef={set_wrapper}
       onMouseMove={update_mouse_x}
       onTouchMove={update_mouse_x}
-      style={{ color: get_invert_color(color), fontSize: width / 8 }}
+      style={{ color: get_invert_color(color), fontSize: width / 9 }}
     >
       <Emoticon mouse_x={mouse_x} is_flower={true} />
       <Emoticon mouse_x={mouse_x} />
