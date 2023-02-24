@@ -39,6 +39,7 @@ import { Block_38 } from './Block_38'
 import { Block_39 } from './Block_39'
 import { Block_40 } from './Block_40'
 import { Block_41 } from './Block_41'
+import { Block_42 } from './Block_42'
 
 export const blocks_list = [
   Block_1,
@@ -82,4 +83,5 @@ export const blocks_list = [
   Block_39,
   Block_40,
   Block_41,
+  Block_42,
 ]
