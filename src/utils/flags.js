@@ -2,6 +2,7 @@ import { atomizify, flagify } from 'atomizify'
 
 atomizify({
   custom_classes: {
+    no_events: 'pointer-events: none',
     no_select: 'user-select: none',
     fs2vw: 'font-size: 2vw',
     fs4vw: 'font-size: 4vw',
