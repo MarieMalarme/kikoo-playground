@@ -90,7 +90,7 @@ export const Block_41 = ({ color, is_selected }) => {
 const ControlsPanel = (props) => {
   const { patterns, set_patterns, ascii_lines } = props
   const { image, set_image, copy_text, set_copy_text } = props
-  const [is_open, set_is_open] = useState(true)
+  const [is_open, set_is_open] = useState(false)
 
   return (
     <Fragment>

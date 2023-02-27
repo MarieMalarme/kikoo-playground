@@ -18,7 +18,11 @@ export const Block_33 = ({ color }) => {
     : '295deg, 50deg'
 
   return (
-    <Wrapper elemRef={set_wrapper} onMouseMove={update_mouse}>
+    <Wrapper
+      style={{ background: 'pink' }}
+      elemRef={set_wrapper}
+      onMouseMove={update_mouse}
+    >
       {[...Array(4).keys()].map((index) => (
         <Word
           key={index}

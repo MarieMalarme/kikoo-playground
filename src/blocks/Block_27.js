@@ -22,18 +22,13 @@ export const Block_27 = ({ color }) => {
     set_points(random_points)
 
     set_current_point({ x: random_x(), y: random_y() })
-
-    const clear_shape = () => set_points([])
-    wrapper.addEventListener('dblclick', clear_shape)
-    return () => wrapper.removeEventListener('dblclick', clear_shape)
   }, [wrapper])
 
   return (
     <Wrapper
       elemRef={set_wrapper}
-      onClick={(event) =>
-        set_points([...points, current_point.x, current_point.y])
-      }
+      onDoubleClick={() => set_points([])}
+      onClick={() => set_points([...points, current_point.x, current_point.y])}
       onMouseMove={(event) => {
         const { offsetLeft, offsetTop } = wrapper.offsetParent
         const x = event.clientX - offsetLeft

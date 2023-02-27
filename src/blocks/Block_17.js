@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_17 = ({ color, is_selected, hovered }) => {
@@ -10,10 +10,16 @@ export const Block_17 = ({ color, is_selected, hovered }) => {
 
   const update_count = (event) => {
     if (!hovered) return
+    wrapper.focus()
     event.preventDefault()
     if (event.key === 'ArrowDown') count > 1 && set_count(count - 1)
     if (event.key === 'ArrowUp') count < 99 && set_count(count + 1)
   }
+
+  useEffect(() => {
+    if (!wrapper) return
+    wrapper.focus()
+  }, [hovered])
 
   const color1 = `hsl(${color.hue}, ${color.saturation}%, ${color.luminosity}%)`
   const color2 = `hsl(${color.hue + 180}, ${100 - color.saturation}%, ${

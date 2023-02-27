@@ -11,8 +11,8 @@ export const Block_5 = () => {
     if (!canvas || !wrapper) return
 
     // get & set the context of the canvas
-    const ctx = canvas.getContext('2d')
-    set_context(ctx)
+    const context = canvas.getContext('2d')
+    set_context(context)
 
     const { width, height, top, left } = wrapper.getBoundingClientRect()
 
@@ -24,18 +24,12 @@ export const Block_5 = () => {
     points.forEach((index) => {
       start.x += random(0, 20)
       start.y += random(-10, 15)
-
-      draw_point({
-        x: left + start.x,
-        y: top + start.y,
-        context: ctx,
-        wrapper,
-      })
+      draw_point({ x: left + start.x, y: top + start.y, context, wrapper })
     })
 
     // event listener to clear the canvas on click
     const { innerWidth, innerHeight } = window
-    const clear_canvas = () => ctx.clearRect(0, 0, innerWidth, innerHeight)
+    const clear_canvas = () => context.clearRect(0, 0, innerWidth, innerHeight)
     canvas.addEventListener('click', clear_canvas)
     return () => canvas.removeEventListener('click', clear_canvas)
   }, [canvas, wrapper])
