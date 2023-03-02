@@ -40,7 +40,12 @@ export const Block = ({ block, index, ...states }) => {
       onMouseLeave={() => set_hovered(false)}
       style={{ '--color-block': color.value }}
     >
-      <Component color={color} is_selected={is_selected} hovered={hovered} />
+      <Component
+        id={index + 1}
+        color={color}
+        is_selected={is_selected}
+        hovered={hovered}
+      />
 
       <Header>
         <DisplayCode

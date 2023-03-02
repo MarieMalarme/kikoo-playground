@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { Component, Div } from '../utils/flags'
+import { Component } from '../utils/flags'
+import { Select } from '../utils/components'
 import landscape from '../images/landscape.jpeg'
 import glitch from '../images/glitch.png'
 
-export const Block_23 = ({ color }) => {
+export const Block_23 = ({ id, color }) => {
   const [wrapper, set_wrapper] = useState(null)
 
   const [canvas, set_canvas] = useState(null)
@@ -72,12 +73,11 @@ export const Block_23 = ({ color }) => {
     }
     img.src = glitch
 
-    document.getElementById('section-36').style.overflow = 'visible'
-    document.getElementById('block-36').style.overflow = 'visible'
-  }, [canvas, wrapper_width, wrapper_height])
+    document.getElementById(`section-${id}`).style.overflow = 'visible'
+  }, [id, canvas, wrapper_width, wrapper_height])
 
   return (
-    <Wrapper id="block-36" elemRef={set_wrapper}>
+    <Wrapper id="glitch" elemRef={set_wrapper}>
       <Canvas
         o0={downloading}
         style={{ mixBlendMode: blend_mode }}
@@ -107,7 +107,12 @@ export const Block_23 = ({ color }) => {
       )}
 
       <Controls>
-        <SelectInput blend_mode={blend_mode} set_blend_mode={set_blend_mode} />
+        <Select
+          list={blend_modes_list}
+          value={blend_mode}
+          set_value={set_blend_mode}
+          hover_select={true}
+        />
 
         <Input
           value={tool_size}
@@ -145,33 +150,6 @@ export const Block_23 = ({ color }) => {
   )
 }
 
-const SelectInput = ({ blend_mode, set_blend_mode }) => {
-  const [is_open, set_is_open] = useState(false)
-
-  return (
-    <Select
-      relative
-      id="blend_mode_select"
-      onClick={() => set_is_open(!is_open)}
-    >
-      <Options>
-        <SelectedOption style={{ height: '34px' }}>{blend_mode}</SelectedOption>
-        <Div mt10 pv10 b_rad10 bg_white none={!is_open}>
-          {blend_modes_list.map((mode, index) => (
-            <Option
-              key={mode}
-              bg_grey3={blend_mode === mode}
-              onMouseOver={() => set_blend_mode(mode)}
-            >
-              {mode}
-            </Option>
-          ))}
-        </Div>
-      </Options>
-    </Select>
-  )
-}
-
 const blend_modes_list = [
   'exclusion',
   'difference',
@@ -190,16 +168,11 @@ const blend_modes_list = [
   'normal',
 ]
 
-const Wrapper = Component.article()
+const Wrapper = Component.of_visible.article()
 const Canvas = Component.t0.l0.absolute.canvas()
 const Input = Component.mv10.input()
 const Controls = Component.w140.absolute.l20.t20.div()
 const Button = Component.c_pointer.ba0.w100p.sans.pv10.b_rad20.button()
 const Label = Component.c_pointer.b_rad20.absolute.t0.l0.w100p.h100p.label()
-const Select =
-  Component.flex.ai_center.c_pointer.w100p.sans.ph10.ol_none.b_rad20.div()
-const Options = Component.b_rad10.zi1.w100p.absolute.t0.l0.div()
-const SelectedOption = Component.flex.ai_center.jc_center.div()
-const Option = Component.w100p.h20.flex.ai_center.jc_center.ellipsis.span()
 const Downloading =
   Component.f_invert100.text_center.fs28.lh35.w100p.h100p.flex.ai_center.jc_center.div()
