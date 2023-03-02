@@ -218,11 +218,11 @@ const Button =
 const RemoveButton =
   Component.c_pointer.flex_shrink0.ba.h15.w15.flex.ai_center.jc_center.b_rad50p.div()
 const AddButton =
-  Component.mt20.pv5.fs12.c_pointer.w100p.b_rad25.mono.bg_white.ba.button()
+  Component.mt20.pv5.fs13.c_pointer.w100p.b_rad25.sans.bg_white.ba.button()
 const CopyButton =
-  Component.ph20.absolute.b30.l30.pv5.fs12.c_pointer.b_rad25.mono.bg_white.ba.button()
+  Component.ph20.absolute.b30.l30.pv5.fs15.ph20.pv10.c_pointer.b_rad25.sans.bg_white.ba0.button()
 const Controls =
-  Component.b_rad5.fs12.flex.flex_column.ai_flex_start.absolute.t30.l30.bg_white.pa20.w235.h65p.of_scroll.mr30.ba.flex_shrink0.div()
+  Component.b_rad5.fs12.flex.flex_column.ai_flex_start.absolute.t30.l30.bg_white.pa20.w235.h65p.of_scroll.mr30.flex_shrink0.div()
 const ParameterWrapper = Component.w100p.mt10.flex.ai_center.jc_between.div()
 const Input = Component.b_rad10.ba.h20.w45.text_center.fs12.input()
 const AsciiImage =
@@ -236,4 +236,4 @@ const Label =
 const LabelText = Component.ba.b_rad20.b_white.bw2.ph25.pv5.span()
 const UploadInput = Component.o0.w100p.h100p.absolute.c_pointer.input()
 const Toggle =
-  Component.c_pointer.mono.lh15.t30.absolute.bg_white.b_rad25.fs12.ba.flex.ai_center.jc_center.div()
+  Component.c_pointer.lh15.t30.absolute.bg_white.b_rad25.fs15.ph20.pv10.flex.ai_center.jc_center.div()
