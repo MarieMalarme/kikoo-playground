@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react'
-import { get_invert_color } from '../utils/toolbox'
+import { useState } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_44 = ({ hovered, color }) => {
@@ -11,8 +10,9 @@ export const Block_44 = ({ hovered, color }) => {
   return (
     <Wrapper style={{ background }}>
       {Object.entries(gradients).map(
-        ([position, { gradient, rotation, is_on }]) => (
+        ([position, { gradient, rotation, is_on }], index) => (
           <Switch
+            key={index}
             style={{ [position]: 30, transform: `rotate(${rotation}deg)` }}
             jc_flex_end={is_on}
             onClick={() =>
