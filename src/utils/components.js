@@ -4,6 +4,7 @@ import { Component } from '../utils/flags'
 export const Select = ({ list, value, set_value, hover_select, ...props }) => {
   const [is_open, set_is_open] = useState(false)
   const [hovered_option, set_hovered_option] = useState()
+  const options = hover_select ? list : list.filter((item) => item !== value)
 
   return (
     <SelectWrapper id="select" onClick={() => set_is_open(!is_open)} {...props}>
@@ -11,7 +12,7 @@ export const Select = ({ list, value, set_value, hover_select, ...props }) => {
       <Options>
         <SelectedOption style={{ height: '34px' }}>{value}</SelectedOption>
         <UnselectedOptions none={!is_open}>
-          {list.map((item, index) => (
+          {options.map((item, index) => (
             <Option
               key={item}
               fs16={hovered_option === item}
