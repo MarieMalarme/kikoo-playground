@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
+import glasses from '../images/glasses.webp'
 
 export const Block_48 = ({ hovered, color }) => {
   const [mouse, set_mouse] = useState({ x: 0, y: 0 })
@@ -49,10 +50,11 @@ export const Block_48 = ({ hovered, color }) => {
           }px)`,
         }}
       >
-        👓
+        <Img width={175} alt="glasses" src={glasses} />
       </div>
     </Wrapper>
   )
 }
 
-const Wrapper = Component.fs9vw.flex.ai_center.jc_center.article()
+const Wrapper = Component.flex.ai_center.jc_center.article()
+const Img = Component.img()
