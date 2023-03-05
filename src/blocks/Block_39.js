@@ -1,32 +1,27 @@
-import { useState, useEffect } from 'react'
-import { get_invert_color } from '../utils/toolbox'
+import { useState } from 'react'
 import { Component } from '../utils/flags'
+import monkey1 from '../images/monkey-1.jpg'
+import monkey2 from '../images/monkey-2.jpg'
 
 export const Block_39 = ({ color }) => {
-  const [wrapper, set_wrapper] = useState(null)
-  const [count, set_count] = useState(0)
-  const colors = [color.value, get_invert_color(color)]
-
-  useEffect(() => {
-    const prevent_scroll = (event) => event.preventDefault()
-    if (!wrapper) return
-    wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
-  }, [wrapper])
+  const [on, set_on] = useState(false)
 
   return (
-    <Wrapper
-      elemRef={set_wrapper}
-      onMouseMove={() => set_count(count + 1)}
-      onTouchMove={() => set_count(count + 1)}
-    >
-      <Gradient
-        style={{
-          background: `repeating-conic-gradient(from ${count}deg at 50%, ${colors[0]} 5deg, ${colors[1]} 20deg)`,
-        }}
-      />
+    <Wrapper>
+      <Image src={on ? monkey1 : monkey2} />
+
+      <Button o50={on} l20 onClick={(event) => set_on(true)}>
+        Look back
+      </Button>
+
+      <Button o50={!on} r20 onClick={(event) => set_on(false)}>
+        Look away
+      </Button>
     </Wrapper>
   )
 }
 
-const Wrapper = Component.article()
-const Gradient = Component.h100p.w100p.div()
+const Wrapper = Component.flex.jc_center.article()
+const Image = Component.w100p.absolute.f_saturate0.img()
+const Button =
+  Component.c_pointer.sans.fs17.zi2.absolute.b20.bg_indigo5.white.ba0.ph20.pv10.b_rad20.button()
