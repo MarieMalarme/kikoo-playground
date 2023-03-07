@@ -1,114 +1,93 @@
-import React, { useState, useEffect } from 'react'
-import { Body, Bodies, Engine, Render, Runner, Common } from 'matter-js'
-import { Composites, MouseConstraint, Mouse, Composite } from 'matter-js'
-import { get_invert_color } from '../utils/toolbox'
+import { useState } from 'react'
 import { Component } from '../utils/flags'
+import { random } from '../utils/toolbox'
+import stone_image from '../images/stone.jpg'
+import stone_hit_1_image from '../images/stone-hit-1.jpg'
+import stone_hit_2_image from '../images/stone-hit-2.jpg'
+import stone_hit_3_image from '../images/stone-hit-3.jpg'
+import hammer_image from '../images/hammer.png'
 
-export const Block_29 = ({ color, hovered }) => {
-  const [wrapper, set_wrapper] = useState(null)
-  const [engine, set_engine] = useState(null)
-  const [matter, set_matter] = useState({})
+export const Block_29 = ({ is_selected, hovered, color }) => {
+  const [has_clicked, set_has_clicked] = useState(false)
+  const [broken_stones, set_broken_stones] = useState(0)
 
-  useEffect(() => set_engine(Engine.create()), [])
-
-  // set up render & create the circles
-  useEffect(() => {
-    if (!engine || !wrapper) return
-
-    const { width, height } = wrapper.getBoundingClientRect()
-
-    // set up matter-js
-    const render = Render.create({
-      engine,
-      element: wrapper,
-      options: { width, height, wireframes: false, background: 'transparent' },
-    })
-
-    const runner = Runner.create()
-    set_matter({ render, runner })
-    Runner.run(runner, engine)
-    Render.run(render)
-
-    // create the cloth
-    const columns = 5
-    const rows = 5
-    const radius = width / columns / 2
-    const cloth = create_cloth(0, 0, columns, rows, 0.5, radius)
-
-    for (let i = 0; i < columns; i++) {
-      cloth.bodies[i].isStatic = true
-    }
-
-    Composite.add(engine.world, [
-      cloth,
-      // walls
-      Bodies.rectangle(0, height + 10, width * 2, 20, {
-        isStatic: true,
-        render: { visible: false },
-      }),
-      Bodies.rectangle(-10, 0, 10, height * 2, {
-        isStatic: true,
-        render: { visible: false },
-      }),
-      Bodies.rectangle(width + 10, 0, 10, height * 2, {
-        isStatic: true,
-        render: { visible: false },
-      }),
-    ])
-
-    // add mouse control
-    const mouse = Mouse.create(render.canvas)
-    const mouse_constraint = MouseConstraint.create(engine, {
-      mouse,
-      constraint: {
-        pointA: { x: -10, y: -10 },
-        pointB: { x: -10, y: -10 },
-        render: { strokeStyle: get_invert_color(color) },
-      },
-    })
-    Composite.add(engine.world, mouse_constraint)
-    render.mouse = mouse // keep the mouse in sync with rendering
-
-    // enable scroll events that are disabled by matter-js
-    const events_to_remove = ['mousewheel', 'DOMMouseScroll']
-    events_to_remove.forEach((event) => {
-      mouse_constraint.mouse.element.removeEventListener(
-        event,
-        mouse_constraint.mouse.mousewheel,
-      )
-    })
-  }, [engine, wrapper, color])
-
-  useEffect(() => {
-    if (!engine || !matter.render || !matter.runner) return
-    matter.runner.enabled = hovered
-    matter.render.options.enabled = hovered
-  }, [engine, matter.render, matter.runner, hovered])
-
-  return <Wrapper elemRef={set_wrapper}></Wrapper>
-}
-
-const Wrapper = Component.article()
-
-const create_cloth = (x, y, columns, rows, gap, radius) => {
-  const group = Body.nextGroup(true)
-  const particle_options = Common.extend({
-    inertia: Infinity,
-    friction: 0.00001,
-    collisionFilter: { group: group },
-    render: { visible: false },
-  })
-
-  const constraint_options = Common.extend({
-    stiffness: 0.1,
-    render: { type: 'line' },
-  })
-
-  const cloth = Composites.stack(x, y, columns, rows, gap, gap, (x, y) =>
-    Bodies.circle(x, y, radius, particle_options),
+  return (
+    <Wrapper
+      tabIndex="0"
+      id="cursor-hammer"
+      onClick={() => set_has_clicked(true)}
+    >
+      {!has_clicked && (
+        <Instruction bg_cherry4>
+          Take the wall down! Click 4 times on each brick to break it.
+        </Instruction>
+      )}
+      {broken_stones === columns * rows && (
+        <Instruction bg_grey4>Well done, you nailed it!</Instruction>
+      )}
+      <Grid
+        style={{
+          gridGap: '7px',
+          cursor: `url(${hammer_image}), auto`,
+          gridTemplateRows: `repeat(${rows}, 1fr)`,
+          gridTemplateColumns: `repeat(${columns}, 1fr)`,
+        }}
+      >
+        {stones.map((stone, index) => (
+          <Stone
+            key={index}
+            stone={stone}
+            broken_stones={broken_stones}
+            set_broken_stones={set_broken_stones}
+          />
+        ))}
+      </Grid>
+    </Wrapper>
   )
-
-  Composites.mesh(cloth, columns, rows, false, constraint_options)
-
-  return cloth
 }
+
+const Stone = ({ stone, broken_stones, set_broken_stones }) => {
+  const [hits, set_hits] = useState(0)
+  const { rotation, scale_x, scale_y } = stone
+  const is_broken = hits === 4
+  const background = is_broken ? '' : `center / cover url(${images[hits]})`
+
+  return (
+    <Cell
+      bg_cherry3={is_broken}
+      className={hits < 4 ? 'hover_shadow_cherry4' : ''}
+      onClick={() => {
+        if (!is_broken) set_hits(hits + 1)
+        if (hits === max_hits - 1) set_broken_stones(broken_stones + 1)
+      }}
+      style={{
+        background,
+        transform: `rotate(${rotation}deg) scaleX(${scale_x}) scaleY(${scale_y})`,
+      }}
+    />
+  )
+}
+
+const columns = 4
+const rows = 6
+const max_hits = 4
+
+const scales = [-1, 1]
+const stones = [...Array(columns * rows).keys()].map(() => ({
+  scale_x: scales[random(0, 1)],
+  scale_y: scales[random(0, 1)],
+  rotation: random(0, 1) * 180,
+}))
+
+const images = [
+  stone_image,
+  stone_hit_1_image,
+  stone_hit_2_image,
+  stone_hit_3_image,
+]
+
+const Wrapper = Component.flex.ai_center.jc_center.article()
+const Grid = Component.w100p.h100p.grid.ba.bg_grey4.b_grey4.bw3.pa5.div()
+const Cell = Component.b_rad6.w100p.h100p.div()
+const Instruction =
+  Component.zi1.white.fs16.flex.ai_center.jc_center.pa30.events_none.w160.h160.b_rad50p.text_center.absolute.span()
