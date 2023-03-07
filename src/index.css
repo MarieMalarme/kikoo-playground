@@ -289,6 +289,34 @@ input[type='text'].text-input-thin::selection {
   height: 34px;
 }
 
+input[type='color'] {
+  -webkit-appearance: none;
+  border: none;
+  width: 15px;
+  height: 15px;
+  background: none;
+  cursor: pointer;
+}
+
+input[type='color']::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+input[type='color']::-webkit-color-swatch {
+  border-radius: 50%;
+  border: solid 0.1px rgb(175, 175, 175);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
 /* ****** */
 /*  TEXT  */
 /* ****** */
@@ -424,6 +452,10 @@ input[type='text'].text-input-thin::selection {
   }
 }
 
+/* ********** */
+/*  SPECIFIC  */
+/* ********** */
+
 .tag:hover {
   z-index: 2;
 }
@@ -433,12 +465,6 @@ input[type='text'].text-input-thin::selection {
   outline: none;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type='number'] {
-  -moz-appearance: textfield;
+.hover_shadow_cherry4:hover {
+  box-shadow: 0 0 25px inset var(--cherry4);
 }
