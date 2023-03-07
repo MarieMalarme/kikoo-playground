@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react'
-import { Component, Div } from '../utils/flags'
-import { get_invert_color } from '../utils/toolbox'
+import { useState } from 'react'
+import { Component } from '../utils/flags'
 
 export const Block_50 = ({ is_selected, hovered, color }) => {
-  const [wrapper, set_wrapper] = useState(null)
   const [shadows_amount, set_shadows_amount] = useState(4)
   const [distance, set_distance] = useState(4)
   const [colors, set_colors] = useState({
@@ -21,11 +19,7 @@ export const Block_50 = ({ is_selected, hovered, color }) => {
   })
 
   return (
-    <Wrapper
-      tabIndex="0"
-      elemRef={set_wrapper}
-      style={{ background: colors.background }}
-    >
+    <Wrapper tabIndex="0" style={{ background: colors.background }}>
       <div>
         <Text absolute style={{ color: colors.text }}>
           Sans rigoler. Je pratique la MMA depuis maintenant 6 ans.
