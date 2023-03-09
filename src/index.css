@@ -452,6 +452,22 @@ input[type='number'] {
   }
 }
 
+.circle-pop {
+  animation: circle-pop 0.4s linear;
+}
+
+@keyframes circle-pop {
+  0% {
+    transform: scale(0);
+  }
+  20% {
+    transform: scale(2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
 /* ********** */
 /*  SPECIFIC  */
 /* ********** */

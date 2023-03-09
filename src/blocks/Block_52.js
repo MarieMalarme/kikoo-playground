@@ -3,8 +3,9 @@ import { Component } from '../utils/flags'
 
 export const Block_52 = ({ color }) => {
   const [mouse, set_mouse] = useState({ x: 100, y: 100 })
-  const [wrapper, set_wrapper] = useState(null)
   const [circles, set_circles] = useState([{ x: 100, y: 100, id: 1 }])
+  const [wrapper, set_wrapper] = useState(null)
+  const [has_clicked, set_has_clicked] = useState(false)
 
   const update_mouse = (event) => {
     event = event.type === 'touchmove' ? event.touches[0] : event
@@ -29,6 +30,8 @@ export const Block_52 = ({ color }) => {
       onTouchMove={update_mouse}
       onMouseMove={update_mouse}
       onClick={() => {
+        !has_clicked && set_has_clicked(true)
+
         const last_active_circle = circles.pop()
         const new_circle = { id: last_active_circle.id + 1 }
         set_circles([
@@ -42,9 +45,14 @@ export const Block_52 = ({ color }) => {
         ])
       }}
     >
-      <Box>Move & click</Box>
+      <Box>{!has_clicked && 'Move & click'}</Box>
       {circles.map((circle) => (
-        <Circle circles={circles} circle={circle} mouse={mouse} />
+        <Circle
+          key={circle.id}
+          circles={circles}
+          circle={circle}
+          mouse={mouse}
+        />
       ))}
     </Wrapper>
   )
