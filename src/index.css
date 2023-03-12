@@ -453,7 +453,7 @@ input[type='number'] {
 }
 
 .circle-pop {
-  animation: circle-pop 0.4s linear;
+  animation: circle-pop 0.2s linear;
 }
 
 @keyframes circle-pop {
@@ -461,13 +461,31 @@ input[type='number'] {
     transform: scale(0);
   }
   20% {
-    transform: scale(2);
+    transform: scale(4);
   }
   100% {
     transform: scale(1);
   }
 }
 
+.circle-pop-disappear {
+  animation: circle-pop-disappear 0.2s linear;
+  width: 10px;
+  height: 10px;
+}
+
+@keyframes circle-pop-disappear {
+  0% {
+    opacity: 1;
+  }
+  20% {
+    transform: scale(3);
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
 /* ********** */
 /*  SPECIFIC  */
 /* ********** */
