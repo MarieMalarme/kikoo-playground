@@ -1,95 +1,133 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
-import { MouseWheel } from '../icons'
-import dog1 from '../images/dog-1.png'
-import dog2 from '../images/dog-2.png'
+import { random } from '../utils/toolbox'
 
 export const Block_53 = ({ hovered }) => {
   const [wrapper, set_wrapper] = useState(null)
-  const [touched, set_touched] = useState()
-  const [wheelable, _set_wheelable] = useState(false)
-  const [wheeled, set_wheeled] = useState(0)
+  const [has_clicked, set_has_clicked] = useState(null)
+  const [mouse, set_mouse] = useState({ x: 100, y: 100 })
+  const [hsl, set_hsl] = useState({ hue: 140, luminosity: 50 })
+  const [{ width, height }, set_dimensions] = useState({ width: 0, height: 0 })
 
-  const wheelable_ref = useRef(wheelable)
-  const set_wheelable = (data) => {
-    wheelable_ref.current = data
-    _set_wheelable(data)
-  }
-
-  const handle_wheel = (wheeling) => {
-    const can_wheel = hovered
-    set_wheelable(can_wheel)
-    if (!can_wheel) return
-    const increment = 8
-    set_wheeled(wheeled + (wheeling.down > 0 ? increment : -increment))
-  }
+  const { hue, luminosity } = hsl
+  const color = `hsl(${hue}, 50%, ${luminosity}%)`
 
   useEffect(() => {
-    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
-  }, [wheelable])
+    if (!wrapper) return
+    set_dimensions(wrapper.getBoundingClientRect())
+    set_mouse({
+      x: random(padding, width - padding),
+      y: random(padding, height - padding),
+    })
+
+    const resizeObserver = new ResizeObserver(() => {
+      set_dimensions(wrapper.getBoundingClientRect())
+      set_mouse({
+        x: random(padding, width - padding),
+        y: random(padding, height - padding),
+      })
+    })
+    resizeObserver.observe(wrapper)
+    return () => resizeObserver.disconnect()
+  }, [wrapper, height, width])
 
   useEffect(() => {
-    const prevent_scroll = (event) => {
-      if (!wheelable_ref.current) return
+    if (!wrapper) return
+    const prevent_scroll = (event) => event.preventDefault()
+    wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
+    return () => document.removeEventListener('touchmove', prevent_scroll)
+  }, [wrapper])
+
+  useEffect(() => {
+    const copy = (event) => {
       event.preventDefault()
+      if (!event.clipboardData) return
+      event.clipboardData.setData('text/plain', color)
     }
 
-    if (!wrapper) return
-    wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
-  }, [wrapper, wheelable_ref])
+    document.addEventListener('copy', copy)
+    return () => document.removeEventListener('copy', copy)
+  }, [color])
 
   useEffect(() => {
-    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
-  }, [wheelable])
+    clearTimeout(timeout_id)
+    timeout_id = setTimeout(() => set_has_clicked(false), 800)
+  }, [has_clicked])
 
-  useEffect(() => {
-    if (!wrapper) return
-    document.addEventListener('touchstart', (event) => {
-      !event.target.contains(wrapper) && set_wheelable(false)
-    })
-  }, [wrapper])
+  const update_values = (event) => {
+    event = event.type === 'touchmove' ? event.touches[0] : event
+    const { offsetTop, offsetLeft } = wrapper.offsetParent
+    const client_x = event.clientX - offsetLeft
+    const client_y = event.clientY - (offsetTop - window.pageYOffset)
+    set_mouse({ x: client_x, y: client_y })
+
+    const allowed_x = client_x > padding && width - client_x > padding
+    const allowed_y = client_y > padding && height - client_y > padding
+
+    if (!allowed_y || !allowed_x) return
+
+    const translated_x = client_x - padding
+    const max_x = width - padding * 2
+    const hue = calc_interval_value(translated_x / max_x, 360)
+
+    const translated_y = client_y - padding
+    const max_y = height - padding * 2
+    const luminosity = calc_interval_value(translated_y / max_y, 100)
+
+    set_hsl({ ...hsl, hue, luminosity })
+  }
 
   return (
     <Wrapper
-      style={{
-        perspective: '750px',
-        transformStyle: 'preserve-3d',
-        position: 'relative',
-      }}
       elemRef={set_wrapper}
-      onTouchStart={(event) => set_touched(event.touches[0].pageY)}
-      onTouchEnd={() => set_touched(false)}
-      onTouchMove={(event) => {
-        const { pageY } = event.touches[0]
-        const wheeling = { down: touched > pageY, up: touched < pageY }
-        handle_wheel(wheeling, true)
+      onTouchMove={update_values}
+      onMouseMove={update_values}
+      onClick={() => {
+        document.execCommand('copy')
+        set_has_clicked(true)
       }}
-      onMouseOver={() => set_wheelable(wheeled > 0)}
-      onMouseEnter={() => set_wheelable(wheeled > 0)}
-      onMouseLeave={() => set_wheelable(false)}
-      onWheel={(event) => {
-        const wheeling = { down: event.deltaY > 0, up: event.deltaY < 0 }
-        handle_wheel(wheeling)
-      }}
+      style={{ background: color, cursor: 'none' }}
     >
-      <MouseWheel absolute t20 l20 hovered={hovered} />
-      <Image
-        style={{
-          background: `center / contain no-repeat url(${dog1})`,
-          transform: `rotateY(${wheeled}deg)`,
-          backfaceVisibility: 'hidden',
-        }}
-      />
-      <Image
-        style={{
-          background: `center / contain no-repeat url(${dog2})`,
-          transform: `rotateY(${180 + wheeled}deg)`,
-          backfaceVisibility: 'hidden',
-        }}
-      />
+      <Dot className="circle-pop-disappear" />
+      <Value t40 r40>
+        hue {hue}
+      </Value>
+      <Value b40 l40>
+        luminosity {luminosity}
+      </Value>
+      <LineHorizontal style={{ top: mouse.y }} />
+      <LineVertical style={{ left: mouse.x }} />
+      {has_clicked && (
+        <Cursor
+          className="circle-pop-disappear"
+          style={{ top: mouse.y - 5, left: mouse.x - 5 }}
+        />
+      )}
+      <Value
+        mono
+        fs12
+        ws_nowrap
+        c_none
+        style={{ left: mouse.x + 15, top: mouse.y + 10 }}
+      >
+        {has_clicked ? 'Copied to clipboard!' : 'Click to pick'}
+      </Value>
     </Wrapper>
   )
 }
 
+const calc_interval_value = (number, max) =>
+  Math.round(Math.min(max, Math.max(0, max * number)))
+
+let timeout_id
+const padding = 40
+
 const Wrapper = Component.flex.ai_center.jc_center.article()
-const Image = Component.w85p.h85p.absolute.div()
+const Value = Component.absolute.blend_difference.white.div()
+const Dot =
+  Component.h15.w15.l40.t40.absolute.b_rad50p.bg_white.blend_difference.div()
+const LineHorizontal =
+  Component.blend_difference.absolute.w100p.h1.bg_white.o50.div()
+const LineVertical =
+  Component.blend_difference.absolute.h100p.w1.bg_white.o50.div()
+const Cursor = Component.o0.absolute.blend_difference.b_rad50p.bg_white.div()
