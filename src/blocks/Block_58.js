@@ -23,9 +23,9 @@ export const Block_58 = ({ hovered }) => {
       style={{ background: 'deepskyblue' }}
       onKeyDown={handle_keydown}
     >
-      {shapes.map(({ component, color }) => {
+      {shapes.map(({ component, color }, index) => {
         const Shape = component
-        return <Shape color={color} />
+        return <Shape key={index} color={color} />
       })}
 
       <Instruction>Press Enter to generate a new totem</Instruction>

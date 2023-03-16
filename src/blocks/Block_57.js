@@ -11,6 +11,7 @@ export const Block_57 = ({ color }) => {
       <Squares>
         {squares.map((index) => (
           <Square
+            key={index}
             style={{
               minHeight: `calc(100% / ${amount})`,
               minWidth: `calc(100% / ${amount})`,

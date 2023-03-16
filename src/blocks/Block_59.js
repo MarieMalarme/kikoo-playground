@@ -20,6 +20,8 @@ export const Block_59 = ({ color }) => {
     set_mouse_y(wrapper.getBoundingClientRect().height)
   }, [wrapper])
 
+  const wrapper_height = wrapper?.getBoundingClientRect().height - 75
+
   return (
     <Wrapper
       style={{ background: 'lightgoldenrodyellow' }}
@@ -30,10 +32,8 @@ export const Block_59 = ({ color }) => {
         t20
         style={{
           color: 'blue',
-          textShadow:
-            '0 0 25px lime, 0 0 25px lime, 0 0 25px lime, 0 0 25px lime, 0 0 25px lime, 0 0 25px lime',
-          opacity:
-            (mouse_y - 150) / (wrapper?.getBoundingClientRect().height - 75),
+          textShadow: shadows,
+          opacity: (mouse_y - 150) / wrapper_height || 0,
         }}
       >
         Hover here
@@ -42,10 +42,8 @@ export const Block_59 = ({ color }) => {
         b20
         style={{
           color: 'blue',
-          textShadow:
-            '0 0 25px lime, 0 0 25px lime, 0 0 25px lime, 0 0 25px lime, 0 0 25px lime, 0 0 25px lime',
-          opacity:
-            1 - (mouse_y - 75) / (wrapper?.getBoundingClientRect().height - 75),
+          textShadow: shadows,
+          opacity: 1 - (mouse_y - 75) / wrapper_height || 0,
         }}
       >
         Over there
@@ -53,6 +51,8 @@ export const Block_59 = ({ color }) => {
     </Wrapper>
   )
 }
+
+const shadows = [...Array(6).keys()].map(() => '0 0 25px lime').join(', ')
 
 const Wrapper = Component.fs100.flex.flex_column.ai_center.jc_center.article()
 const Text = Component.absolute.p()
