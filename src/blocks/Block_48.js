@@ -9,18 +9,15 @@ export const Block_48 = ({ hovered, color }) => {
 
   useEffect(() => {
     if (!wrapper) return
-    const { width, height } = wrapper.getBoundingClientRect()
-    set_dimensions({ width, height })
-    set_mouse({ x: width / 2 - 50, y: height / 2 - 50 })
-
-    const resizeObserver = new ResizeObserver(() => {
+    const set = () => {
       const { width, height } = wrapper.getBoundingClientRect()
       set_dimensions({ width, height })
-      set_mouse({ x: width / 2 - 50, y: height / 2 - 50 })
-    })
+    }
+
+    const resizeObserver = new ResizeObserver(set)
     resizeObserver.observe(wrapper)
     return () => resizeObserver.disconnect()
-  }, [wrapper, height, width])
+  }, [wrapper])
 
   useEffect(() => {
     const prevent_scroll = (event) => event.preventDefault()

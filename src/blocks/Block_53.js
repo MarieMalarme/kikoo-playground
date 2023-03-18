@@ -27,11 +27,6 @@ export const Block_53 = ({ is_selected, hovered, color }) => {
     wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
   }, [wrapper])
 
-  useEffect(() => {
-    if (!wrapper) return
-    wrapper.focus()
-  }, [hovered])
-
   return (
     <Wrapper
       onTouchMove={update_mouse}

@@ -16,7 +16,7 @@ export const Block_35 = ({ color }) => {
     })
     resizeObserver.observe(wrapper)
     return () => resizeObserver.disconnect()
-  }, [wrapper, height, width])
+  }, [wrapper])
 
   useEffect(() => {
     const prevent_scroll = (event) => event.preventDefault()

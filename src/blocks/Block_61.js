@@ -14,22 +14,19 @@ export const Block_61 = ({ hovered }) => {
 
   useEffect(() => {
     if (!wrapper) return
-    set_dimensions(wrapper.getBoundingClientRect())
-    set_mouse({
-      x: random(padding, width - padding),
-      y: random(padding, height - padding),
-    })
-
-    const resizeObserver = new ResizeObserver(() => {
-      set_dimensions(wrapper.getBoundingClientRect())
+    const set = () => {
+      const dimensions = wrapper.getBoundingClientRect()
+      set_dimensions(dimensions)
       set_mouse({
-        x: random(padding, width - padding),
-        y: random(padding, height - padding),
+        x: random(padding, dimensions.width - padding),
+        y: random(padding, dimensions.height - padding),
       })
-    })
+    }
+
+    const resizeObserver = new ResizeObserver(set)
     resizeObserver.observe(wrapper)
     return () => resizeObserver.disconnect()
-  }, [wrapper, height, width])
+  }, [wrapper])
 
   useEffect(() => {
     if (!wrapper) return

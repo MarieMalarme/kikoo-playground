@@ -32,22 +32,20 @@ export const Block_20 = () => {
 
   useEffect(() => {
     if (!wrapper) return
-    set_dimensions(wrapper.getBoundingClientRect())
-    set_mouse({
-      x: random(limit, width - limit),
-      y: random(limit, height - limit),
-    })
 
-    const resizeObserver = new ResizeObserver(() => {
-      set_dimensions(wrapper.getBoundingClientRect())
+    const set = () => {
+      const dimensions = wrapper.getBoundingClientRect()
+      set_dimensions(dimensions)
       set_mouse({
-        x: random(limit, width - limit),
-        y: random(limit, height - limit),
+        x: random(limit, dimensions.width - limit),
+        y: random(limit, dimensions.height - limit),
       })
-    })
+    }
+
+    const resizeObserver = new ResizeObserver(set)
     resizeObserver.observe(wrapper)
     return () => resizeObserver.disconnect()
-  }, [wrapper, height, width])
+  }, [wrapper])
 
   useEffect(() => {
     const prevent_scroll = (event) => event.preventDefault()
