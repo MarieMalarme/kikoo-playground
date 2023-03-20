@@ -5,14 +5,14 @@ import { Component } from '../utils/flags'
 export const Block_35 = ({ color }) => {
   const [mouse_x, set_mouse_x] = useState(0)
   const [wrapper, set_wrapper] = useState(null)
-  const [{ width, height }, set_dimensions] = useState({ width: 0, height: 0 })
+  const [width, set_width] = useState(0)
 
   useEffect(() => {
     if (!wrapper) return
-    set_dimensions(wrapper.getBoundingClientRect())
+    set_width(wrapper.getBoundingClientRect().width)
 
     const resizeObserver = new ResizeObserver(() => {
-      set_dimensions(wrapper.getBoundingClientRect())
+      set_width(wrapper.getBoundingClientRect().width)
     })
     resizeObserver.observe(wrapper)
     return () => resizeObserver.disconnect()
