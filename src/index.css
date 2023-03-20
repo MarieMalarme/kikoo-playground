@@ -317,6 +317,16 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
+#galaxy-grid input[type='range'] {
+  background: var(--yellow4);
+  transform: scale(0.5);
+  width: 60%;
+}
+
+#galaxy-grid input[type='range']::-webkit-slider-thumb {
+  background: var(--purple5);
+}
+
 /* ****** */
 /*  TEXT  */
 /* ****** */
