@@ -29,6 +29,7 @@ export const Block_53 = ({ is_selected, color }) => {
 
   return (
     <Wrapper
+      id="displacement-map"
       onTouchMove={update_mouse}
       onMouseMove={update_mouse}
       elemRef={set_wrapper}
