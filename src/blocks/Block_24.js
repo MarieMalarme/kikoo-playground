@@ -3,7 +3,7 @@ import { random, get_invert_color } from '../utils/toolbox'
 import { Component } from '../utils/flags'
 import { Arrow } from '../icons'
 
-export const Block_24 = ({ hovered, color }) => {
+export const Block_24 = ({ is_hovered, color }) => {
   //states hooks
   const [has_started, set_has_started] = useState(false)
   const [wrapper, set_wrapper] = useState(null)
@@ -33,7 +33,7 @@ export const Block_24 = ({ hovered, color }) => {
 
   // redraw items with new coordinates & props on key moves
   useEffect(() => {
-    if (!context || !hovered || !wrapper) return
+    if (!context || !is_hovered || !wrapper) return
     const { width, height } = wrapper.getBoundingClientRect()
     context.clearRect(0, 0, width, height) // optional
 
@@ -48,13 +48,14 @@ export const Block_24 = ({ hovered, color }) => {
     }
 
     draw_avatar(context, selected_color, x, y)
-  }, [context, wrapper, x, y, hovered, selected_color, treasures])
+  }, [context, wrapper, x, y, is_hovered, selected_color, treasures])
 
   // focus canvas when the block is hovered; onfocus when not
   useEffect(() => {
-    if (!wrapper) return
-    hovered ? wrapper.focus() : wrapper.blur()
-  }, [hovered, wrapper])
+    const { matches } = window.matchMedia('(max-width: 600px)')
+    if (!wrapper || matches) return
+    is_hovered ? wrapper.focus() : wrapper.blur()
+  }, [is_hovered, wrapper])
 
   return (
     <Wrapper
@@ -100,6 +101,30 @@ export const Block_24 = ({ hovered, color }) => {
           <Span>Start</Span>
         </Start>
       )}
+
+      <Arrows>
+        <ArrowLeft
+          onClick={() => set_position({ x: x - 10, y })}
+          style={{ transform: 'rotate(270deg)' }}
+        >
+          ▲
+        </ArrowLeft>
+        <div>
+          <ArrowUp onClick={() => set_position({ x, y: y - 10 })}>▲</ArrowUp>
+          <ArrowDown
+            onClick={() => set_position({ x, y: y + 10 })}
+            style={{ transform: 'rotate(180deg)' }}
+          >
+            ▲
+          </ArrowDown>
+        </div>
+        <ArrowRight
+          onClick={() => set_position({ x: x + 10, y })}
+          style={{ transform: 'rotate(90deg)' }}
+        >
+          ▲
+        </ArrowRight>
+      </Arrows>
     </Wrapper>
   )
 }
@@ -184,5 +209,11 @@ const Wrapper = Component.article()
 const Finished = Component.w100p.h100p.flex.ai_center.jc_center.div()
 const Congrats = Component.fs35.absolute.div()
 const Svg = Component.absolute.svg()
-const Start = Component.absolute.b20.w100p.text_center.div()
+const Start = Component.hidden__xs.absolute.b20.w100p.text_center.div()
 const Span = Component.mb5.div()
+const Arrows =
+  Component.none__d.w100p.flex.ai_center.jc_center.b30.absolute.div()
+const ArrowLeft = Component.mono.fs22.b_rad4.ba.ph10.pv5.mr10.div()
+const ArrowRight = Component.mono.fs22.b_rad4.ba.ph10.pv5.ml10.div()
+const ArrowUp = Component.mono.fs22.b_rad4.ba.ph15.mb5.div()
+const ArrowDown = Component.mono.fs22.b_rad4.ba.ph15.div()

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 import { get_invert_color } from '../utils/toolbox'
 
-export const Block_52 = ({ hovered, color }) => {
+export const Block_52 = ({ color }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [mouse, set_mouse] = useState({ x: 100, y: 100 })
 

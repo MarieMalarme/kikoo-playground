@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 import { random } from '../utils/toolbox'
 
-export const Block_61 = ({ hovered }) => {
+export const Block_61 = () => {
   const [wrapper, set_wrapper] = useState(null)
   const [has_clicked, set_has_clicked] = useState(null)
   const [mouse, set_mouse] = useState({ x: 100, y: 100 })

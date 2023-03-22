@@ -121,10 +121,11 @@ const generate_color = (colors_amount, last_percentage) => {
 const base_colors_amount = 4
 const base_colors = generate_colors(base_colors_amount)
 
-const Wrapper = Component.flex.pa20.ai_flex_end.jc_between.article()
+const Wrapper =
+  Component.flex.pa20.ph10__xs.pb15__xs.ai_flex_end.jc_between.article()
 const GenerateButton =
-  Component.w140.pv5.ph10.bg_white.fs15.b_rad50.flex.ai_center.jc_center.c_pointer.div()
+  Component.w140.w100__xs.pv5.ph10.bg_white.fs13__xs.b_rad50.flex.ai_center.jc_center.c_pointer.div()
 const Buttons =
-  Component.w140.pv5.ph10.bg_white.b_rad50.fs15.flex.ai_center.jc_between.div()
+  Component.w140.w115__xs.pv5.ph10.bg_white.b_rad50.fs13__xs.flex.ai_center.jc_between.div()
 const Button =
   Component.bg_white.b_rad50p.flex.ai_center.jc_center.c_pointer.div()

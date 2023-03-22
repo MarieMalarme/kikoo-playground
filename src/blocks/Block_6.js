@@ -2,7 +2,7 @@ import { useState, useEffect, Fragment } from 'react'
 import { Component } from '../utils/flags'
 import { random } from '../utils/toolbox'
 
-export const Block_6 = ({ hovered }) => {
+export const Block_6 = ({ is_hovered }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [hits, set_hits] = useState([])
 
@@ -10,7 +10,7 @@ export const Block_6 = ({ hovered }) => {
     if (!wrapper) return
 
     const handle_keydown = (event) => {
-      if (!hovered) return
+      if (!is_hovered) return
       if (event.key === 'Backspace') set_hits([])
       if (event.key !== 'b') return
       const new_hit = generate_hit(wrapper)
@@ -19,7 +19,7 @@ export const Block_6 = ({ hovered }) => {
 
     document.addEventListener('keydown', handle_keydown)
     return () => document.removeEventListener('keydown', handle_keydown)
-  }, [wrapper, hits, hovered])
+  }, [wrapper, hits, is_hovered])
 
   return (
     <Wrapper

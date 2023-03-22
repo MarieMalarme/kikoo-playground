@@ -2,17 +2,18 @@ import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 import { random } from '../utils/toolbox'
 
-export const Block_58 = ({ hovered }) => {
+export const Block_58 = ({ is_hovered }) => {
   const [shapes, set_shapes] = useState(generate_random_shapes)
   const [wrapper, set_wrapper] = useState(null)
 
   useEffect(() => {
-    if (!wrapper || !hovered) return
+    const { matches } = window.matchMedia('(max-width: 600px)')
+    if (!wrapper || !is_hovered || matches) return
     wrapper.focus()
-  }, [wrapper, hovered])
+  }, [wrapper, is_hovered])
 
   const handle_keydown = (event) => {
-    if (!hovered || event.key !== 'Enter') return
+    if (!is_hovered || event.key !== 'Enter') return
     set_shapes(generate_random_shapes)
   }
 
@@ -22,13 +23,15 @@ export const Block_58 = ({ hovered }) => {
       tabIndex="0"
       style={{ background: 'deepskyblue' }}
       onKeyDown={handle_keydown}
+      onClick={() => set_shapes(generate_random_shapes)}
     >
       {shapes.map(({ component, color }, index) => {
         const Shape = component
         return <Shape key={index} color={color} />
       })}
 
-      <Instruction>Press Enter to generate a new totem</Instruction>
+      <Instruction none__xs>Press Enter to generate a new totem</Instruction>
+      <Instruction none__d>Tap to generate a new totem</Instruction>
     </Wrapper>
   )
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Component } from '../utils/flags'
 
-export const Block_44 = ({ hovered, color }) => {
+export const Block_44 = ({ color }) => {
   const [gradients, set_gradients] = useState(base_gradients)
   const active_gradients = Object.values(gradients).filter((g) => g.is_on)
   const gradients_strings = active_gradients.map((g) => `${g.gradient}, `)

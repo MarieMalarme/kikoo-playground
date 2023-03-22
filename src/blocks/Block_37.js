@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { get_invert_color } from '../utils/toolbox'
 import { Component } from '../utils/flags'
 
-export const Block_37 = ({ hovered, color }) => {
+export const Block_37 = ({ is_hovered, color }) => {
   //states hooks
   const [wrapper, set_wrapper] = useState(null)
   const [canvas, set_canvas] = useState(null)
@@ -20,17 +20,19 @@ export const Block_37 = ({ hovered, color }) => {
 
     context.fillStyle = draw_color
 
+    const { matches } = window.matchMedia('(max-width: 600px)')
+
     // draw a first line
-    let x = 120
+    let x = matches ? 40 : 120
     let y = 100
 
-    for (let i = 0; i <= 5; i++) {
+    for (let i = 0; i <= 3; i++) {
       const path_x = scale_svg_path(shape_path, x + step, y)
       context.fill(path_x)
       x += step
     }
 
-    for (let i = 0; i <= 6; i++) {
+    for (let i = 0; i <= 2; i++) {
       const path_x = scale_svg_path(shape_path, x + step, y)
       context.fill(path_x)
       const path_y = scale_svg_path(shape_path, x + step, y + step)
@@ -39,13 +41,13 @@ export const Block_37 = ({ hovered, color }) => {
       y += step
     }
 
-    for (let i = 0; i <= 4; i++) {
+    for (let i = 0; i <= 2; i++) {
       const path_x = scale_svg_path(shape_path, x + step, y)
       context.fill(path_x)
       x += step
     }
 
-    for (let i = 0; i <= 2; i++) {
+    for (let i = 0; i <= 1; i++) {
       const path_x = scale_svg_path(shape_path, x + step, y)
       context.fill(path_x)
       const path_y = scale_svg_path(shape_path, x + step, y - step)
@@ -71,16 +73,17 @@ export const Block_37 = ({ hovered, color }) => {
 
   // redraw item with new coordinates on key move
   useEffect(() => {
-    if (!context || !hovered) return
+    if (!context || !is_hovered) return
     const path = scale_svg_path(shape_path, x, y)
     context.fill(path)
-  }, [context, x, y, hovered, draw_color])
+  }, [context, x, y, is_hovered, draw_color])
 
   // focus canvas when the block is hovered; onfocus when not
   useEffect(() => {
-    if (!wrapper) return
-    hovered ? wrapper.focus() : wrapper.blur()
-  }, [hovered, wrapper])
+    const { matches } = window.matchMedia('(max-width: 600px)')
+    if (!wrapper || matches) return
+    is_hovered ? wrapper.focus() : wrapper.blur()
+  }, [is_hovered, wrapper])
 
   return (
     <Wrapper
@@ -140,9 +143,33 @@ export const Block_37 = ({ hovered, color }) => {
             set_position({ x, y })
           }}
         >
-          Reset canvas
+          Reset
         </ClearButton>
       </Controls>
+
+      <Arrows>
+        <ArrowLeft
+          onClick={() => set_position({ x: x - step, y })}
+          style={{ transform: 'rotate(270deg)' }}
+        >
+          ▲
+        </ArrowLeft>
+        <div>
+          <ArrowUp onClick={() => set_position({ x, y: y - step })}>▲</ArrowUp>
+          <ArrowDown
+            onClick={() => set_position({ x, y: y + step })}
+            style={{ transform: 'rotate(180deg)' }}
+          >
+            ▲
+          </ArrowDown>
+        </div>
+        <ArrowRight
+          onClick={() => set_position({ x: x + step, y })}
+          style={{ transform: 'rotate(90deg)' }}
+        >
+          ▲
+        </ArrowRight>
+      </Arrows>
     </Wrapper>
   )
 }
@@ -152,7 +179,7 @@ const scale_svg_path = (coordinates, x, y) => {
     .createElementNS('http://www.w3.org/2000/svg', 'svg')
     .createSVGMatrix()
     .translate(x, y)
-    .scale(0.035)
+    .scale(0.03)
 
   const original_path = new Path2D(coordinates)
   const scaled_path = new Path2D()
@@ -176,8 +203,14 @@ const shapes_paths = [
 
 const Wrapper = Component.flex.jc_center.article()
 const Controls =
-  Component.blend_difference.absolute.b20.l0.ph10.w100p.flex.jc_between.ai_center.pl30.pr25.div()
-const Shapes = Component.flex.ai_center.div()
-const Shape = Component.mr25.of_visible.c_pointer.h20.w20.svg()
+  Component.zi10.flex_column__xs.ai_flex_start__xs.blend_difference.absolute.b20.l0.ph10.w100p.w_auto__xs.flex.jc_between.ai_center.pl30.pl15__xs.pr25.pr15__xs.div()
+const Shapes = Component.flex.ai_center.flex_column__xs.div()
+const Shape = Component.mr25.mb10__xs.of_visible.c_pointer.h20.w20.svg()
 const ClearButton =
-  Component.ol_none.b_rad25.pv5.ph10.ba.bg_none.c_pointer.white.b_white.button()
+  Component.ml20.ml0__xs.mt10__xs.ol_none.b_rad25.pv5.ph10.ba.bg_none.c_pointer.white.b_white.button()
+const Arrows =
+  Component.blend_difference.white.none__d.w100p.flex.ai_flex_end.jc_center.b20.absolute.div()
+const ArrowLeft = Component.mono.fs13.b_rad4.ba.b_white.ph10.pv5.mr10.div()
+const ArrowRight = Component.mono.fs13.b_rad4.ba.b_white.ph10.pv5.ml10.div()
+const ArrowUp = Component.mono.fs13.b_rad4.ba.b_white.ph15.mb5.div()
+const ArrowDown = Component.mono.fs13.b_rad4.ba.b_white.ph15.div()

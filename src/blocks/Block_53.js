@@ -6,7 +6,7 @@ import { Stage, Sprite, Container, withFilters } from '@inlet/react-pixi'
 import sprite from '../images/sprite.png'
 import displacement_map from '../images/displacement-1.jpg'
 
-export const Block_53 = ({ is_selected, hovered, color }) => {
+export const Block_53 = ({ is_selected, color }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [mouse, set_mouse] = useState({ x: 100, y: 100 })
 

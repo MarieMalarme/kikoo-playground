@@ -43,10 +43,10 @@ export const Block_11 = ({ color, is_selected }) => {
         angle: {displayed_angle.toFixed()}°
       </Measure>
       <Measure fs25={is_selected} lh35={is_selected}>
-        x: {mouse.x}
+        x: {mouse.x.toFixed()}
       </Measure>
       <Measure fs25={is_selected} lh35={is_selected}>
-        y: {mouse.y}
+        y: {mouse.y.toFixed()}
       </Measure>
     </Wrapper>
   )

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Body, Engine, Render, World, Bodies, Runner } from 'matter-js'
 import { Component } from '../utils/flags.js'
 
-export const Block_19 = ({ color, hovered }) => {
+export const Block_19 = ({ color, is_hovered }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [engine, set_engine] = useState(null)
   const [matter, set_matter] = useState({})
@@ -97,12 +97,14 @@ export const Block_19 = ({ color, hovered }) => {
   useEffect(() => {
     if (!engine || !matter.render || !matter.runner) return
     Runner.stop(engine)
-    // engine.enabled = !loaded && true||  hovered
-    matter.runner.enabled = !loaded || hovered
-    matter.render.options.enabled = !loaded || hovered
-  }, [engine, matter.render, matter.runner, hovered, loaded])
+    // engine.enabled = !loaded && true||  is_hovered
+    matter.runner.enabled = !loaded || is_hovered
+    matter.render.options.enabled = !loaded || is_hovered
+  }, [engine, matter.render, matter.runner, is_hovered, loaded])
 
   const set_circles_size = () => {
+    const { matches } = window.matchMedia('(max-width: 600px)')
+    if (matches) return
     const is_small = circle_size === base_circle_size
     set_circle_size(is_small ? base_circle_size * 2 : base_circle_size)
     const scale = is_small ? 2 : 0.5

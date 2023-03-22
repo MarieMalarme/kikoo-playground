@@ -2,13 +2,16 @@ import { useState, useEffect } from 'react'
 import { random } from '../utils/toolbox'
 import { Component } from '../utils/flags'
 
-export const Block_47 = ({ color, is_selected, hovered }) => {
+export const Block_47 = ({ color, is_selected, is_hovered }) => {
   const [count, set_count] = useState(random(3, 7))
   const [wrapper, set_wrapper] = useState(null)
   const [dimensions, set_dimensions] = useState()
 
   useEffect(() => {
-    setTimeout(() => hovered && set_count(count < amount ? count + 1 : 1), 200)
+    setTimeout(
+      () => is_hovered && set_count(count < amount ? count + 1 : 1),
+      200,
+    )
   })
 
   useEffect(() => {

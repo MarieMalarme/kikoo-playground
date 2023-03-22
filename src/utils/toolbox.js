@@ -8,7 +8,7 @@ export const scroll_to = (event, id) => {
   event.preventDefault()
   const target = document.querySelector(`#${id}`)
   if (!target) return
-  target.scrollIntoView({ behavior: 'smooth' })
+  target.scrollIntoView({ block: 'center', behavior: 'smooth' })
 }
 
 export const get_invert_color = (color) => {

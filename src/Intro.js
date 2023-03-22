@@ -12,7 +12,7 @@ export const Intro = () => {
         Kikoo Playground — A set of interactive blocks to draw, play, write,
         animate...
         {instructions.map((instruction, index) => (
-          <Instruction key={index} instruction={instruction} />
+          <Instruction mt15__xs={index} key={index} instruction={instruction} />
         ))}
         <Menu onClick={() => set_display_about(!display_about)}>
           {display_about ? '×' : 'i'}
@@ -23,7 +23,7 @@ export const Intro = () => {
   )
 }
 
-const Instruction = ({ instruction }) => {
+const Instruction = ({ instruction, ...props }) => {
   const { name, icon, text } = instruction
   const upsize = name === 'upsize'
   const tags = name === 'tags'
@@ -39,6 +39,7 @@ const Instruction = ({ instruction }) => {
         stroke="black"
         stroke_width={tags ? 13 : 15}
         style={{ marginBottom: '-5px', padding: upsize ? '6px' : '4.5px' }}
+        {...props}
       />
       {text}
     </Line>

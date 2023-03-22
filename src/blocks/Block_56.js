@@ -4,7 +4,7 @@ import { MouseWheel } from '../icons'
 import dog1 from '../images/dog-1.png'
 import dog2 from '../images/dog-2.png'
 
-export const Block_56 = ({ hovered }) => {
+export const Block_56 = ({ is_hovered }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [touched, set_touched] = useState()
   const [wheelable, _set_wheelable] = useState(false)
@@ -17,16 +17,12 @@ export const Block_56 = ({ hovered }) => {
   }
 
   const handle_wheel = (wheeling) => {
-    const can_wheel = hovered
+    const can_wheel = is_hovered
     set_wheelable(can_wheel)
     if (!can_wheel) return
     const increment = 8
     set_wheeled(wheeled + (wheeling.down > 0 ? increment : -increment))
   }
-
-  useEffect(() => {
-    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
-  }, [wheelable])
 
   useEffect(() => {
     const prevent_scroll = (event) => {
@@ -39,7 +35,8 @@ export const Block_56 = ({ hovered }) => {
   }, [wrapper, wheelable_ref])
 
   useEffect(() => {
-    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
+    const { matches } = window.matchMedia('(max-width: 600px)')
+    document.body.style.overflow = wheelable || matches ? 'hidden' : 'auto'
   }, [wheelable])
 
   useEffect(() => {
@@ -72,7 +69,7 @@ export const Block_56 = ({ hovered }) => {
         handle_wheel(wheeling)
       }}
     >
-      <MouseWheel absolute t20 l20 hovered={hovered} />
+      <MouseWheel absolute t20 l20 is_hovered={is_hovered} />
       <Image
         style={{
           background: `center / contain no-repeat url(${dog1})`,

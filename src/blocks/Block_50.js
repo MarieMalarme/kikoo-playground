@@ -4,7 +4,7 @@ import { random } from '../utils/toolbox'
 
 // to do: handle resize drawing when selected in fullscreen
 
-export const Block_50 = ({ color, hovered }) => {
+export const Block_50 = ({ color, is_hovered }) => {
   /******* states *******/
 
   const [wrapper, set_wrapper] = useState(null)
@@ -77,13 +77,13 @@ export const Block_50 = ({ color, hovered }) => {
     if (!wrapper) return
 
     const handle_keydown = (event) => {
-      if (!hovered || (event.key !== 's' && event.key !== 'b')) return
+      if (!is_hovered || (event.key !== 's' && event.key !== 'b')) return
       download_canvas({ with_background: event.key === 'b' })
     }
 
     document.addEventListener('keydown', handle_keydown)
     return () => document.removeEventListener('keydown', handle_keydown)
-  }, [wrapper, hovered])
+  }, [wrapper, is_hovered])
 
   /******* functions *******/
 
@@ -182,7 +182,9 @@ export const Block_50 = ({ color, hovered }) => {
   return (
     <Wrapper
       onMouseDown={() => set_is_mouse_down(true)}
+      onTouchStart={() => set_is_mouse_down(true)}
       onMouseUp={() => set_is_mouse_down(false)}
+      onTouchEnd={() => set_is_mouse_down(false)}
       onMouseLeave={() => set_is_mouse_down(false)}
       elemRef={set_wrapper}
       onDoubleClick={clear_contexts}
@@ -190,13 +192,13 @@ export const Block_50 = ({ color, hovered }) => {
       <Instruction t10 l20>
         Click & move to draw
       </Instruction>
-      <Instruction t10 r20>
+      <Instruction none__xs t10 r20>
         Double click to clear
       </Instruction>
-      <Instruction b10 l20>
+      <Instruction none__xs b10 l20>
         Press S to save without background
       </Instruction>
-      <Instruction b10 r20>
+      <Instruction none__xs b10 r20>
         Press B to save with background
       </Instruction>
 
@@ -255,4 +257,4 @@ const { innerWidth, innerHeight } = window
 const Wrapper = Component.flex.flex_wrap.article()
 const Canvas = Component.w50p.h50p.canvas()
 const Instruction =
-  Component.white.blend_difference.no_events.absolute.zi1.div()
+  Component.white.blend_difference.no_events.absolute.zi1.fs14__xs.div()

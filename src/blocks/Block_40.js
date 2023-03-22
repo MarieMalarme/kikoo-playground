@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Component } from '../utils/flags'
 
-export const Block_40 = ({ hovered, color }) => {
+export const Block_40 = ({ color }) => {
   const [input_value, set_input_value] = useState(0)
 
   return (

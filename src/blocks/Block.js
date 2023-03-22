@@ -1,27 +1,29 @@
 import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
-import { Tags, Downsize, Upsize, ScrollTo } from '../icons'
+import { Tags, Downsize, Upsize } from '../icons'
 
 export const Block = ({ block, index, ...states }) => {
   const [display_code, set_display_code] = useState(false)
-  const [hovered, set_hovered] = useState(false)
 
   const { component, color } = block
   const Component = component
 
   const { selected_block, set_selected_block } = states
+  const { hovered_block, set_hovered_block } = states
   const { scroll_top, set_scroll_top } = states
-  const is_selected = selected_block === index + 1
+
+  const id = index + 1
+  const is_selected = selected_block === id
+  const is_hovered = hovered_block === id
 
   const fullscreen = {
-    enter: () => {
+    enter: (id) => {
       set_scroll_top(window.pageYOffset)
-      set_selected_block(index + 1)
-      set_hovered(true)
+      set_selected_block(id)
+      set_hovered_block(id)
     },
-    exit: async () => {
+    exit: async (id) => {
       await set_selected_block(null)
-      set_hovered(false)
       window.scrollTo(0, scroll_top)
       set_display_code(false)
     },
@@ -29,22 +31,23 @@ export const Block = ({ block, index, ...states }) => {
 
   return (
     <Section
-      id={`section-${index + 1}`}
-      name={index + 1}
+      id={`section-${id}`}
+      name={id}
       flex={is_selected}
       w100vw={is_selected}
       h100vh={is_selected}
       none={selected_block && !is_selected}
-      onMouseOver={() => set_hovered(true)}
-      onMouseEnter={() => set_hovered(true)}
-      onMouseLeave={() => set_hovered(false)}
+      onMouseOver={() => set_hovered_block(id)}
+      onMouseEnter={() => set_hovered_block(id)}
+      onTouchMove={() => set_hovered_block(id)}
+      onTouchStart={() => set_hovered_block(id)}
       style={{ '--color-block': color.value }}
     >
       <Component
-        id={index + 1}
+        id={id}
         color={color}
         is_selected={is_selected}
-        hovered={hovered}
+        is_hovered={is_hovered}
       />
 
       <Header>
@@ -52,16 +55,10 @@ export const Block = ({ block, index, ...states }) => {
           display_code={display_code}
           set_display_code={set_display_code}
         />
-        <Fullscreen
-          index={index}
-          is_selected={is_selected}
-          fullscreen={fullscreen}
-        />
+        <Fullscreen id={id} is_selected={is_selected} fullscreen={fullscreen} />
       </Header>
 
-      {display_code && <SourceCode index={index} is_selected={is_selected} />}
-
-      <ScrollTo section={index} />
+      {display_code && <SourceCode id={id} is_selected={is_selected} />}
     </Section>
   )
 }
@@ -72,19 +69,22 @@ const DisplayCode = ({ display_code, set_display_code }) => (
   </Toggle>
 )
 
-const Fullscreen = ({ index, is_selected, fullscreen }) => {
+const Fullscreen = ({ id, is_selected, fullscreen }) => {
   const Icon = is_selected ? Downsize : Upsize
 
   return (
-    <Toggle onClick={is_selected ? fullscreen.exit : fullscreen.enter}>
+    <Toggle
+      none__xs
+      onClick={() => (is_selected ? fullscreen.exit(id) : fullscreen.enter(id))}
+    >
       <Icon width={14} stroke_width={12} stroke="black" />
     </Toggle>
   )
 }
 
-const SourceCode = ({ index, is_selected }) => {
+const SourceCode = ({ id, is_selected }) => {
   const [source_code, set_source_code] = useState('Loading source code...')
-  const source_code_url = `${github_url}/Block_${index + 1}.js`
+  const source_code_url = `${github_url}/Block_${id}.js`
 
   useEffect(() => {
     const fetch_source_code = async () => {
@@ -107,7 +107,7 @@ const SourceCode = ({ index, is_selected }) => {
       absolute={!is_selected}
       min_w100vw__s={is_selected}
     >
-      <Title>>>> Block_{index + 1}.js</Title>
+      <Title>>>> Block_{id}.js</Title>
       {source_code}
     </Code>
   )

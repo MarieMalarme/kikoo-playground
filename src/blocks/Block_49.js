@@ -4,7 +4,7 @@ import { Composites, MouseConstraint, Mouse, Composite } from 'matter-js'
 import { get_invert_color } from '../utils/toolbox'
 import { Component } from '../utils/flags'
 
-export const Block_49 = ({ color, hovered }) => {
+export const Block_49 = ({ color, is_hovered }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [engine, set_engine] = useState(null)
   const [matter, set_matter] = useState({})
@@ -81,9 +81,9 @@ export const Block_49 = ({ color, hovered }) => {
 
   useEffect(() => {
     if (!engine || !matter.render || !matter.runner) return
-    matter.runner.enabled = hovered
-    matter.render.options.enabled = hovered
-  }, [engine, matter.render, matter.runner, hovered])
+    matter.runner.enabled = is_hovered
+    matter.render.options.enabled = is_hovered
+  }, [engine, matter.render, matter.runner, is_hovered])
 
   return <Wrapper elemRef={set_wrapper}></Wrapper>
 }

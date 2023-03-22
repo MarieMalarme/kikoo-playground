@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Component } from '../utils/flags'
 
-export const Block_38 = ({ hovered, color }) => {
+export const Block_38 = ({ color }) => {
   const [value, set_value] = useState(min)
 
   return (
@@ -27,8 +27,8 @@ export const Block_38 = ({ hovered, color }) => {
   )
 }
 
-const min = 6
-const max = 17
+const min = 10
+const max = 50
 
 const Wrapper = Component.flex.ai_center.jc_center.article()
 const Emoji = Component.absolute.div()

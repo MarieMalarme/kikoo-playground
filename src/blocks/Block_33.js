@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_33 = ({ color }) => {
@@ -13,6 +13,12 @@ export const Block_33 = ({ color }) => {
     })
   }
 
+  useEffect(() => {
+    const prevent_scroll = (event) => event.preventDefault()
+    if (!wrapper) return
+    wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
+  }, [wrapper])
+
   const coords = mouse
     ? `${100 + mouse.x / 6}deg, ${60 + mouse.y / 8}deg`
     : '295deg, 50deg'
@@ -22,6 +28,7 @@ export const Block_33 = ({ color }) => {
       style={{ background: 'pink' }}
       elemRef={set_wrapper}
       onMouseMove={update_mouse}
+      onTouchMove={update_mouse}
     >
       {[...Array(4).keys()].map((index) => (
         <Word

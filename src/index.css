@@ -318,13 +318,13 @@ input[type='number'] {
 }
 
 #galaxy-grid input[type='range'] {
-  background: var(--yellow4);
+  background: var(--sanguine4);
   transform: scale(0.5);
   width: 60%;
 }
 
 #galaxy-grid input[type='range']::-webkit-slider-thumb {
-  background: var(--purple5);
+  background: white;
 }
 
 /* ****** */

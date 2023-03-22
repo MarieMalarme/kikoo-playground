@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Component } from '../utils/flags'
 
-export const Block_28 = ({ color, hovered }) => {
+export const Block_28 = ({ color, is_hovered }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [touched, set_touched] = useState()
   const [wheelable, _set_wheelable] = useState(false)
@@ -18,7 +18,7 @@ export const Block_28 = ({ color, hovered }) => {
     const reached = { top: !wheeled, bottom: wheeled > 350 }
 
     const can_wheel =
-      hovered &&
+      is_hovered &&
       ((wheeling.down && !reached.bottom) || (wheeling.up && !reached.top))
     set_wheelable(can_wheel)
 
@@ -26,10 +26,6 @@ export const Block_28 = ({ color, hovered }) => {
     const increment = touchevent ? 4 : 2
     set_wheeled(wheeled + (wheeling.down > 0 ? increment : -increment))
   }
-
-  useEffect(() => {
-    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
-  }, [wheelable])
 
   useEffect(() => {
     const prevent_scroll = (event) => {
@@ -42,7 +38,8 @@ export const Block_28 = ({ color, hovered }) => {
   }, [wrapper, wheelable_ref])
 
   useEffect(() => {
-    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
+    const { matches } = window.matchMedia('(max-width: 600px)')
+    document.body.style.overflow = wheelable || matches ? 'hidden' : 'auto'
   }, [wheelable])
 
   useEffect(() => {

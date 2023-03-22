@@ -3,7 +3,7 @@ import { Component } from '../utils/flags'
 
 // try with mouse move to move around like a shadow with the sun
 
-export const Block_45 = ({ is_selected, hovered, color }) => {
+export const Block_45 = ({ is_selected, color }) => {
   const [shadows_amount, set_shadows_amount] = useState(4)
   const [distance, set_distance] = useState(4)
   const [colors, set_colors] = useState({
@@ -44,7 +44,7 @@ export const Block_45 = ({ is_selected, hovered, color }) => {
           />
         </InputWrapper>
 
-        <InputWrapper ml30>
+        <InputWrapper ml30 ml20__xs>
           Distance
           <Input
             className="range-input-thin "
@@ -56,7 +56,7 @@ export const Block_45 = ({ is_selected, hovered, color }) => {
           />
         </InputWrapper>
 
-        <InputWrapper ml30>
+        <InputWrapper w15p__xs ml30 ml20__xs>
           Text
           <ColorInput
             type="color"
@@ -67,18 +67,7 @@ export const Block_45 = ({ is_selected, hovered, color }) => {
           />
         </InputWrapper>
 
-        <InputWrapper ml15>
-          Shadow
-          <ColorInput
-            type="color"
-            value={colors.shadow}
-            onInput={(event) =>
-              set_colors({ ...colors, shadow: event.target.value })
-            }
-          />
-        </InputWrapper>
-
-        <InputWrapper ml15>
+        <InputWrapper w15p__xs ml15>
           Background
           <ColorInput
             type="color"
@@ -88,15 +77,27 @@ export const Block_45 = ({ is_selected, hovered, color }) => {
             }
           />
         </InputWrapper>
+
+        <InputWrapper w15p__xs ml15>
+          Shadow
+          <ColorInput
+            type="color"
+            value={colors.shadow}
+            onInput={(event) =>
+              set_colors({ ...colors, shadow: event.target.value })
+            }
+          />
+        </InputWrapper>
       </Inputs>
     </Wrapper>
   )
 }
 
-const Wrapper = Component.fs60.flex.jc_center.article()
-const Text = Component.pv30.ph40.w100p.fs60.flex.jc_center.div()
+const Wrapper = Component.flex.jc_center.article()
+const Text =
+  Component.pv30.pv20__xs.ph40.ph30__xs.w100p.fs60.fs45__xs.flex.jc_center.div()
 const Inputs =
-  Component.bg_white.fs12.absolute.b20.pa10.pl15.b_rad25.flex.ai_center.div()
-const InputWrapper = Component.flex.ai_center.div()
-const ColorInput = Component.ml7.input()
-const Input = Component.ml10.w60.input()
+  Component.w95p__xs.bg_white.fs12.fs10__xs.absolute.b20.pa10.pl15.ph20__xs.b_rad25.flex.ai_center.jc_between__xs.div()
+const InputWrapper = Component.flex_column__xs.flex.ai_center.div()
+const ColorInput = Component.ml7__d.mt5__xs.input()
+const Input = Component.ml10__d.mt10__xs.w60.input()

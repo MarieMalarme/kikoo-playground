@@ -1,4 +1,3 @@
-import { scroll_to } from './utils/toolbox'
 import { Component } from './utils/flags'
 
 const Icon = ({ path, ...props }) => {
@@ -32,21 +31,8 @@ export const ScrollDown = (props) => (
   <Icon path={paths.scroll_down} {...props} />
 )
 
-export const ScrollTo = ({ section }) => (
-  <ScrollDown
-    onClick={(event) => scroll_to(event, `section-${section + 2}`)}
-    stroke="black"
-    width={35}
-    hidden__d
-    absolute
-    zi20
-    b20
-    r10
-  />
-)
-
 export const MouseWheel = (props) => {
-  const { stroke, width, stroke_width, hovered, ...style } = props
+  const { stroke, width, stroke_width, is_hovered, ...style } = props
 
   return (
     <Svg
@@ -62,12 +48,12 @@ export const MouseWheel = (props) => {
         strokeLinecap="round"
       >
         <path
-          className={`arrows-top ${hovered && 'to-top'}`}
+          className={`arrows-top ${is_hovered && 'to-top'}`}
           d="m15.5 21.05 9.5-9.5 9.5 9.5M15.5 36.59l9.5-9.5 9.5 9.5M34.5 34.5"
         />
         <path d="M42.5 94.75a17.5 17.5 0 0 1-35 0v-19.5a17.5 17.5 0 0 1 35 0Z M25 73v5" />
         <path
-          className={`arrows-bottom ${hovered && 'to-bottom'}`}
+          className={`arrows-bottom ${is_hovered && 'to-bottom'}`}
           d="m34.5 148.95l-9.5 9.5-9.5-9.5M34.5 133.41l-9.5 9.5-9.5-9.5"
         />
       </g>

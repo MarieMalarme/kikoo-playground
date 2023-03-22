@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Component } from '../utils/flags'
 import { MouseWheel } from '../icons'
 
-export const Block_12 = ({ color, is_selected, hovered }) => {
+export const Block_12 = ({ color, is_selected, is_hovered }) => {
   const [touched, set_touched] = useState()
   const [wrapper, set_wrapper] = useState(null)
   const [ref, set_ref] = useState(null)
@@ -20,7 +20,7 @@ export const Block_12 = ({ color, is_selected, hovered }) => {
     const reached = { top: !wheeled, bottom: wheeled > width / 8 }
 
     const can_wheel =
-      hovered &&
+      is_hovered &&
       ((wheeling.down && !reached.bottom) || (wheeling.up && !reached.top))
     set_wheelable(can_wheel)
 
@@ -30,7 +30,8 @@ export const Block_12 = ({ color, is_selected, hovered }) => {
   }
 
   useEffect(() => {
-    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
+    const { matches } = window.matchMedia('(max-width: 600px)')
+    document.body.style.overflow = wheelable || matches ? 'hidden' : 'auto'
   }, [wheelable])
 
   useEffect(() => {
@@ -42,10 +43,6 @@ export const Block_12 = ({ color, is_selected, hovered }) => {
     if (!wrapper) return
     wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
   }, [wrapper, wheelable_ref])
-
-  useEffect(() => {
-    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
-  }, [wheelable])
 
   useEffect(() => {
     if (!wrapper) return
@@ -76,7 +73,7 @@ export const Block_12 = ({ color, is_selected, hovered }) => {
         <Instruction t80={is_selected} r80={is_selected}>
           <MouseWheel
             width={is_selected ? 45 : 30}
-            hovered={hovered}
+            is_hovered={is_hovered}
             stroke_width={5}
           />
         </Instruction>

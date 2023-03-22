@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Component } from '../utils/flags'
 import { MouseWheel } from '../icons'
 
-export const Block_7 = ({ color, hovered }) => {
+export const Block_7 = ({ color, is_hovered }) => {
   const [wrapper, set_wrapper] = useState(null)
   const [current_circles, set_current_circles] = useState(1)
   const [wheeled, set_wheeled] = useState(base_radius)
@@ -19,7 +19,7 @@ export const Block_7 = ({ color, hovered }) => {
     const reached = { top: wheeled <= base_radius, bottom: wheeled > 175 }
 
     const can_wheel =
-      hovered &&
+      is_hovered &&
       ((wheeling.down && !reached.bottom) || (wheeling.up && !reached.top))
     set_wheelable(can_wheel)
 
@@ -41,7 +41,9 @@ export const Block_7 = ({ color, hovered }) => {
   }, [wrapper, wheelable_ref])
 
   useEffect(() => {
-    document.body.style.overflow = wheelable ? 'hidden' : 'auto'
+    const media_query_xs = window.matchMedia('(max-width: 600px)')
+    document.body.style.overflow =
+      wheelable || media_query_xs.matches ? 'hidden' : 'auto'
   }, [wheelable])
 
   useEffect(() => {
@@ -80,7 +82,7 @@ export const Block_7 = ({ color, hovered }) => {
           />
         ))}
       </Svg>
-      <MouseWheel hovered={hovered} absolute height="15%" />
+      <MouseWheel is_hovered={is_hovered} absolute height="15%" />
     </Wrapper>
   )
 }

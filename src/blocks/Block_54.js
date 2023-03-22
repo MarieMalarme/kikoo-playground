@@ -127,6 +127,7 @@ const Row = Component.flex.w100p.div()
 const Cell = Component.text_center.h100p.flex.ai_center.jc_center.div()
 const Letter = Component.absolute.div()
 const Controls =
-  Component.w100p.b40.l0.ph30.absolute.fs13.flex.ai_center.jc_between.div()
-const Setting = Component.flex.flex_column.ai_center.w15p.div()
+  Component.flex_wrap__xs.w100p.b40.b10__xs.l0.ph30.absolute.fs13.flex.ai_center.jc_between.div()
+const Setting =
+  Component.w30p__xs.mb20__xs.flex.flex_column.ai_center.w15p.div()
 const Input = Component.w65.mt7.input()

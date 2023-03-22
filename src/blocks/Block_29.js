@@ -7,7 +7,7 @@ import stone_hit_2_image from '../images/stone-hit-2.jpg'
 import stone_hit_3_image from '../images/stone-hit-3.jpg'
 import hammer_image from '../images/hammer.png'
 
-export const Block_29 = ({ is_selected, hovered, color }) => {
+export const Block_29 = ({ is_selected, color }) => {
   const [has_clicked, set_has_clicked] = useState(false)
   const [broken_stones, set_broken_stones] = useState(0)
 

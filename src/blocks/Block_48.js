@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 import glasses from '../images/glasses.webp'
 
-export const Block_48 = ({ hovered, color }) => {
+export const Block_48 = ({ color }) => {
   const [mouse, set_mouse] = useState({ x: 0, y: 0 })
   const [wrapper, set_wrapper] = useState(null)
   const [{ width, height }, set_dimensions] = useState({ width: 0, height: 0 })

@@ -26,10 +26,12 @@ export const Block_59 = ({ color }) => {
     <Wrapper
       style={{ background: 'lightgoldenrodyellow' }}
       onMouseMove={update_mouse_y}
+      onTouchMove={update_mouse_y}
       elemRef={set_wrapper}
     >
       <Text
         t20
+        t40__xs
         style={{
           color: 'blue',
           textShadow: shadows,
@@ -40,6 +42,7 @@ export const Block_59 = ({ color }) => {
       </Text>
       <Text
         b20
+        b40__xs
         style={{
           color: 'blue',
           textShadow: shadows,
@@ -54,5 +57,6 @@ export const Block_59 = ({ color }) => {
 
 const shadows = [...Array(6).keys()].map(() => '0 0 25px lime').join(', ')
 
-const Wrapper = Component.fs100.flex.flex_column.ai_center.jc_center.article()
+const Wrapper =
+  Component.fs55__xs.fs100.flex.flex_column.ai_center.jc_center.article()
 const Text = Component.absolute.p()
