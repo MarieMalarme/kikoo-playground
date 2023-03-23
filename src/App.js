@@ -10,6 +10,18 @@ const App = () => {
   const [selected_block, set_selected_block] = useState(null)
   const [scroll_top, set_scroll_top] = useState(null)
 
+  // check if there is a block id in the url params to scroll it into view
+  useEffect(() => {
+    setTimeout(() => {
+      const block_id = Number(window.location.pathname.slice(1))
+      if (isNaN(block_id)) return
+      const target = document.querySelector(`#section-${block_id}`)
+      if (!target) return
+      target.scrollIntoView({ block: 'center', behavior: 'smooth' })
+      set_hovered_block(block_id)
+    }, 750)
+  }, [])
+
   useEffect(() => {
     const { matches } = window.matchMedia('(max-width: 600px)')
     document.body.style.overflow = selected_block || matches ? 'hidden' : 'auto'
