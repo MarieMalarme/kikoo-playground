@@ -189,10 +189,10 @@ export const Block_50 = ({ color, is_hovered }) => {
       elemRef={set_wrapper}
       onDoubleClick={clear_contexts}
     >
-      <Instruction t10 l20>
+      <Instruction b10__xs t10__d l20>
         Click & move to draw
       </Instruction>
-      <Instruction none__xs t10 r20>
+      <Instruction b10__xs t10__d r20>
         Double click to clear
       </Instruction>
       <Instruction none__xs b10 l20>

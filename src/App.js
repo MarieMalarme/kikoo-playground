@@ -70,12 +70,16 @@ const PreviousButton = ({ hovered_block, set_hovered_block }) => {
   if (!hovered_block) return null
 
   const block_1_hovered = hovered_block === 1
-  const background = block_1_hovered && 'linear-gradient(white, transparent)'
+  const bg_opacity = block_1_hovered ? 1 : 0.4
 
   return (
     <ButtonWrapper
       t0
-      style={{ height: 'calc((100vh - 100vw) / 2)', background }}
+      style={{
+        height: 'calc((100% - 100vw) / 2)',
+        background: `linear-gradient(rgba(255, 255, 255, ${bg_opacity}), transparent)`,
+        backdropFilter: block_1_hovered ? '' : 'blur(4px)',
+      }}
     >
       <Button
         onClick={(event) => {
@@ -98,12 +102,16 @@ const NextButton = ({ hovered_block, set_hovered_block }) => {
   if (hovered_block === blocks.length) return null
 
   const no_block_hovered = hovered_block === 0
-  const background = no_block_hovered && 'linear-gradient(transparent, white)'
+  const bg_opacity = no_block_hovered && no_block_hovered ? 1 : 0.4
 
   return (
     <ButtonWrapper
       b0
-      style={{ height: 'calc((100vh - 100vw) / 2)', background }}
+      style={{
+        height: 'calc((100% - 100vw) / 2)',
+        background: `linear-gradient(transparent, rgba(255, 255, 255, ${bg_opacity}))`,
+        backdropFilter: no_block_hovered ? '' : 'blur(4px)',
+      }}
     >
       <Button
         onClick={(event) => {
@@ -131,6 +139,6 @@ const Grid = Component.no_select.w100vw.div()
 const ButtonWrapper =
   Component.none__d.flex.ai_center.jc_center.zi10.w100vw.fixed.div()
 const Button =
-  Component.no_select.ol_none.shadow_a_l.w50p.bg_white.ph20.pv10.c_pointer.ba0.sans.fs25.b_rad50.button()
+  Component.no_select.shadow_a_l.w50p.bg_white.ph20.pv10.c_pointer.text_center.fs25.b_rad50.div()
 
 export default App
