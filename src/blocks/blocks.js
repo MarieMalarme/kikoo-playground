@@ -60,6 +60,7 @@ import { Block_59 } from './Block_59'
 import { Block_60 } from './Block_60'
 import { Block_61 } from './Block_61'
 import { Block_62 } from './Block_62'
+import { Block_63 } from './Block_63'
 
 export const blocks_list = [
   Block_1,
@@ -124,4 +125,5 @@ export const blocks_list = [
   Block_60,
   Block_61,
   Block_62,
+  Block_63,
 ]

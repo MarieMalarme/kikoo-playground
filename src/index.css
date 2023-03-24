@@ -522,3 +522,11 @@ input[type='number'] {
 #displacement-map {
   cursor: url('./images/red-dot.png'), auto;
 }
+
+#canvas-3d.drawing {
+  cursor: url('./images/brush.png'), auto;
+}
+
+#canvas-3d.drawn {
+  cursor: url('./images/cursor-move.png'), auto;
+}
