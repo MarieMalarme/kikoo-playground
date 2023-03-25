@@ -3,6 +3,7 @@ import { Component } from '../utils/flags'
 import * as THREE from 'three'
 import { SVGLoader } from 'three/addons/loaders/SVGLoader.js'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import { STLExporter } from 'three/addons/exporters/STLExporter.js'
 
 const material = new THREE.MeshStandardMaterial({ color: 'white' })
 
@@ -130,15 +131,32 @@ export const Block_63 = ({ color }) => {
       )}
 
       {has_finished ? (
-        <Button
-          style={{ color: 'khaki', border: 'solid 1px khaki' }}
-          onClick={() => {
-            set_points([])
-            set_has_finished(false)
-          }}
-        >
-          I want to draw again!
-        </Button>
+        <Buttons>
+          <Button
+            style={{ color: 'khaki', border: 'solid 1px khaki' }}
+            onClick={() => {
+              const exporter = new STLExporter()
+              const stl = exporter.parse(scene)
+              const blob = new Blob([stl], { type: 'text/plain' })
+
+              const link = document.createElement('a')
+              link.href = URL.createObjectURL(blob)
+              link.download = 'my-beautiful-doodle.stl'
+              link.click()
+            }}
+          >
+            Download STL file
+          </Button>
+          <Button
+            style={{ color: 'khaki', border: 'solid 1px khaki' }}
+            onClick={() => {
+              set_points([])
+              set_has_finished(false)
+            }}
+          >
+            I wanna draw again!
+          </Button>
+        </Buttons>
       ) : (
         <Svg
           onMouseDown={handle_mousedown}
@@ -168,5 +186,6 @@ export const Block_63 = ({ color }) => {
 const Wrapper = Component.flex.jc_center.ai_center.article()
 const Instruction = Component.absolute.ph20.pv10.b_rad50.fs22.div()
 const Svg = Component.t0.l0.absolute.w100p.h100p.svg()
+const Buttons = Component.b20.absolute.div()
 const Button =
-  Component.bg_none.c_pointer.sans.fs18.ph20.pv10.b_rad20.b20.absolute.button()
+  Component.mh10.mh5__xs.bg_none.c_pointer.sans.fs16.fs14__xs.ph20.ph15__xs.pv10.b_rad20.button()
