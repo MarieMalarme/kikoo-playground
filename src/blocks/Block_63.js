@@ -5,7 +5,10 @@ import { SVGLoader } from 'three/addons/loaders/SVGLoader.js'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { STLExporter } from 'three/addons/exporters/STLExporter.js'
 
-const material = new THREE.MeshStandardMaterial({ color: 'white' })
+const { Scene, PerspectiveCamera, AmbientLight, DirectionalLight } = THREE
+const { WebGLRenderer, ExtrudeGeometry, Mesh, Box3 } = THREE
+const { Group, MeshStandardMaterial, Matrix4 } = THREE
+const material = new MeshStandardMaterial({ color: 'white' })
 
 export const Block_63 = ({ color }) => {
   const [scene_ref, set_scene_ref] = useState(null)
@@ -19,29 +22,29 @@ export const Block_63 = ({ color }) => {
     if (!scene_ref) return
     const { width, height } = scene_ref.getBoundingClientRect()
 
-    const scene = new THREE.Scene()
+    const scene = new Scene()
 
-    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 5000)
+    const camera = new PerspectiveCamera(75, width / height, 0.1, 5000)
     camera.position.x = -(width / 5)
     camera.position.y = width / 5
     camera.position.z = width / 3
 
-    const light = new THREE.AmbientLight('khaki', 0.4)
+    const light = new AmbientLight('khaki', 0.4)
     scene.add(light)
 
-    const spot1 = new THREE.DirectionalLight('khaki')
+    const spot1 = new DirectionalLight('khaki')
     spot1.position.x = -(width / 2)
     spot1.position.y = width
     spot1.position.z = width / 2
     scene.add(spot1)
 
-    const spot2 = new THREE.DirectionalLight('khaki')
+    const spot2 = new DirectionalLight('khaki')
     spot2.position.x = width / 5
     spot2.position.y = -width
     spot2.position.z = -(width / 2)
     scene.add(spot2)
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true })
+    const renderer = new WebGLRenderer({ alpha: true, antialias: true })
     renderer.setClearAlpha(0)
     renderer.setSize(width, height)
     scene_ref.appendChild(renderer.domElement)
@@ -63,21 +66,21 @@ export const Block_63 = ({ color }) => {
 
       const loader = new SVGLoader()
       const svg_data = loader.parse(svg_markup)
-      const svg_group = new THREE.Group()
+      const svg_group = new Group()
       svg_group.scale.y *= -1
 
       svg_data.paths.forEach((path) => {
         const shapes = path.toShapes(true)
         shapes.forEach((shape) => {
-          const options = { depth: 40, bevelEnabled: false }
-          const geometry = new THREE.ExtrudeGeometry(shape, options)
-          const mesh = new THREE.Mesh(geometry, material)
+          const options = { depth: 40 }
+          const geometry = new ExtrudeGeometry(shape, options)
+          const mesh = new Mesh(geometry, material)
           svg_group.add(mesh)
         })
       })
 
       // center the shape
-      const box = new THREE.Box3().setFromObject(svg_group)
+      const box = new Box3().setFromObject(svg_group)
       box.getCenter(svg_group.position).multiplyScalar(-1)
 
       scene.add(svg_group)
@@ -135,14 +138,23 @@ export const Block_63 = ({ color }) => {
           <Button
             style={{ color: 'khaki', border: 'solid 1px khaki' }}
             onClick={() => {
+              // get the doodle mesh from the scene
+              const group = scene.children.find(({ type }) => type === 'Group')
+              const mesh = group.children[0]
+              // mirror the geometry on y axis so it is not exported with empty faces
+              mesh.geometry.applyMatrix4(new Matrix4().makeScale(1, -1, 1))
+
               const exporter = new STLExporter()
-              const stl = exporter.parse(scene)
+              const stl = exporter.parse(mesh, { binary: true })
               const blob = new Blob([stl], { type: 'text/plain' })
 
               const link = document.createElement('a')
               link.href = URL.createObjectURL(blob)
               link.download = 'my-beautiful-doodle.stl'
               link.click()
+
+              // mirror the geometry back to display it with filled faces
+              mesh.geometry.applyMatrix4(new Matrix4().makeScale(1, -1, 1))
             }}
           >
             Download STL file
