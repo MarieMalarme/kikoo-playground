@@ -1,62 +1,65 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Component } from '../utils/flags'
 
 export const Block_60 = ({ color }) => {
-  const [mouse, set_mouse] = useState({ x: 100, y: 100 })
-  const [wrapper, set_wrapper] = useState(null)
-
-  const update_mouse = (event) => {
-    event = event.type === 'touchmove' ? event.touches[0] : event
-    const { width, height } = wrapper.getBoundingClientRect()
-    // translate the mouse position in the page to the coordinate system of the block
-    const translator_x = width / 2 + wrapper.offsetParent.offsetLeft
-    const translator_y = height / 2 + wrapper.offsetParent.offsetTop
-    const x = event.pageX - translator_x
-    const y = -(event.pageY - translator_y)
-    set_mouse({ x, y })
-  }
-
-  useEffect(() => {
-    const prevent_scroll = (event) => event.preventDefault()
-    if (!wrapper) return
-    wrapper.addEventListener('touchmove', prevent_scroll, { passive: false })
-  }, [wrapper])
-
-  const angle = (Math.atan2(mouse.x, mouse.y) * 180) / Math.PI
+  const [radius, set_radius] = useState(20)
+  const [circles_amount, set_circles_amount] = useState(20)
+  const circles = [...Array(circles_amount).keys()]
 
   return (
-    <Wrapper
-      style={{ background: 'hsl(261, 60%, 67%)' }}
-      onTouchMove={update_mouse}
-      onMouseMove={update_mouse}
-      elemRef={set_wrapper}
-    >
-      <svg
-        width="9%"
-        viewBox="0 0 101.32 560"
+    <Wrapper style={{ background: 'var(--cyan8)' }}>
+      <Svg
         xmlns="http://www.w3.org/2000/svg"
-        style={{ transform: `rotate(${angle}deg)` }}
+        viewBox={`0 0 ${svg_viewbox} ${svg_viewbox}`}
       >
-        <path
-          fill="red"
-          d="M72.21 234.15 51.31 0 30.45 233.54A50.67 50.67 0 0 0 0 280h101.32a50.66 50.66 0 0 0-29.11-45.85Z"
+        {circles.map((index) => (
+          <ellipse
+            key={index}
+            cx={svg_viewbox / 2}
+            cy={svg_viewbox / 2}
+            rx={radius}
+            ry={svg_viewbox / 2}
+            fill="none"
+            stroke="var(--candy3)"
+            strokeWidth={0.5}
+            style={{
+              transformOrigin: 'center',
+              transform: `rotate(${(index * 180) / circles_amount}deg)`,
+            }}
+          />
+        ))}
+      </Svg>
+
+      <Controls l20>
+        Radius
+        <Input
+          min={5}
+          max={svg_viewbox / 2 - 15}
+          type="range"
+          defaultValue={radius}
+          className="range-input-thin"
+          onInput={(event) => set_radius(event.target.value)}
         />
-        <path d="M101.32 280H0a50.64 50.64 0 0 0 29.78 46.15L50.66 560l20.88-233.85A50.66 50.66 0 0 0 101.32 280Z" />
-      </svg>
-
-      <Directions h100p flex_column>
-        <div>N</div>
-        <div>S</div>
-      </Directions>
-
-      <Directions w100p>
-        <div>W</div>
-        <div>E</div>
-      </Directions>
+      </Controls>
+      <Controls r20>
+        Ellipses
+        <Input
+          min={5}
+          max={30}
+          type="range"
+          defaultValue={circles_amount}
+          className="range-input-thin"
+          onInput={(event) => set_circles_amount(Number(event.target.value))}
+        />
+      </Controls>
     </Wrapper>
   )
 }
 
+const svg_viewbox = 100
+
 const Wrapper = Component.flex.ai_center.jc_center.article()
-const Directions =
-  Component.fs30.white.pa30.absolute.flex.ai_center.jc_between.div()
+const Controls =
+  Component.f_invert100.fs14.absolute.b20.flex.flex_column.ai_center.div()
+const Input = Component.w70.mt10.input()
+const Svg = Component.of_visible.w65p.h65p.svg()
