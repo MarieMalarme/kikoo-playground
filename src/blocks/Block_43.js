@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { random } from '../utils/toolbox'
 import { Component } from '../utils/flags'
 
-export const Block_43 = ({ color }) => {
+export const Block_43 = () => {
   const [mouse, set_mouse] = useState({ x: 0, y: 0 })
   const [wrapper, set_wrapper] = useState(null)
   const [{ width, height }, set_dimensions] = useState({ width: 0, height: 0 })
@@ -51,6 +51,7 @@ export const Block_43 = ({ color }) => {
       elemRef={set_wrapper}
       onMouseMove={update_mouse}
       onTouchMove={update_mouse}
+      style={{ background: 'springgreen' }}
     >
       {paths.map((path, index) => (
         <Chunk
@@ -58,7 +59,7 @@ export const Block_43 = ({ color }) => {
           preserveAspectRatio="none"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 960 550"
-          fill={color.value}
+          fill="plum"
           b0={index >= 2}
           t0={index <= 1}
           r0={index % 2}
@@ -83,4 +84,4 @@ const paths = [
 const limit = 50
 
 const Wrapper = Component.flex.flex_wrap.article()
-const Chunk = Component.f_invert100.svg()
+const Chunk = Component.svg()
