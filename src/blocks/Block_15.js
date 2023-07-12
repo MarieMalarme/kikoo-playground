@@ -49,6 +49,9 @@ export const Block_15 = ({ color, is_selected }) => {
         elemRef={set_canvas}
         width={window.innerWidth}
         height={window.innerHeight}
+        onDoubleClick={() =>
+          context.clearRect(0, 0, window.innerWidth, window.innerHeight)
+        }
         onClick={(event) => {
           !clicked && set_clicked(true)
 
