@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { Component } from '../utils/flags'
 import { get_invert_color } from '../utils/toolbox'
 
-export const Block_52 = ({ color }) => {
+export const Block_52 = ({ color, is_selected }) => {
   const [wrapper, set_wrapper] = useState(null)
+  const [selected_characters, set_selected_characters] = useState('╬░▒▓▒░╬')
   const [mouse, set_mouse] = useState({ x: 100, y: 100 })
 
   const update_mouse = (event) => {
@@ -33,12 +34,12 @@ export const Block_52 = ({ color }) => {
       elemRef={set_wrapper}
     >
       <Text
+        fs18={!is_selected}
+        fs30={is_selected}
         style={{
           color: inverted_color,
+          lineHeight: '14px',
           textShadow: `
-          ${inverted_color} ${-mouse.x / 1.33}px 0px,
-          ${inverted_color} ${mouse.x / 1.33}px 0px,
-
           ${inverted_color} ${mouse.x / 4}px ${mouse.y / 4}px,
           ${inverted_color} ${-mouse.x / 4}px ${-mouse.y / 4}px,
 
@@ -59,11 +60,33 @@ export const Block_52 = ({ color }) => {
           `,
         }}
       >
-        ╬░▒▓▒░╬
+        {selected_characters}
       </Text>
+
+      <Characters b20={!is_selected} b70={is_selected}>
+        {characters_modes.map(([name, characters], index) => (
+          <Button
+            key={name}
+            mh20={index === 1}
+            disabled={selected_characters === characters}
+            c_pointer={selected_characters !== characters}
+            onClick={() => set_selected_characters(characters)}
+          >
+            {name}
+          </Button>
+        ))}
+      </Characters>
     </Wrapper>
   )
 }
 
+const characters_modes = Object.entries({
+  patterns: '╬░▒▓▒░╬',
+  stars: '✷✧✳✧✷\n✧✷✳✷✧\n✷✧✳✧✷',
+  squares: '⊠⊞⊡⊞⊠\n⊠⊞⊡⊞⊠\n⊠⊞⊡⊞⊠\n',
+})
+
 const Wrapper = Component.flex.ai_center.jc_center.article()
-const Text = Component.absolute.fs30.mono.div()
+const Text = Component.ws_pre.absolute.mono.div()
+const Characters = Component.absolute.div()
+const Button = Component.ba0.fs15.ws_pre.ba.ph20.pv10.b_rad50.sans.button()
