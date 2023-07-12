@@ -35,6 +35,7 @@ atomizify({
     b_rad50: 'border-radius: 50px',
     mt2: 'margin-top: 2px',
     mt7: 'margin-top: 7px',
+    mb7: 'margin-bottom: 7px',
     ml7: 'margin-left: 7px',
     ph3: 'padding: 0 3px',
     pt100p: 'padding-top: 100%',
