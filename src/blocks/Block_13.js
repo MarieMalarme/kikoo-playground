@@ -11,7 +11,7 @@ export const Block_13 = ({ color, is_selected }) => {
   const point_color = `hsl(${color.hue}, 70%, 85%)`
 
   return (
-    <Wrapper style={{ background: `hsl(${color.hue}, 70%, 35%)` }}>
+    <Wrapper style={{ background: `cornflowerblue` }}>
       <Buttons
         is_selected={is_selected}
         set_points={set_points}
@@ -26,7 +26,7 @@ export const Block_13 = ({ color, is_selected }) => {
         <polyline
           strokeWidth={0.5}
           fill="none"
-          stroke={point_color}
+          stroke="yellow"
           points={points.join()}
         />
         {shape.map(({ cx, cy }, index) => (
@@ -37,7 +37,7 @@ export const Block_13 = ({ color, is_selected }) => {
             path={path}
             index={index}
             points={points}
-            point_color={point_color}
+            point_color="yellow"
             states={{ shape, shape_index, set_shape_index, set_points }}
           />
         ))}
